@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const db = require("../database");
 
-router.get("/searchtables", (req, res) => {
-  res.send("Hello from booking route 😉");
+const BookingsModel = require("../models/Bookings.js");
+
+router.get("/searchtables", async (req, res) => {
+  res.send("Hello from booking router...");
 });
 
 module.exports = router;
