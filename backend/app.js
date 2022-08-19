@@ -1,5 +1,6 @@
 require("dotenv").config();
 require("./database.js");
+require("mongoose");
 
 const booktableRoutes = require("./routes/booktableRoutes");
 const adminRoutes = require("./routes/adminRoutes");

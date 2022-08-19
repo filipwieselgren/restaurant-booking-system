@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 try {
   mongoose.connect(
-    process.env.MONGODBKEY,
+    "mongodb://localhost:27017/restaurant-booking-system",
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => console.log(" Mongoose is connected")
   );

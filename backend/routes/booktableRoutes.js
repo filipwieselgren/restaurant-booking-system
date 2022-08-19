@@ -17,6 +17,7 @@ router.post("/searchtables/", async (req, res) => {
 
   person1.save();
   console.log("p1", person1);
+  res.send(person1);
 });
 
 router.get("/searchtables/", async (req, res) => {
