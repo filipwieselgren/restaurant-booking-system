@@ -1,15 +1,15 @@
 require("dotenv").config();
+require("./database.js");
 
 const booktableRoutes = require("./routes/booktableRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 
 const express = require("express");
 const app = express();
-const mongoose = require("./database.js");
 
 app.use(express.json());
 
-const BookingsModel = require("./models/Bookings.js");
+//const BookingsModel = require("./models/Bookings.js");
 
 app.get("/", (req, res) => {
   res.send("Hello from the server");
