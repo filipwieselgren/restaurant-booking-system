@@ -11,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/booktable" element={<Bookings />}></Route>
+          <Route path="/booktable/choose-time" element={<Bookings />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -119,7 +119,7 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
     props.getData(date);
   };
 
-  console.log(currentMonthNumber);
+  //console.log(currentMonthNumber);
 
   const daysHTML = getListOfDays.map((d, i) => {
     return (
