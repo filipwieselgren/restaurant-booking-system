@@ -11,6 +11,6 @@ const bokingsSchema = new Schema({
   phone: Number,
 });
 
-const BookingsModel = mongoose.model("bookings", bokingsSchema);
+const BookingsModel = mongoose.model("booking", bokingsSchema);
 
 module.exports = BookingsModel;
