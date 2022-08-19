@@ -1,5 +1,5 @@
 import React from "react";
 
-export const Navigation = () => {
+export const Home = () => {
   return <div>hej</div>;
 };
