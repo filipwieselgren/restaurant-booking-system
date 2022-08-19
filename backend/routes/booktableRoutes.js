@@ -7,7 +7,7 @@ const BookingsModel = require("../models/Bookings.js");
 router.post("/searchtables/", async (req, res) => {
   console.log("postar");
   const person1 = new BookingsModel({
-    name: "tuvis",
+    name: "hejhej",
     date: "18 maj",
     amountOfPeople: 6,
     time: 18,

@@ -1,0 +1,72 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+@import "./components-style/calendar";
+@import "./components-style/amountOfPeople";
+@import "./mixins/variables";
+@import "./mixins/mixins";
+.bookingPage {
+  height: 100vh;
+  background-color: pink;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .bookingFormsContainer {
+    background-color: $modalColor;
+    width: 80%;
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .wichForm {
+      margin: 0%;
+      padding: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+
+      .ifDateForm {
+        background-color: $modalColor;
+      }
+
+      .ifTimeForm,
+      .ifConfirmation {
+        background-color: rgba(pink, 0.3);
+      }
+      .ifTimeForm {
+        border-right: 1px solid black;
+      }
+
+      .ifTimeForm,
+      .ifConfirmation,
+      .ifDateForm {
+        height: 100%;
+        width: 34%;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .buttonContainer {
+      width: 100%;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+
+      button {
+        background-color: rgb(127, 208, 127);
+        border: 0;
+        height: 30px;
+        width: 80px;
+        border-radius: 20px;
+      }
+    }
+  }
+}
