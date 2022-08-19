@@ -4,10 +4,25 @@ const db = require("../database");
 
 const BookingsModel = require("../models/Bookings.js");
 
+router.post("/searchtables/", async (req, res) => {
+  console.log("postar");
+  const person1 = new BookingsModel({
+    name: "tuvis",
+    date: "18 maj",
+    amountOfPeople: 6,
+    time: 18,
+    email: "tuvis@hej",
+    phone: 123456789,
+  });
+
+  person1.save();
+  console.log("p1", person1);
+});
+
 router.get("/searchtables/", async (req, res) => {
-  console.log("Starting get...", req.params.name);
+  console.log("Starting get...");
   try {
-    const bookings = await BookingsModel.find({ name: req.params.name });
+    const bookings = await BookingsModel.find();
     console.log(bookings);
     res.send(bookings);
   } catch (error) {
