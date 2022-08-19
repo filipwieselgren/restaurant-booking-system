@@ -14,6 +14,18 @@ export const Bookings = () => {
     phone: 0,
   });
 
+  const getDate = (d: string) => {
+    booking.date = d;
+    console.log("i bookings funktion, date:", d);
+  };
+
+  const getQTY = (q: number) => {
+    booking.amountOfPeople = q;
+    console.log("i bookings funktion, antal:", q);
+  };
+
+  console.log(booking);
+
   return (
     <section className="bookingPage">
       <article className="bookingFormsContainer">
@@ -29,11 +41,11 @@ export const Bookings = () => {
           </div>
         </div>
 
-        <AmountOfPeople />
+        <AmountOfPeople getData={getQTY} />
         <div className="dateHeaderContainer">
           <p>Välj datum</p>
         </div>
-        <CalendarComponent></CalendarComponent>
+        <CalendarComponent getData={getDate}></CalendarComponent>
         <div className="buttonContainer">
           <button>Gå vidare</button>
         </div>

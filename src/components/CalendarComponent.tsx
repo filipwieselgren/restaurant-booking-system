@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { IBooking } from "../models/IBooking";
+import { IBookingProps } from "../models/IBookingProps";
 
-export const CalendarComponent = () => {
+interface ICalendarProps {
+  getDate(d: string): void;
+}
+
+export const CalendarComponent = (props: IBookingProps<string>) => {
   const [getMonth, setGetMonth] = useState(new Date().getMonth() + 1);
   const getYear = new Date().getFullYear();
   const [currentMonthName, setCurrentMonthName] = useState("");
@@ -109,7 +114,9 @@ export const CalendarComponent = () => {
     let day = d;
     let year = getYear;
     let month = currentMonthName;
+    let date = d + "/" + month + "/" + year;
     console.log("du valde datum:", d + "/" + month + "/" + year);
+    props.getData(date);
   };
 
   console.log(currentMonthNumber);
