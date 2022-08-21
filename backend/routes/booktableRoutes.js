@@ -16,10 +16,39 @@ router.get("/searchtables/:date", async (req, res) => {
       return booking.date === getDate;
     });
 
-    if (dateBookings.length < 2) {
-      res.status(200).send(dateBookings);
+    if (dateBookings.length < 30) {
+      const sixaclockArr = dateBookings.filter((date) => {
+        return date.time === 18;
+      });
+      const nineaclockArr = dateBookings.filter((date) => {
+        return date.time === 21;
+      });
+
+      const maxAmountOfTables = 15;
+
+      if (
+        sixaclockArr.length < maxAmountOfTables &&
+        nineaclockArr.length < maxAmountOfTables
+      ) {
+        console.log(`Here is six a clock ${sixaclockArr}`);
+        console.log(`Here is nine a clock ${nineaclockArr}`);
+
+        const times = { sixaclock: sixaclockArr, nineaclock: nineaclockArr };
+
+        res.status(200).send(times);
+      } else if (sixaclockArr.length < maxAmountOfTables) {
+        console.log(`Here is six a clock ${sixaclockArr}`);
+
+        res.status(200).send(sixaclockArr);
+      } else if (nineaclockArr.length < maxAmountOfTables) {
+        console.log(`Here is nine a clock ${nineaclockArr}`);
+
+        res.status(200).send(`Here is nine a clock ${nineaclockArr}`);
+      }
     } else {
-      res.status.send("We are full this day. Please choose another day! 💚");
+      res
+        .status(404)
+        .send("We are full this day. Please choose another day! 💚");
     }
   } catch (error) {
     console.log(error);
@@ -29,9 +58,9 @@ router.get("/searchtables/:date", async (req, res) => {
 router.post("/searchtables/", async (req, res) => {
   const person1 = new BookingsModel({
     name: "Linnea",
-    date: "2020-06-10",
+    date: "2020-05-12",
     amountOfPeople: 6,
-    time: 18,
+    time: 21,
     email: "tuvis@hej",
     phone: 123456789,
   });
