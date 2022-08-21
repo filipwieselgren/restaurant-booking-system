@@ -1,0 +1,38 @@
+@import "../mixins/mixins";
+.qtyContainer {
+  width: 90%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @include phone-to-tablet {
+    width: 70%;
+  }
+  @include tablet-up {
+    width: 60%;
+  }
+  @include desktop {
+    width: 40%;
+  }
+  .qtyWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .numberContainer {
+      background-color: white;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      p {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+}
