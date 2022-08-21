@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 app.use("/booktable/", booktableRoutes);
 app.use("/admin", adminRoutes);
 
-const port = 3000;
+const port = 8080;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}...`);
 });
