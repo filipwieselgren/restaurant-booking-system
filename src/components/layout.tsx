@@ -6,7 +6,6 @@ export const Layout = () => {
   return (
     <div>
       <header>
-        {" "}
         <Navigation />
       </header>
       <section>
