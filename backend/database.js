@@ -3,7 +3,7 @@ require("dotenv").config();
 
 try {
   mongoose.connect(
-    process.env.MONGODBKEY,
+    "mongodb://localhost/restaurant-booking-system",
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => console.log(" Mongoose is connected")
   );

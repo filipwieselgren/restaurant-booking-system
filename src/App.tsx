@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import { Bookings } from "./components/pages/Bookings";
-import "./App.css";
 import "./styles/layout.scss";
 
 function App() {
