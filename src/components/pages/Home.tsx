@@ -1,10 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../../styles/home.scss";
 
 export const Home = () => {
   return (
     <div className="homeWrapper">
-      <div className="bookButton">Boka bord</div>
+      <Link to={"/booktable"}>
+        <div className="bookButton">
+          <p>Boka bord</p>
+        </div>
+      </Link>
     </div>
   );
 };

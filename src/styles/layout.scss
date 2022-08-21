@@ -3,6 +3,14 @@ body {
   padding: 0;
 }
 
+a {
+  color: white;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 #root {
   background-image: url("../assets/background.jpg");
   height: 100vh;

@@ -1,11 +1,13 @@
 @import "./mixins/mixins";
 
 .homeWrapper {
-  height: 300px;
   width: 100%;
-  background-color: red;
+  padding-top: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   .bookButton {
-    @include button(green, 200px, 100px);
+    @include button(#5db85d, 400px, 150px, 50pt);
   }
 }
