@@ -91,6 +91,8 @@ router.post("/create/:amountOfPeople/:date/:time", async (req, res) => {
   res.status(201).send(newBookingAdmin);
 });
 
+// Ta bort bokning
+
 router.delete("/bookings/:id/delete", async (req, res) => {
   const id = req.params.id;
   try {
@@ -102,5 +104,20 @@ router.delete("/bookings/:id/delete", async (req, res) => {
     return res.status(400);
   }
 });
+
+router.get("/bookings/:email/search", async (req, res) => {
+  const getEmail = req.params.email;
+
+  const bookingsAdmin = await BookingsModel.find();
+
+  const dateBookingsAdmin = bookingsAdmin.filter((booking) => {
+    return booking.email.trim() === getEmail.trim();
+  });
+
+  console.log(dateBookingsAdmin);
+  res.status(200).send(dateBookingsAdmin);
+});
+
+// Sök efter bokning
 
 module.exports = router;
