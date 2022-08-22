@@ -3,11 +3,14 @@ const router = express.Router();
 
 const BookingsModel = require("../models/Bookings.js");
 
-router.get("/searchtables/:date", async (req, res) => {
+router.get("/searchtables/:amoutOfPeopl/:date", async (req, res) => {
   console.log("Starting get...");
 
   try {
     const getDate = req.params.date;
+    const getAmout = req.params.amountOfPeople;
+    console.log(getDate);
+    console.log(getAmout);
 
     const bookings = await BookingsModel.find();
 
@@ -29,8 +32,8 @@ router.get("/searchtables/:date", async (req, res) => {
         sixaclockArr.length < maxAmountOfTables &&
         nineaclockArr.length < maxAmountOfTables
       ) {
-        console.log(`Here is six a clock ${sixaclockArr}`);
-        console.log(`Here is nine a clock ${nineaclockArr}`);
+        console.log(`Table at 18 ${sixaclockArr}`);
+        console.log(`Table at 21 ${nineaclockArr}`);
 
         const times = { sixaclock: sixaclockArr, nineaclock: nineaclockArr };
 
@@ -54,19 +57,23 @@ router.get("/searchtables/:date", async (req, res) => {
   }
 });
 
-router.post("/searchtables/", async (req, res) => {
-  const person1 = new BookingsModel({
-    name: "Linnea",
-    date: "2020-05-12",
-    amountOfPeople: 6,
-    time: 21,
-    email: "tuvis@hej",
-    phone: 123456789,
+router.post("/searchtables/:amountOfPeople/:date/:time", async (req, res) => {
+  const postDate = req.params.date;
+  const postAmout = req.params.amountOfPeople;
+  const postTime = req.params.time;
+
+  const newBooking = new BookingsModel({
+    name: req.body.name,
+    date: postDate,
+    amountOfPeople: postAmout,
+    time: postTime,
+    email: req.body.email,
+    phone: req.body.phone,
   });
 
-  person1.save();
-  console.log("p1", person1);
-  res.send(person1);
+  newBooking.save();
+  console.log("newBooking", newBooking);
+  res.status(201).send(newBooking);
 });
 
 module.exports = router;
