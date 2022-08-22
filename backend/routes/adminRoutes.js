@@ -105,6 +105,7 @@ router.delete("/bookings/:id/delete", async (req, res) => {
   }
 });
 
+// Sök efter bokning
 router.get("/bookings/:email/search", async (req, res) => {
   const getEmail = req.params.email;
 
@@ -117,7 +118,5 @@ router.get("/bookings/:email/search", async (req, res) => {
   console.log(dateBookingsAdmin);
   res.status(200).send(dateBookingsAdmin);
 });
-
-// Sök efter bokning
 
 module.exports = router;
