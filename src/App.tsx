@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Confirmation } from "./components/bookingComponents/Confirmation";
 import { Layout } from "./components/layout/Layout";
 import { Bookings } from "./components/pages/Bookings";
 import { Home } from "./components/pages/Home";
@@ -13,6 +14,7 @@ function App() {
           <Route path="/booktable" element={<Bookings />}></Route>
           <Route path="/booktable/choose-time" element={<Bookings />}></Route>
           <Route path="/booktable/persondata" element={<Bookings />}></Route>
+          <Route path="/booktable/post" element={<Confirmation />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

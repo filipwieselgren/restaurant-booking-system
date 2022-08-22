@@ -155,7 +155,11 @@ export const Bookings = () => {
         )}
         {showPersondata && (
           <section className="formContainerPersonData">
-            <PersonData getData={getPersonData} />
+            <PersonData
+              postBookingData={booking}
+              getData={getPersonData}
+              /* getData={getPersonData} */
+            />
           </section>
         )}
 

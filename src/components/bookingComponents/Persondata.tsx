@@ -1,12 +1,24 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { IBooking } from "../../models/IBooking";
 import { IBookingProps } from "../../models/IBookingProps";
 import { IPersonData } from "../../models/IPersondata";
 
-export const PersonData = (props: IBookingProps<IPersonData>) => {
+interface IPersonDataProps {
+  postBookingData: IBooking;
+  getData(d: IPersonData): void;
+
+  //getBookingData: IBookingProps<IPersonData>;
+}
+
+export const PersonData = (
+  props: IPersonDataProps /* IBookingProps<IPersonData> */
+) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+
+  const navigate = useNavigate();
 
   const handleName = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -22,15 +34,40 @@ export const PersonData = (props: IBookingProps<IPersonData>) => {
 
   const sendData = () => {
     props.getData({ name, email, phone });
+
+    // navigate("/booktable/post");
   };
 
   const preventSubmit = (e: FormEvent) => {
     e.preventDefault();
+
+    /*   fetch("/booktable/persondata", {
+      method: "POST",
+      headers: { "Content-Type": "application/JSON" },
+      body: JSON.stringify(props.postBookingData),
+    }); */
+
+    (async () => {
+      const rawResponse = await fetch(
+        "http://localhost:3000/booktable/persondata",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(props.postBookingData),
+        }
+      );
+      const content = await rawResponse.json();
+
+      console.log(content);
+    })();
   };
 
   return (
     <section className="personDataContainer">
-      <form onSubmit={preventSubmit} className="personDataForm" action="">
+      <form onSubmit={preventSubmit} className="personDataForm" action="post">
         <div className="confirmHeaderContainer">
           <p>Bekräfta din bokning</p>
         </div>

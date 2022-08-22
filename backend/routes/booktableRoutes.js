@@ -69,4 +69,9 @@ router.post("/searchtables/", async (req, res) => {
   res.send(person1);
 });
 
+router.post("/persondata", (req, res) => {
+  res.send(req.body);
+  console.log("req.body", req.body);
+});
+
 module.exports = router;
