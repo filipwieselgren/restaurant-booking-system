@@ -4,12 +4,13 @@ const db = require("../database");
 
 const BookingsModel = require("../models/Bookings.js");
 
-router.get("/searchtables/:amoutOfPeople/:date", async (req, res) => {
+router.get("/searchtables/:amoutOfPeopl/:date", async (req, res) => {
   console.log("Starting get...");
 
   try {
     const getDate = req.params.date;
     const getAmout = req.params.amountOfPeople;
+    console.log(getDate);
     console.log(getAmout);
 
     const bookings = await BookingsModel.find();
@@ -57,7 +58,7 @@ router.get("/searchtables/:amoutOfPeople/:date", async (req, res) => {
   }
 });
 
-router.post("/searchtables/:date/:amountOfPeople/:time", async (req, res) => {
+router.post("/searchtables/:amountOfPeople/:date/:time", async (req, res) => {
   const postDate = req.params.date;
   const postAmout = req.params.amountOfPeople;
   const postTime = req.params.time;
