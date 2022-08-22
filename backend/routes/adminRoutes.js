@@ -8,12 +8,14 @@ router.get("/login", async (req, res) => {
 
   getBookings.sort((a, b) => new Date(b.date) - new Date(a.date));
 
+  console.log(getBookings.length);
+
   res.send(getBookings);
 });
 
 // Skapa en bokning
 
-router.get("/create/:amoutOfPeopl/:date", async (req, res) => {
+router.get("/create/:amoutOfPeople/:date", async (req, res) => {
   console.log("Starting get from admin create...");
 
   try {
@@ -87,6 +89,18 @@ router.post("/create/:amountOfPeople/:date/:time", async (req, res) => {
   newBookingAdmin.save();
   console.log("newBooking", newBookingAdmin);
   res.status(201).send(newBookingAdmin);
+});
+
+router.delete("/bookings/:id/delete", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const deletedBooking = await BookingsModel.findByIdAndDelete(id);
+    if (!deletedBooking) return res.status(404);
+    console.log(deletedBooking);
+    return res.send(deletedBooking);
+  } catch (e) {
+    return res.status(400);
+  }
 });
 
 module.exports = router;
