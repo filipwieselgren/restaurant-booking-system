@@ -3,6 +3,7 @@ import { Confirmation } from "./components/bookingComponents/Confirmation";
 import { Layout } from "./components/layout/Layout";
 import { Bookings } from "./components/pages/Bookings";
 import { Home } from "./components/pages/Home";
+import { Admin } from "./components/pages/Admin";
 import "./styles/layout.scss";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/booktable/choose-time" element={<Bookings />}></Route>
           <Route path="/booktable/persondata" element={<Bookings />}></Route>
           <Route path="/booktable/post" element={<Confirmation />}></Route>
+          <Route path="/admin" element={<Admin />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
