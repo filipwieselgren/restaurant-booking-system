@@ -72,7 +72,7 @@ export const Bookings = () => {
 
   //funktion som ändrar innehåll i modal beroende på rul
   const switchForm = () => {
-    if (url.pathname === "/booktable") {
+    if (url.pathname === "/booktable/searchtables") {
       setShowCalendar(true);
       setShowTime(false);
       setShowPersondata(false);
@@ -111,7 +111,7 @@ export const Bookings = () => {
   //funktioner som navigerar till rätt form via url
 
   const navigateToForms = () => {
-    if (url.pathname === "/booktable") {
+    if (url.pathname === "/booktable/searchtables") {
       navigate("/booktable/choose-time");
     }
     if (url.pathname === "/booktable/choose-time") {

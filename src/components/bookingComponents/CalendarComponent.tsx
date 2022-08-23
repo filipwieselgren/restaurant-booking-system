@@ -112,6 +112,7 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
     let month = currentMonthName;
     let date = d + "-" + month + "-" + year;
     console.log("du valde datum:", date);
+
     props.getData(date);
   };
 

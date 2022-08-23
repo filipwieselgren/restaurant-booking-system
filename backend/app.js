@@ -1,12 +1,16 @@
 require("dotenv").config();
 require("./database.js");
-require("mongoose");
+
+mongoose = require("mongoose");
 
 const booktableRoutes = require("./routes/booktableRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 
+const cors = require("cors");
 const express = require("express");
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
@@ -20,6 +24,18 @@ app.use("/booktable/", booktableRoutes);
 app.use("/admin", adminRoutes);
 
 const port = 8080;
-app.listen(port, () => {
+/* app.listen(port, () => {
   console.log(`Server is running on port ${port}...`);
-});
+}); */
+
+const URI = process.env.MONGODBKEY;
+
+mongoose
+  .connect(URI)
+  .then((result) => {
+    app.listen(port);
+    console.log("connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });

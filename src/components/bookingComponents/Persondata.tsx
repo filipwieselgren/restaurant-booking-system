@@ -49,19 +49,20 @@ export const PersonData = (
 
     (async () => {
       const rawResponse = await fetch(
-        "http://localhost:3000/booktable/persondata",
+        "http://localhost:8080/booktable/persondata",
         {
           method: "POST",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
+            mode: "no-cors",
           },
           body: JSON.stringify(props.postBookingData),
         }
       );
-      const content = await rawResponse.json();
+      /*  const content = await rawResponse;
 
-      console.log(content);
+      console.log(content); */
     })();
   };
 

@@ -56,7 +56,7 @@ router.get("/searchtables/:date", async (req, res) => {
 
 router.post("/searchtables/", async (req, res) => {
   const person1 = new BookingsModel({
-    name: "Linnea",
+    name: "karin",
     date: "2020-05-12",
     amountOfPeople: 6,
     time: 21,
@@ -64,14 +64,18 @@ router.post("/searchtables/", async (req, res) => {
     phone: 123456789,
   });
 
-  person1.save();
+  await person1.save();
   console.log("p1", person1);
-  res.send(person1);
+  res.end();
+  // res.send(person1);
 });
 
-router.post("/persondata", (req, res) => {
-  res.send(req.body);
-  console.log("req.body", req.body);
+router.post("/persondata", async (req, res) => {
+  const createBooking = new BookingsModel(req.body);
+
+  await createBooking.save();
+  console.log("p1", req.body);
+  res.end();
 });
 
 module.exports = router;
