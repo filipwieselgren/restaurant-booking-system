@@ -11,6 +11,9 @@
 
     .bookButton {
       @include button(#5db85d, 400px, 150px, 50pt);
+      p {
+        color: white;
+      }
     }
 
     .adminLinkWrapper {
