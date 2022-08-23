@@ -57,7 +57,6 @@ router.get("/searchtables/:amoutOfPeopl/:date", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 router.post("/searchtables/:amountOfPeople/:date/:time", async (req, res) => {
   const postDate = req.params.date;
   const postAmout = req.params.amountOfPeople;
@@ -75,7 +74,8 @@ router.post("/searchtables/:amountOfPeople/:date/:time", async (req, res) => {
   newBooking.save();
   console.log("newBooking", newBooking);
   res.status(201).send(newBooking);
-=======
+});
+
 router.post("/searchtables/", async (req, res) => {
   const person1 = new BookingsModel({
     name: "karin",
@@ -89,6 +89,7 @@ router.post("/searchtables/", async (req, res) => {
   await person1.save();
   console.log("p1", person1);
   res.end();
+
   // res.send(person1);
 });
 
@@ -98,7 +99,6 @@ router.post("/persondata", async (req, res) => {
   await createBooking.save();
   console.log("p1", req.body);
   res.end();
->>>>>>> feature/booking
 });
 
 module.exports = router;
