@@ -1,4 +1,4 @@
-import { IBookingProps } from "../models/IBookingProps";
+import { IBookingProps } from "../../models/IBookingProps";
 
 export const AmountOfPeople = (props: IBookingProps<number>) => {
   let qtyList = [1, 2, 3, 4, 5, 6];

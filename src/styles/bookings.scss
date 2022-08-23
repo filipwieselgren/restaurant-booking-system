@@ -1,7 +1,8 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
-@import "./components-style/calendar";
-@import "./components-style/amountOfPeople";
-@import "./components-style/timeForm";
+@import "./components-style/bookingStyles/calendar";
+@import "./components-style/bookingStyles/amountOfPeople";
+@import "./components-style/bookingStyles/timeForm";
+@import "./components-style/bookingStyles/personDataForm";
 @import "./mixins/variables";
 @import "./mixins/mixins";
 .bookingPage {
@@ -59,13 +60,14 @@
       }
     }
 
-    .formContainer {
+    /*   .formContainer {
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-    }
+    } */
+
     .buttonContainer {
       width: 100%;
       height: 60px;
@@ -79,8 +81,12 @@
         border: 0;
         height: 30px;
         width: 80px;
-        border-radius: 20px;
+        border-radius: 9px;
         cursor: pointer;
+      }
+
+      .cancelButton {
+        background-color: red;
       }
     }
   }

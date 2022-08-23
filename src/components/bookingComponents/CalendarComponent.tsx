@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
-import { IBooking } from "../models/IBooking";
-import { IBookingProps } from "../models/IBookingProps";
-
-interface ICalendarProps {
-  getDate(d: string): void;
-}
+import { IBooking } from "../../models/IBooking";
+import { IBookingProps } from "../../models/IBookingProps";
 
 export const CalendarComponent = (props: IBookingProps<string>) => {
   const [getMonth, setGetMonth] = useState(new Date().getMonth() + 1);
@@ -114,8 +110,9 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
     let day = d;
     let year = getYear;
     let month = currentMonthName;
-    let date = d + "/" + month + "/" + year;
-    console.log("du valde datum:", d + "/" + month + "/" + year);
+    let date = d + "-" + month + "-" + year;
+    console.log("du valde datum:", date);
+
     props.getData(date);
   };
 
