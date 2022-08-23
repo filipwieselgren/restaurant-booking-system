@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
   res.send("Hello from the server");
 });
 
-app.use("/booktable/", booktableRoutes);
+app.use("/booktable", booktableRoutes);
 app.use("/admin", adminRoutes);
 app.use("/contact", contactRoutes);
 
