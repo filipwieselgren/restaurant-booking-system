@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { ObjectId } = require("mongodb");
 
 const BookingsModel = require("../models/Bookings.js");
 
@@ -117,6 +118,15 @@ router.get("/bookings/:email/search", async (req, res) => {
 
   console.log(dateBookingsAdmin);
   res.status(200).send(dateBookingsAdmin);
+});
+//hämta single bokning
+router.get("/bookings/:id", async (req, res) => {
+  const id = ObjectId(req.params.id);
+  console.log(id);
+
+  const singleBooking = await BookingsModel.find({ _id: id });
+  console.log(singleBooking);
+  res.status(201).send(singleBooking);
 });
 
 module.exports = router;
