@@ -1,13 +1,47 @@
 @import "./mixins/mixins";
 
-.homeWrapper {
-  width: 100%;
-  padding-top: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@include phone-up {
+  .homeWrapper {
+    width: 100%;
+    padding-top: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 
-  .bookButton {
-    @include button(#5db85d, 400px, 150px, 50pt);
+    .bookButton {
+      @include button(#5db85d, 400px, 150px, 50pt);
+      p {
+        color: white;
+      }
+    }
+
+    .adminLinkWrapper {
+      width: 95%;
+      padding-top: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      p {
+        font-size: 15pt;
+        font-style: italic;
+        padding-right: 20px;
+        background-color: rgba(255, 255, 255, 0.672);
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+@include tablet-up {
+  .homeWrapper {
+    .adminLinkWrapper {
+      width: 100%;
+      padding-top: 170px;
+      display: flex;
+      justify-content: end;
+    }
   }
 }

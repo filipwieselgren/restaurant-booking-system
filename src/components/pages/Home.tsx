@@ -10,6 +10,11 @@ export const Home = () => {
           <p>Boka bord</p>
         </div>
       </Link>
+      <div className="adminLinkWrapper">
+        <Link to={"/admin"}>
+          <p>Admin? Logga in här</p>
+        </Link>
+      </div>
     </div>
   );
 };

@@ -5,6 +5,7 @@ mongoose = require("mongoose");
 
 const booktableRoutes = require("./routes/booktableRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const contactRoutes = require("./routes/contactRoutes");
 
 const cors = require("cors");
 const express = require("express");
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 
 app.use("/booktable/", booktableRoutes);
 app.use("/admin", adminRoutes);
+app.use("/contact", contactRoutes);
 
 const port = 8080;
 /* app.listen(port, () => {

@@ -92,8 +92,34 @@ router.post("/create/:amountOfPeople/:date/:time", async (req, res) => {
   res.status(201).send(newBookingAdmin);
 });
 
-// Ta bort bokning
+//hämta single bokning
+router.get("/bookings/:id", async (req, res) => {
+  const id = ObjectId(req.params.id);
+  console.log(id);
 
+  const singleBooking = await BookingsModel.find({ _id: id });
+  console.log(singleBooking);
+  res.status(201).send(singleBooking);
+});
+
+//ändra single bokning
+router.post("/bookings/:id/edit", async (req, res) => {
+  const id = ObjectId(req.params.id);
+  const editBooking = {
+    name: req.body.name,
+    date: req.body.date,
+    amountOfPeople: req.body.amountOfPeople,
+    time: req.body.time,
+    email: req.body.email,
+    phone: req.body.phone,
+  };
+
+  await BookingsModel.updateOne({ _id: id }, { $set: editBooking });
+  console.log(editBooking);
+  res.status(201).send(editBooking);
+});
+
+//ta bort single bokning
 router.delete("/bookings/:id/delete", async (req, res) => {
   const id = req.params.id;
   try {
@@ -118,15 +144,6 @@ router.get("/bookings/:email/search", async (req, res) => {
 
   console.log(dateBookingsAdmin);
   res.status(200).send(dateBookingsAdmin);
-});
-//hämta single bokning
-router.get("/bookings/:id", async (req, res) => {
-  const id = ObjectId(req.params.id);
-  console.log(id);
-
-  const singleBooking = await BookingsModel.find({ _id: id });
-  console.log(singleBooking);
-  res.status(201).send(singleBooking);
 });
 
 module.exports = router;
