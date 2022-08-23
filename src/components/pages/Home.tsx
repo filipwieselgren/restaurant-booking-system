@@ -5,7 +5,7 @@ import "../../styles/home.scss";
 export const Home = () => {
   return (
     <div className="homeWrapper">
-      <Link to={"/booktable"}>
+      <Link to={"/booktable/searchtables"}>
         <div className="bookButton">
           <p>Boka bord</p>
         </div>
