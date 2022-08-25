@@ -16,57 +16,30 @@ router.get("/login", async (req, res) => {
 
 // Skapa en bokning
 
-router.get("/create/:amoutOfPeople/:date", async (req, res) => {
-  console.log("Starting get from admin create...");
-
+router.get("/:date", async (req, res) => {
   try {
-    const getDateAdmin = req.params.date;
-    const getAmoutAdmin = req.params.amountOfPeople;
-    console.log(getDateAdmin);
-    console.log(getAmoutAdmin);
+    const date = req.params.date;
 
-    const bookingsAdmin = await BookingsModel.find();
+    const bookings = await BookingsModel.find({ date });
 
-    const dateBookingsAdmin = bookingsAdmin.filter((booking) => {
-      return booking.date === getDateAdmin;
+    const sixaclockArr = bookings.filter((date) => {
+      return date.time === 18;
     });
+    const nineaclockArr = bookings.filter((date) => {
+      return date.time === 21;
+    });
+    const maxAmountOfTables = 2;
+    if (sixaclockArr.length < 1 && nineaclockArr.length < maxAmountOfTables) {
+      const bothTimes = { sixaclock: true, nineaclock: true };
+      res.status(200).send(bothTimes);
+    } else if (sixaclockArr.length < maxAmountOfTables) {
+      const sixOnlyAvalible = { sixaclock: true, nineaclock: false };
 
-    if (dateBookingsAdmin.length < 30) {
-      const sixaclockArrAdmin = dateBookingsAdmin.filter((date) => {
-        return date.time === 18;
-      });
-      const nineaclockArrAdmin = dateBookingsAdmin.filter((date) => {
-        return date.time === 21;
-      });
+      res.status(200).send(sixOnlyAvalible);
+    } else if (nineaclockArr.length < maxAmountOfTables) {
+      const nineOnlyAvalible = { sixaclock: false, nineaclock: true };
 
-      const maxAmountOfTablesAdmin = 15;
-
-      if (
-        sixaclockArrAdmin.length < maxAmountOfTablesAdmin &&
-        nineaclockArrAdmin.length < maxAmountOfTablesAdmin
-      ) {
-        console.log(`Table at 18 ${sixaclockArrAdmin}`);
-        console.log(`Table at 21 ${nineaclockArrAdmin}`);
-
-        const times = {
-          sixaclock: sixaclockArrAdmin,
-          nineaclock: nineaclockArrAdmin,
-        };
-
-        res.status(200).send(times);
-      } else if (sixaclockArrAdmin.length < maxAmountOfTablesAdmin) {
-        console.log(`Here is six a clock ${sixaclockArrAdmin}`);
-
-        res.status(200).send(sixaclockArrAdmin);
-      } else if (nineaclockArrAdmin.length < maxAmountOfTablesAdmin) {
-        console.log(`Here is nine a clock ${nineaclockArrAdmin}`);
-
-        res.status(200).send(`Here is nine a clock ${nineaclockArrAdmin}`);
-      }
-    } else {
-      res
-        .status(404)
-        .send("We are full this day. Please choose another day! 💚");
+      res.status(200).send(nineOnlyAvalible);
     }
   } catch (error) {
     console.log(error);

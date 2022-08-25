@@ -40,6 +40,7 @@ export const Bookings = () => {
     useState<boolean>(false);
   const [startUseEffect, setStartUseEffect] = useState<boolean>(false);
   const [test, setTest] = useState<boolean>(false);
+  const [dateAndTimeMissing, setDateAndTimeMissing] = useState<boolean>(false);
 
   useEffect(() => {
     if (activeCancelButton) {
@@ -53,20 +54,22 @@ export const Bookings = () => {
 
   // funktion som hämtar datum, år, dag, månad
   const getDate = (d: string) => {
+    setDateAndTimeMissing(false);
     booking.date = d;
-    console.log("i bookings funktion, date:", d);
+    // console.log("i bookings funktion, date:", d);
   };
 
   // funktion som hämtar antal personer
   const getQTY = (q: number) => {
+    setDateAndTimeMissing(false);
     booking.amountOfPeople = q;
-    console.log("i bookings funktion, antal:", q);
+    // console.log("i bookings funktion, antal:", q);
   };
 
   // funktion som hämtar tid av bokning
   const getTime = (t: number) => {
     booking.time = t;
-    console.log("i bookings funktion, tid:", t);
+    // console.log("i bookings funktion, tid:", t);
   };
 
   //funktion som hämtar personuppgifter
@@ -74,11 +77,11 @@ export const Bookings = () => {
     booking.email = p.email;
     booking.name = p.name;
     booking.phone = +p.phone;
-    console.log("i bookings funktion, person: ", p);
-    console.log("efter ha fått personData, bookings:", booking);
+    // console.log("i bookings funktion, person: ", p);
+    // console.log("efter ha fått personData, bookings:", booking);
   };
 
-  console.log(booking);
+  // console.log(booking);
 
   //funktion som ändrar innehåll i modal beroende på rul
   const switchForm = () => {
@@ -127,14 +130,16 @@ export const Bookings = () => {
       });
     }
     if (url.pathname === "/booktable/choose-time") {
-      navigate("/booktable/persondata");
+      booking.time !== 0
+        ? navigate("/booktable/persondata")
+        : console.log("Välj tid");
     }
 
     if (url.pathname === "/booktable/persondata") {
       navigate("/booktable");
     }
   };
-
+  let chooseTimeAndDate = <></>;
   let fullyBooked = <></>;
 
   if (showFullyBookedText) {
@@ -144,14 +149,40 @@ export const Bookings = () => {
   } else if (showFullyBookedText == false) {
     fullyBooked = <></>;
   }
+
+  if (dateAndTimeMissing) {
+    console.log(booking.amountOfPeople);
+    console.log("Time", booking.date);
+
+    let missingData = "";
+    if (booking.amountOfPeople === 0 && !booking.date) {
+      missingData =
+        "let us know how many people you will be and then pick a date 😇";
+    } else if (booking.amountOfPeople === 0) {
+      missingData = "let us know how many people you will be 😇";
+    } else if (!booking.date) {
+      missingData = "pick a date 😇";
+    }
+
+    chooseTimeAndDate = <div>You need to {missingData}</div>;
+  } else if (dateAndTimeMissing === false) {
+    chooseTimeAndDate = <></>;
+  }
+
   const checkIfDateIsAvailable = async (d: string) => {
     let api: string = `http://localhost:8080/booktable/searchtables/${d}`;
 
-    let response = await axios.get(api);
+    try {
+      let response = await axios.get(api);
 
-    setTimes(response.data);
+      setTimes(response.data);
 
-    setStartUseEffect(true);
+      setStartUseEffect(true);
+    } catch (error) {
+      setDateAndTimeMissing(true);
+
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -168,9 +199,8 @@ export const Bookings = () => {
     nft === "block-time" ? setTest(true) : setTest(false);
   };
 
-  console.log(test);
-
   let timeNotAvailable = <></>;
+  console.log(dateAndTimeMissing);
 
   test ? (timeNotAvailable = <div>This time is not available 🥸</div>) : <></>;
   return (
@@ -213,6 +243,8 @@ export const Bookings = () => {
             />
           </section>
         )}
+
+        {chooseTimeAndDate}
         {timeNotAvailable}
         {fullyBooked}
         <div className="buttonContainer">
