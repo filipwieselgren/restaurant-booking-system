@@ -19,6 +19,7 @@ function App() {
           <Route path="/booktable/post" element={<Confirmation />}></Route>
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/admin/:id" element={<SingleBooking />}></Route>
+          <Route path="/admin/:id/edit" element={<Bookings />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

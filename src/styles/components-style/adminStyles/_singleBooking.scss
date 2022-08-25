@@ -1,54 +1,77 @@
 @import "../../mixins/mixins";
 
-.editWrapper {
-  display: flex;
-  flex-direction: column;
-  padding-left: 170px;
-  padding-right: 170px;
-  .editBookingDiv {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 65px;
-    h2 {
-      margin: 0px;
-      padding: 0px;
+@include phone-up {
+  form {
+    width: 80%;
+    padding-top: 20px;
+    padding-bottom: 40px;
+
+    .bookingDiv {
+      width: 80%;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding-bottom: 40px;
+      div {
+        h3 {
+          font-size: 10pt;
+        }
+      }
     }
-    p {
-      margin: 0px;
-      padding: 0px;
-    }
-    .editBtn {
-      @include button(#5db85d, 60px, 30px, 9pt);
-      color: white;
-    }
-  }
-  .bookingDiv {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 30px;
-    h3 {
-      margin: 0px;
-      padding-top: 0px;
+    .detailsDiv {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 30px;
+      h3 {
+        font-size: 10pt;
+        margin: 0px;
+        padding-top: 0px;
+      }
+
+      input {
+        height: 15px;
+        width: 150px;
+      }
     }
 
-    input {
-      height: 15px;
-      width: 150px;
+    .inputDiv {
+      width: 100%;
+      display: flex;
+      justify-content: end;
+      input {
+        &:hover {
+          cursor: pointer;
+        }
+      }
     }
   }
 }
 
-.inputDiv {
-  width: 100%;
-  display: flex;
-  justify-content: end;
-  input {
-    &:hover {
-      cursor: pointer;
+@include tablet-up {
+  form {
+    max-width: 60%;
+    padding-top: 60px;
+
+    .bookingDiv {
+      width: 100%;
+      div {
+      }
+    }
+    .detailsDiv {
+      h3 {
+      }
+
+      input {
+      }
+    }
+
+    .inputDiv {
     }
   }
 }
