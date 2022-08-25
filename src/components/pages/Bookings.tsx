@@ -151,9 +151,6 @@ export const Bookings = () => {
   }
 
   if (dateAndTimeMissing) {
-    console.log(booking.amountOfPeople);
-    console.log("Time", booking.date);
-
     let missingData = "";
     if (booking.amountOfPeople === 0 && !booking.date) {
       missingData =
@@ -172,16 +169,18 @@ export const Bookings = () => {
   const checkIfDateIsAvailable = async (d: string) => {
     let api: string = `http://localhost:8080/booktable/searchtables/${d}`;
 
-    try {
-      let response = await axios.get(api);
+    if (booking.date && booking.amountOfPeople !== 0) {
+      try {
+        let response = await axios.get(api);
 
-      setTimes(response.data);
+        setTimes(response.data);
 
-      setStartUseEffect(true);
-    } catch (error) {
+        setStartUseEffect(true);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
       setDateAndTimeMissing(true);
-
-      console.log(error);
     }
   };
 
@@ -200,9 +199,9 @@ export const Bookings = () => {
   };
 
   let timeNotAvailable = <></>;
-  console.log(dateAndTimeMissing);
 
   test ? (timeNotAvailable = <div>This time is not available 🥸</div>) : <></>;
+  console.log(dateAndTimeMissing);
   return (
     <section className="bookingPage">
       <article className="bookingFormsContainer">
