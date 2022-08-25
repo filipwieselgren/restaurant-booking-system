@@ -65,7 +65,7 @@ router.post("/create/:amountOfPeople/:date/:time", async (req, res) => {
   res.status(201).send(newBookingAdmin);
 });
 
-//hämta single bokning
+//hämta single bokning ANVÄNDS EJ, TA BORT?
 router.get("/bookings/:id", async (req, res) => {
   const id = ObjectId(req.params.id);
   console.log(id);

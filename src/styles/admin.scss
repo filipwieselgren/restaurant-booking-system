@@ -1,0 +1,84 @@
+@import "../styles/mixins/mixins";
+@import "./mixins/variables";
+
+@include phone-up {
+  .wrapper {
+    height: 100vh;
+    background-color: rgb(222, 220, 220);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .adminWrapper {
+      background-color: $modalColor;
+      width: 80%;
+      height: 95vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .menuWrapper {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        .buttonDiv {
+          width: 100%;
+          display: flex;
+          justify-content: end;
+          padding-top: 20px;
+        }
+        .inputDiv {
+          width: 100%;
+          height: 50px;
+          display: flex;
+          justify-content: start;
+          input {
+            height: 20px;
+          }
+        }
+        .headlinesDiv {
+          width: 75%;
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+          h3 {
+            font-size: 8pt;
+            padding: 0px;
+            margin: 0px;
+            width: 30px;
+          }
+        }
+      }
+    }
+    .listWrapper {
+      height: 350px;
+      width: 80%;
+      background-color: white;
+      overflow-y: scroll;
+    }
+  }
+}
+
+@include tablet-up {
+  .wrapper {
+    .adminWrapper {
+      .menuWrapper {
+        .buttonDiv {
+        }
+        .inputDiv {
+          input {
+          }
+        }
+        .headlinesDiv {
+          width: 87%;
+          h3 {
+            font-size: 14pt;
+            width: 100px;
+          }
+        }
+      }
+      .listWrapper {
+      }
+    }
+  }
+}

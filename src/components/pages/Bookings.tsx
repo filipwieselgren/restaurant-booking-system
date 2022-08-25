@@ -29,6 +29,7 @@ export const Bookings = () => {
     time: 0,
     email: "",
     phone: 0,
+    _id: "",
   });
 
   const url = useLocation();
@@ -83,17 +84,20 @@ export const Bookings = () => {
 
   // console.log(booking);
 
-  //funktion som ändrar innehåll i modal beroende på rul
+  //funktion som ändrar innehåll i modal beroende på url
   const switchForm = () => {
     if (url.pathname === "/booktable/searchtables") {
+      //styr vad för innehåll som visas
       setShowCalendar(true);
       setShowTime(false);
       setShowPersondata(false);
 
+      // styr classerna
       setIsActiveCalendar(true);
       setIsActiveTime(false);
       setIsActivePersonData(false);
 
+      //ändrar knapp till avboka
       setActiveCancelButton(false);
     }
     if (url.pathname === "/booktable/choose-time") {
@@ -106,23 +110,19 @@ export const Bookings = () => {
       setIsActivePersonData(false);
     }
     if (url.pathname === "/booktable/persondata") {
-      //styr vad för innehåll som visas
       setShowPersondata(true);
       setShowTime(false);
       setShowCalendar(false);
 
-      // styr classerna
       setIsActivePersonData(true);
       setIsActiveCalendar(false);
       setIsActiveTime(false);
 
-      //ändrar knapp till avboka
       setActiveCancelButton(true);
     }
   };
 
   //funktioner som navigerar till rätt form via url
-
   const navigateToForms = (times: ITablesAvalible) => {
     if (url.pathname === "/booktable/searchtables") {
       navigate("/booktable/choose-time", {
