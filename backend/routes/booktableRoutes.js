@@ -3,6 +3,7 @@ const router = express.Router();
 
 const BookingsModel = require("../models/Bookings.js");
 
+// steg 2 - kolla datum
 router.get("/searchtables/:date", async (req, res) => {
   try {
     const date = req.params.date;

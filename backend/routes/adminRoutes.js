@@ -14,7 +14,7 @@ router.get("/login", async (req, res) => {
   res.send(getBookings);
 });
 
-// Skapa en bokning
+// Steg 1 - kollar tid
 
 router.get("/:date", async (req, res) => {
   try {
