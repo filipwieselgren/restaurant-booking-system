@@ -1,0 +1,54 @@
+@import "../../mixins/mixins";
+
+.editWrapper {
+  display: flex;
+  flex-direction: column;
+  padding-left: 170px;
+  padding-right: 170px;
+  .editBookingDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 65px;
+    h2 {
+      margin: 0px;
+      padding: 0px;
+    }
+    p {
+      margin: 0px;
+      padding: 0px;
+    }
+    .editBtn {
+      @include button(#5db85d, 60px, 30px, 9pt);
+      color: white;
+    }
+  }
+  .bookingDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 30px;
+    h3 {
+      margin: 0px;
+      padding-top: 0px;
+    }
+
+    input {
+      height: 15px;
+      width: 150px;
+    }
+  }
+}
+
+.inputDiv {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  input {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
