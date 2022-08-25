@@ -15,6 +15,7 @@ function App() {
           <Route path="/booktable/choose-time" element={<Bookings />}></Route>
           <Route path="/booktable/persondata" element={<Bookings />}></Route>
           <Route path="/booktable/post" element={<Confirmation />}></Route>
+          <Route path="/booktable/post" element={<Confirmation />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

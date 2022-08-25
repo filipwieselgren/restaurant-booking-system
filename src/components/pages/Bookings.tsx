@@ -7,12 +7,18 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { TimeForm } from "../bookingComponents/TimeForm";
 import { PersonData } from "../bookingComponents/Persondata";
 import { IPersonData } from "../../models/IPersondata";
+import axios from "axios";
+import { ITablesAvalible } from "../../models/ITablesAvalibles";
+import { time } from "console";
 
 export const Bookings = () => {
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
   const [isActiveTime, setIsActiveTime] = useState(false);
   const [isActivePersonData, setIsActivePersonData] = useState(false);
-
+  const [times, setTimes] = useState<ITablesAvalible>({
+    nineaclock: false,
+    sixaclock: false,
+  });
   const [showCalendar, setShowCalendar] = useState(false);
   const [showTime, setShowTime] = useState(false);
   const [showPersondata, setShowPersondata] = useState(false);
@@ -30,6 +36,10 @@ export const Bookings = () => {
 
   const [buttonText, setButtonText] = useState("Gå vidare");
   const [activeCancelButton, setActiveCancelButton] = useState(false);
+  const [showFullyBookedText, setShowFullyBookedText] =
+    useState<boolean>(false);
+  const [startUseEffect, setStartUseEffect] = useState<boolean>(false);
+  const [test, setTest] = useState<boolean>(false);
 
   useEffect(() => {
     if (activeCancelButton) {
@@ -110,9 +120,11 @@ export const Bookings = () => {
 
   //funktioner som navigerar till rätt form via url
 
-  const navigateToForms = () => {
+  const navigateToForms = (times: ITablesAvalible) => {
     if (url.pathname === "/booktable/searchtables") {
-      navigate("/booktable/choose-time");
+      navigate("/booktable/choose-time", {
+        state: { sixtimes: times.sixaclock, ninetimes: times.nineaclock },
+      });
     }
     if (url.pathname === "/booktable/choose-time") {
       navigate("/booktable/persondata");
@@ -123,6 +135,44 @@ export const Bookings = () => {
     }
   };
 
+  let fullyBooked = <></>;
+
+  if (showFullyBookedText) {
+    fullyBooked = (
+      <div>We are full this day. Please choose another day! 💚</div>
+    );
+  } else if (showFullyBookedText == false) {
+    fullyBooked = <></>;
+  }
+  const checkIfDateIsAvailable = async (d: string) => {
+    let api: string = `http://localhost:8080/booktable/searchtables/${d}`;
+
+    let response = await axios.get(api);
+
+    setTimes(response.data);
+
+    setStartUseEffect(true);
+  };
+
+  useEffect(() => {
+    if (startUseEffect)
+      if (times.nineaclock || times.sixaclock) {
+        setShowFullyBookedText(false);
+        navigateToForms(times);
+      } else {
+        setShowFullyBookedText(true);
+      }
+  }, [times]);
+
+  const changeTest = (nft: string) => {
+    nft === "block-time" ? setTest(true) : setTest(false);
+  };
+
+  console.log(test);
+
+  let timeNotAvailable = <></>;
+
+  test ? (timeNotAvailable = <div>This time is not available 🥸</div>) : <></>;
   return (
     <section className="bookingPage">
       <article className="bookingFormsContainer">
@@ -150,9 +200,10 @@ export const Bookings = () => {
 
         {showTime && (
           <section className="formContainerTime">
-            <TimeForm getData={getTime} />
+            <TimeForm getData={getTime} times={times} changeTest={changeTest} />
           </section>
         )}
+
         {showPersondata && (
           <section className="formContainerPersonData">
             <PersonData
@@ -162,11 +213,12 @@ export const Bookings = () => {
             />
           </section>
         )}
-
+        {timeNotAvailable}
+        {fullyBooked}
         <div className="buttonContainer">
           <button
             className={`${activeCancelButton && "cancelButton"}`}
-            onClick={navigateToForms}
+            onClick={() => checkIfDateIsAvailable(booking.date)}
           >
             {buttonText}
           </button>

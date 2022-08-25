@@ -22,4 +22,13 @@
     text-align: center;
     cursor: pointer;
   }
+
+  .block-time {
+    width: 170px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.141);
+    text-align: center;
+    text-decoration-line: line-through;
+    color: white;
+  }
 }
