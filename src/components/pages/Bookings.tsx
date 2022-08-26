@@ -134,6 +134,7 @@ export const Bookings = () => {
       booking.time !== 0
         ? navigate("/booktable/persondata")
         : setChooseTime(true);
+      booking.time === 0 ? setChooseTime(true) : setChooseTime(false);
     }
 
     if (url.pathname === "/booktable/persondata") {
@@ -168,7 +169,7 @@ export const Bookings = () => {
     chooseTimeAndDate = <></>;
   }
 
-  chooseTime
+  chooseTime === true
     ? (timeNotPicked = <div>Choose a time 🕰</div>)
     : (timeNotPicked = <></>);
 
@@ -200,15 +201,25 @@ export const Bookings = () => {
       }
   }, [times]);
 
-  const changeTest = (nft: string) => {
-    nft === "block-time" ? setTest(true) : setTest(false);
+  const checkTime = (nfb: string) => {
+    nfb === "block-time" ? setTest(true) : setTest(false);
+
+    console.log(nfb);
+
+    const timeAvailable = "time";
+
+    if (nfb === timeAvailable || chooseTime === false) {
+      setChooseTime(true);
+    } else if (nfb === timeAvailable && chooseTime === true) {
+      setChooseTime(false);
+    }
   };
 
   let timeNotAvailable = <></>;
 
   test ? (timeNotAvailable = <div>This time is not available 🥸</div>) : <></>;
 
-  console.log(chooseTime);
+  console.log("chooseTime:", chooseTime);
 
   return (
     <section className="bookingPage">
@@ -237,7 +248,7 @@ export const Bookings = () => {
 
         {showTime && (
           <section className="formContainerTime">
-            <TimeForm getData={getTime} times={times} changeTest={changeTest} />
+            <TimeForm getData={getTime} times={times} checkTime={checkTime} />i{" "}
           </section>
         )}
 
