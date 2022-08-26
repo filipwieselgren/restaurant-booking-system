@@ -21,6 +21,7 @@ export const SingleBooking = () => {
     date: "",
     time: 0,
     _id: "",
+    tables: 0,
   });
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

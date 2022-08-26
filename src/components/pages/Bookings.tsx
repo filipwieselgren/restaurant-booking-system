@@ -30,6 +30,7 @@ export const Bookings = () => {
     email: "",
     phone: 0,
     _id: "",
+    tables: 0,
   });
 
   const url = useLocation();
@@ -65,7 +66,15 @@ export const Bookings = () => {
   const getQTY = (q: number) => {
     setDateAndTimeMissing(false);
     booking.amountOfPeople = q;
-    // console.log("i bookings funktion, antal:", q);
+
+    if (q <= 6) {
+      booking.tables = 1;
+    } else {
+      booking.tables = 2;
+    }
+    console.log("i bookings funktion, tables:", booking.tables);
+
+    console.log("i bookings funktion, antal:", q);
   };
 
   // funktion som hämtar tid av bokning
@@ -83,7 +92,7 @@ export const Bookings = () => {
     // console.log("efter ha fått personData, bookings:", booking);
   };
 
-  // console.log(booking);
+  console.log(booking);
 
   //funktion som ändrar innehåll i modal beroende på url
   const switchForm = () => {

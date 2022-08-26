@@ -10,6 +10,7 @@ router.get("/searchtables/:date", async (req, res) => {
 
     const bookings = await BookingsModel.find({ date });
     console.log(bookings);
+
     if (bookings.length < 30) {
       const sixaclockArr = bookings.filter((date) => {
         return date.time === 18;
@@ -17,6 +18,10 @@ router.get("/searchtables/:date", async (req, res) => {
       const nineaclockArr = bookings.filter((date) => {
         return date.time === 21;
       });
+
+      console.log("six arr", sixaclockArr);
+      console.log("nine arr", nineaclockArr);
+
       const maxAmountOfTables = 2;
       if (sixaclockArr.length < 1 && nineaclockArr.length < maxAmountOfTables) {
         const bothTimes = { sixaclock: true, nineaclock: true };

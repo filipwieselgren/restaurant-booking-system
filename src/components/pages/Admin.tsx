@@ -48,6 +48,7 @@ export const Admin = () => {
                   amountOfPeople={booking.amountOfPeople}
                   date={booking.date}
                   time={booking.time}
+                  tables={booking.tables}
                 />
               </div>
             );
