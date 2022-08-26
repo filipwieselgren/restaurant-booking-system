@@ -23,6 +23,7 @@ export const Bookings = () => {
     time: 0,
     email: "",
     phone: 0,
+    tables: 0,
   });
 
   const url = useLocation();
@@ -50,6 +51,14 @@ export const Bookings = () => {
   // funktion som hämtar antal personer
   const getQTY = (q: number) => {
     booking.amountOfPeople = q;
+
+    if (q <= 6) {
+      booking.tables = 1;
+    } else {
+      booking.tables = 2;
+    }
+    console.log("i bookings funktion, tables:", booking.tables);
+
     console.log("i bookings funktion, antal:", q);
   };
 

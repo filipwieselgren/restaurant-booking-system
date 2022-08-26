@@ -41,12 +41,6 @@ export const PersonData = (
   const preventSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    /*   fetch("/booktable/persondata", {
-      method: "POST",
-      headers: { "Content-Type": "application/JSON" },
-      body: JSON.stringify(props.postBookingData),
-    }); */
-
     (async () => {
       const rawResponse = await fetch(
         "http://localhost:8080/booktable/persondata",
@@ -60,9 +54,6 @@ export const PersonData = (
           body: JSON.stringify(props.postBookingData),
         }
       );
-      /*  const content = await rawResponse;
-
-      console.log(content); */
     })();
   };
 

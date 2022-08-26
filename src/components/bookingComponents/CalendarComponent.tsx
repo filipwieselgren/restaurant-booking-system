@@ -98,14 +98,14 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
 
   // funktion som ska skicka valt datum
   const selectedDate = (d: number) => {
-    let booking: IBooking = {
+    /*  let booking: IBooking = {
       name: "",
       amountOfPeople: 0,
       date: "",
       time: 0,
       email: "",
       phone: 0,
-    };
+    }; */
 
     let day = d;
     let year = getYear;

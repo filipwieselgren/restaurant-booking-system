@@ -3,7 +3,7 @@ const router = express.Router();
 
 const BookingsModel = require("../models/Bookings.js");
 
-router.get("/searchtables/:amoutOfPeopl/:date", async (req, res) => {
+router.get("/searchtables/:amoutOfPeople/:date", async (req, res) => {
   console.log("Starting get...");
 
   try {
