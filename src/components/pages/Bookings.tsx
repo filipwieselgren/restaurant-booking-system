@@ -42,6 +42,7 @@ export const Bookings = () => {
   const [startUseEffect, setStartUseEffect] = useState<boolean>(false);
   const [test, setTest] = useState<boolean>(false);
   const [dateAndTimeMissing, setDateAndTimeMissing] = useState<boolean>(false);
+  const [chooseTime, setChooseTime] = useState<boolean>(false);
 
   useEffect(() => {
     if (activeCancelButton) {
@@ -132,7 +133,7 @@ export const Bookings = () => {
     if (url.pathname === "/booktable/choose-time") {
       booking.time !== 0
         ? navigate("/booktable/persondata")
-        : console.log("Välj tid");
+        : setChooseTime(true);
     }
 
     if (url.pathname === "/booktable/persondata") {
@@ -141,6 +142,7 @@ export const Bookings = () => {
   };
   let chooseTimeAndDate = <></>;
   let fullyBooked = <></>;
+  let timeNotPicked = <></>;
 
   if (showFullyBookedText) {
     fullyBooked = (
@@ -151,37 +153,40 @@ export const Bookings = () => {
   }
 
   if (dateAndTimeMissing) {
-    console.log(booking.amountOfPeople);
-    console.log("Time", booking.date);
-
     let missingData = "";
     if (booking.amountOfPeople === 0 && !booking.date) {
       missingData =
-        "let us know how many people you will be and then pick a date 😇";
+        "Please let us know how many people you will be and then pick a date 😇";
     } else if (booking.amountOfPeople === 0) {
-      missingData = "let us know how many people you will be 😇";
+      missingData = "Please let us know how many people you will be 😇";
     } else if (!booking.date) {
-      missingData = "pick a date 😇";
+      missingData = "Pick a date 😇";
     }
 
-    chooseTimeAndDate = <div>You need to {missingData}</div>;
+    chooseTimeAndDate = <div>{missingData}</div>;
   } else if (dateAndTimeMissing === false) {
     chooseTimeAndDate = <></>;
   }
 
+  chooseTime
+    ? (timeNotPicked = <div>Choose a time 🕰</div>)
+    : (timeNotPicked = <></>);
+
   const checkIfDateIsAvailable = async (d: string) => {
     let api: string = `http://localhost:8080/booktable/searchtables/${d}`;
 
-    try {
-      let response = await axios.get(api);
+    if (booking.date && booking.amountOfPeople !== 0) {
+      try {
+        let response = await axios.get(api);
 
-      setTimes(response.data);
+        setTimes(response.data);
 
-      setStartUseEffect(true);
-    } catch (error) {
+        setStartUseEffect(true);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
       setDateAndTimeMissing(true);
-
-      console.log(error);
     }
   };
 
@@ -200,9 +205,11 @@ export const Bookings = () => {
   };
 
   let timeNotAvailable = <></>;
-  console.log(dateAndTimeMissing);
 
   test ? (timeNotAvailable = <div>This time is not available 🥸</div>) : <></>;
+
+  console.log(chooseTime);
+
   return (
     <section className="bookingPage">
       <article className="bookingFormsContainer">
@@ -243,7 +250,7 @@ export const Bookings = () => {
             />
           </section>
         )}
-
+        {timeNotPicked}
         {chooseTimeAndDate}
         {timeNotAvailable}
         {fullyBooked}

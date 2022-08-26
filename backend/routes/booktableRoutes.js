@@ -9,7 +9,7 @@ router.get("/searchtables/:date", async (req, res) => {
     const date = req.params.date;
 
     const bookings = await BookingsModel.find({ date });
-
+    console.log(bookings);
     if (bookings.length < 30) {
       const sixaclockArr = bookings.filter((date) => {
         return date.time === 18;
