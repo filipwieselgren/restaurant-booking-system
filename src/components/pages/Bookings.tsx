@@ -208,7 +208,7 @@ export const Bookings = () => {
 
     const timeAvailable = "time";
 
-    if (nfb === timeAvailable || chooseTime === false) {
+    if (nfb === timeAvailable && chooseTime === false) {
       setChooseTime(true);
     } else if (nfb === timeAvailable && chooseTime === true) {
       setChooseTime(false);
