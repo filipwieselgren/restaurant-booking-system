@@ -64,14 +64,25 @@ export const SingleBooking = () => {
   };
 
   //update singleBooking-state every time an input is edited
+  //if "amountOfPeople" is of type Number, make it a string so it will show in input-field.
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSingleBooking({ ...singleBooking, [e.target.name]: e.target.value });
+    if (e.target.type === "number") {
+      setSingleBooking({ ...singleBooking, [e.target.name]: +e.target.value });
+    } else {
+      setSingleBooking({ ...singleBooking, [e.target.name]: e.target.value });
+    }
+  };
+
+  // This function is triggered when the select changes
+  const updateTime = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSingleBooking({
+      ...singleBooking,
+      [event.target.name]: event.target.value,
+    });
   };
 
   //save changes "Spara"
   const saveChanges = () => {
-    console.log(singleBooking);
-
     fetch(
       "http://localhost:8080/admin/bookings/" + singleBooking._id + "/edit",
       {
@@ -99,9 +110,11 @@ export const SingleBooking = () => {
               <h3>Antal personer</h3>
               <input
                 type="number"
-                name="amount"
+                name="amountOfPeople"
                 value={singleBooking.amountOfPeople}
                 onChange={handleChange}
+                min="1"
+                max="6"
               />
             </div>
 
@@ -117,12 +130,22 @@ export const SingleBooking = () => {
 
             <div>
               <h3>Tid</h3>
-              <input
+
+              <select
+                name="time"
+                value={singleBooking.time}
+                onChange={updateTime}
+              >
+                <option value="18">18</option>
+                <option value="21">21</option>
+              </select>
+
+              {/* <input
                 type="number"
                 name="time"
                 value={singleBooking.time}
                 onChange={handleChange}
-              />
+              /> */}
             </div>
           </div>
 
