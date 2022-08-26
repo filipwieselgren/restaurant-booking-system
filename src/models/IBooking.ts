@@ -5,6 +5,5 @@ export interface IBooking {
   time: number;
   email: string;
   phone: number;
-  _id: string;
   tables: number;
 }
