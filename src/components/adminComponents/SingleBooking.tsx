@@ -97,17 +97,32 @@ export const SingleBooking = () => {
           <div className="bookingDiv">
             <div>
               <h3>Antal personer</h3>
-              <input type="number" name="amount" />
+              <input
+                type="number"
+                name="amount"
+                value={singleBooking.amountOfPeople}
+                onChange={handleChange}
+              />
             </div>
 
             <div>
               <h3>Datum</h3>
-              <input type="date" name="date" />
+              <input
+                type="date"
+                name="date"
+                value={singleBooking.date}
+                onChange={handleChange}
+              />
             </div>
 
             <div>
               <h3>Tid</h3>
-              <input type="number" name="time" />
+              <input
+                type="number"
+                name="time"
+                value={singleBooking.time}
+                onChange={handleChange}
+              />
             </div>
           </div>
 
@@ -117,7 +132,7 @@ export const SingleBooking = () => {
             <input
               type="text"
               name="name"
-              defaultValue={singleBooking.name}
+              value={singleBooking.name}
               onChange={handleChange}
             />
           </div>
@@ -126,7 +141,7 @@ export const SingleBooking = () => {
             <input
               type="text"
               name="email"
-              defaultValue={singleBooking.email}
+              value={singleBooking.email}
               onChange={handleChange}
             />
           </div>
