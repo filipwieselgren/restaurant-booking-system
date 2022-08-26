@@ -4,7 +4,7 @@ import { ITablesAvalible } from "../../models/ITablesAvalibles";
 
 interface ITimes {
   times: ITablesAvalible;
-  changeTest(nfb: string): void;
+  checkTime(nfb: string): void;
 }
 
 export const TimeForm = (props: IBookingProps<number> & ITimes) => {
@@ -22,11 +22,10 @@ export const TimeForm = (props: IBookingProps<number> & ITimes) => {
   const getTime = (t: number, notFullyBooked: string) => {
     if (notFullyBooked !== "block-time") {
       props.getData(t);
-      props.changeTest(notFullyBooked);
+      props.checkTime(notFullyBooked);
       console.log("du valde tid:", t);
     } else {
-      props.changeTest(notFullyBooked);
-      console.log("This time is not available");
+      props.checkTime(notFullyBooked);
     }
   };
 
