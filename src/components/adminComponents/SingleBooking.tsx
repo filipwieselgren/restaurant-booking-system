@@ -1,7 +1,7 @@
 import React from "react";
 import { ChangeEvent, FormEvent } from "react";
 import { useState, useEffect } from "react";
-import { IBooking } from "../../models/IBooking";
+import { IBooked } from "../../models/IBooked";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../../styles/admin.scss";
@@ -14,8 +14,8 @@ export const SingleBooking = () => {
   const navigate = useNavigate();
 
   //state for all bookings, a single Booking and each editable item
-  const [bookings, setBookings] = useState<IBooking[]>([]);
-  const [singleBooking, setSingleBooking] = useState<IBooking>({
+  const [bookings, setBookings] = useState<IBooked[]>([]);
+  const [singleBooking, setSingleBooking] = useState<IBooked>({
     name: "",
     email: "",
     phone: 0,
@@ -47,15 +47,6 @@ export const SingleBooking = () => {
       }
     }
   }, [bookings]);
-
-  //fetch booking-info for user on his/her choosen date
-  //FUNKAR EJ WHY??
-  useEffect(() => {
-    console.log(singleBooking.date);
-    fetch("http://localhost:8080/admin/" + singleBooking.date)
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-  }, []);
 
   //delete single booking
   const deleteBooking = () => {

@@ -2,12 +2,11 @@ import React from "react";
 import { AllBookings } from "../adminComponents/AllBookings";
 import "../../styles/admin.scss";
 import { useState, useEffect } from "react";
-
-import { IBooking } from "../../models/IBooking";
+import { IBooked } from "../../models/IBooked";
 
 export const Admin = () => {
   //hämta alla bokningar och sätt dem i bookings-state
-  const [bookings, setBookings] = useState<IBooking[]>([]);
+  const [bookings, setBookings] = useState<IBooked[]>([]);
 
   useEffect(() => {
     fetch("http://localhost:8080/admin/login")

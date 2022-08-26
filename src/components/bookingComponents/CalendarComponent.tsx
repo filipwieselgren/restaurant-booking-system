@@ -105,7 +105,6 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
       time: 0,
       email: "",
       phone: 0,
-      _id: "",
     };
 
     let day = d;
