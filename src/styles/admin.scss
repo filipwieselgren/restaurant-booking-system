@@ -35,6 +35,12 @@
           input {
             height: 20px;
           }
+          button {
+            height: 26px;
+            &:hover {
+              cursor: pointer;
+            }
+          }
         }
         .headlinesDiv {
           width: 75%;

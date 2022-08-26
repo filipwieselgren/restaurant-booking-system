@@ -65,15 +65,15 @@ router.post("/create/:amountOfPeople/:date/:time", async (req, res) => {
   res.status(201).send(newBookingAdmin);
 });
 
-//hämta single bokning ANVÄNDS EJ, TA BORT?
-router.get("/bookings/:id", async (req, res) => {
-  const id = ObjectId(req.params.id);
-  console.log(id);
+// ANVÄNDS EJ, TA BORT?
+// router.get("/bookings/:id", async (req, res) => {
+//   const id = ObjectId(req.params.id);
+//   console.log(id);
 
-  const singleBooking = await BookingsModel.find({ _id: id });
-  console.log(singleBooking);
-  res.status(201).send(singleBooking);
-});
+//   const singleBooking = await BookingsModel.find({ _id: id });
+//   console.log(singleBooking);
+//   res.status(201).send(singleBooking);
+// });
 
 //ändra single bokning
 router.post("/bookings/:id/edit", async (req, res) => {
@@ -94,7 +94,7 @@ router.post("/bookings/:id/edit", async (req, res) => {
 
 //ta bort single bokning
 router.delete("/bookings/:id/delete", async (req, res) => {
-  const id = req.params.id;
+  const id = ObjectId(req.params.id);
   try {
     const deletedBooking = await BookingsModel.findByIdAndDelete(id);
     if (!deletedBooking) return res.status(404);

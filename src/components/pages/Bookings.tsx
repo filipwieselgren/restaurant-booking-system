@@ -29,7 +29,6 @@ export const Bookings = () => {
     time: 0,
     email: "",
     phone: 0,
-    _id: "",
   });
 
   const url = useLocation();
