@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../../styles/admin.scss";
 import "../../styles/components-style/adminStyles/_singleBooking.scss";
+import { response } from "express";
 
 //COMPONENT
 export const SingleBooking = () => {
@@ -13,8 +14,9 @@ export const SingleBooking = () => {
   const params = useParams();
   const navigate = useNavigate();
 
-  //state for all bookings, a single Booking and each editable item
+  //state for all bookings
   const [bookings, setBookings] = useState<IBooked[]>([]);
+  //state for a single Booking
   const [singleBooking, setSingleBooking] = useState<IBooked>({
     name: "",
     email: "",
@@ -24,6 +26,8 @@ export const SingleBooking = () => {
     time: 0,
     _id: "",
   });
+  //state for avalible time
+  const [avaTime, setAvaTime] = useState({});
 
   //prevent from submit
   const preventSubmit = (e: FormEvent) => {
@@ -64,7 +68,6 @@ export const SingleBooking = () => {
   };
 
   //update singleBooking-state every time an input is edited
-  //if "amountOfPeople" is of type Number, make it a string so it will show in input-field.
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.type === "number") {
       setSingleBooking({ ...singleBooking, [e.target.name]: +e.target.value });
@@ -97,6 +100,12 @@ export const SingleBooking = () => {
     );
 
     navigate("/admin");
+  };
+
+  const checkAva = () => {
+    fetch("http://localhost:8080/booktable/searchtables/" + singleBooking.date)
+      .then((response) => response.json())
+      .then((data) => setAvaTime(data));
   };
 
   //tsx
@@ -139,15 +148,9 @@ export const SingleBooking = () => {
                 <option value="18">18</option>
                 <option value="21">21</option>
               </select>
-
-              {/* <input
-                type="number"
-                name="time"
-                value={singleBooking.time}
-                onChange={handleChange}
-              /> */}
             </div>
           </div>
+          <button onClick={checkAva}>kolla tillgänglighet</button>
 
           <h3>Personuppgifter</h3>
           <div className="detailsDiv">
