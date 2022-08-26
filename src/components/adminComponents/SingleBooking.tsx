@@ -13,6 +13,13 @@ export const SingleBooking = () => {
   const params = useParams();
   const navigate = useNavigate();
 
+  //fetch booking-info for singleUser on his/her choosen date
+  useEffect(() => {
+    fetch("http://localhost:8080/admin/" + singleBooking.date)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  }, []);
+
   //state for all bookings, a single Booking and each editable item
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const [singleBooking, setSingleBooking] = useState<IBooking>({
