@@ -1,3 +1,4 @@
+import { setMaxListeners } from "events";
 import { useEffect, useState } from "react";
 import { IBooking } from "../../models/IBooking";
 import { IBookingProps } from "../../models/IBookingProps";
@@ -7,6 +8,7 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
   const getYear = new Date().getFullYear();
   const [currentMonthName, setCurrentMonthName] = useState("");
   const [currentMonthNumber, setCurrentMonthNumber] = useState(0);
+  const [changeYear, setChangeYear] = useState(new Date().getFullYear());
 
   const [currentMonthDays, setCurrentMonthDays] = useState(0);
   const [getListOfDays, setGetListOfDays] = useState<number[]>([]);
@@ -83,16 +85,20 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
   const goToNextMonth = () => {
     setCurrentMonthNumber(currentMonthNumber + 1);
 
-    if (currentMonthNumber === 12) {
+    if (currentMonthNumber === 12 && changeYear >= getYear) {
       setCurrentMonthNumber(1);
+      setChangeYear(changeYear + 1);
     }
   };
 
+  //
   const goToLastMonth = () => {
     setCurrentMonthNumber(currentMonthNumber - 1);
 
-    if (currentMonthNumber === 1) {
+    if (currentMonthNumber === 1 && changeYear > getYear) {
       setCurrentMonthNumber(12);
+      setChangeYear(changeYear - 1);
+    } else if (currentMonthNumber === 1 && changeYear === getYear) {
     }
   };
 
@@ -108,7 +114,7 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
     };
 
     let day = d;
-    let year = getYear;
+    let year = changeYear;
     let month = currentMonthName;
     let date = d + "-" + month + "-" + year;
     console.log("du valde datum:", date);
@@ -125,15 +131,29 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
       </div>
     );
   });
+
+  const stop = () => {
+    console.log("The past is in the past, you can't go there!");
+  };
+
   return (
     <section className="calendarContainer">
       <article className="monthAndYearHeader">
         <ul className="monthAndYearContainer">
           <li className="arrowLeft">
-            <i onClick={goToLastMonth} className="bi bi-chevron-left"></i>
+            <i
+              onClick={
+                () =>
+                  currentMonthNumber === 1 && changeYear === getYear
+                    ? stop()
+                    : goToLastMonth()
+                // Lägg till så man inte kan gå längre tbx än månaden man är i
+              }
+              className="bi bi-chevron-left"
+            ></i>
           </li>
           <li className="month">{currentMonthName}</li>
-          <li className="year">{getYear}</li>
+          <li className="year">{changeYear}</li>
           <li className="arrowRigth">
             <i onClick={goToNextMonth} className="bi bi-chevron-right"></i>
           </li>
