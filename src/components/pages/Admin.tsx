@@ -8,22 +8,24 @@ import { Link } from "react-router-dom";
 const search = (email: string) => {};
 
 export const Admin = () => {
-  //hämta alla bokningar och sätt dem i bookings-state
+  //states
   const [bookings, setBookings] = useState<IBooked[]>([]);
   const [searched, setSearched] = useState("");
 
+  //get bookings and set in state
   useEffect(() => {
     fetch("http://localhost:8080/admin/login")
       .then((response) => response.json())
       .then((data) => setBookings(data));
   }, []);
 
-  //hantera onChange i sök-input
+  //function for handeling onChange in search-input
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearched(e.target.value);
   };
 
-  //sök igenom bokningarna m.h.a email i input
+  //search through the bookings by email.
+  //set the result in bookings-state. This will render the search-result at AllBookings-component
   const searchBooking = () => {
     search(searched);
     setSearched("");
