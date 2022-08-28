@@ -18,11 +18,12 @@ export const Admin = () => {
       .then((data) => setBookings(data));
   }, []);
 
-  //sök bland bokningar
+  //hantera onChange i sök-input
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearched(e.target.value);
   };
 
+  //sök igenom bokningarna m.h.a email i input
   const searchBooking = () => {
     search(searched);
     setSearched("");
