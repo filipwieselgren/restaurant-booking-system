@@ -9,11 +9,9 @@ import "../../styles/components-style/adminStyles/_singleBooking.scss";
 import { response } from "express";
 
 //COMPONENT
-export const SingleBooking = () => {
-  //set variables
-  const params = useParams();
-  const navigate = useNavigate();
 
+export const SingleBooking = () => {
+  //STATES
   //state for all bookings
   const [bookings, setBookings] = useState<IBooked[]>([]);
   //state for a single Booking
@@ -26,14 +24,41 @@ export const SingleBooking = () => {
     time: 0,
     _id: "",
   });
-  //state for avalible time
-  const [avaTime, setAvaTime] = useState({});
+  //state for checking avaliability of date
+  const [avaDate, setAvaDate] = useState({});
+  const [freeatsix, setfreeatsix] = useState<Boolean>(false);
+  const [freeatnine, setfreeatnine] = useState<Boolean>(false);
+
+  //set variables
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const updateSix = () => {
+    for (const [key, value] of Object.entries(avaDate)) {
+      if (key === "sixaclock" && value === true) {
+        setfreeatsix(true);
+      } else {
+        setfreeatsix(false);
+      }
+    }
+  };
+
+  const updateNine = () => {
+    for (const [key, value] of Object.entries(avaDate)) {
+      if (key === "nineaclock" && value === true) {
+        setfreeatnine(true);
+      } else {
+        setfreeatnine(false);
+      }
+    }
+  };
 
   //prevent from submit
   const preventSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
 
+  //HOOKS AND FUNCTIONS
   //fetch all bookings in array and find single booking. Set single booking in state
   useEffect(() => {
     fetch("http://localhost:8080/admin/login")
@@ -52,7 +77,7 @@ export const SingleBooking = () => {
     }
   }, [bookings]);
 
-  //delete single booking
+  //deleteBooking-function. Deletes booking
   const deleteBooking = () => {
     fetch(
       "http://localhost:8080/admin/bookings/" + singleBooking._id + "/delete",
@@ -61,13 +86,23 @@ export const SingleBooking = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: null, //if you do not want to send any addional data,  replace the complete JSON.stringify(YOUR_ADDITIONAL_DATA) with null
+        body: null,
       }
     );
     navigate("/admin");
   };
 
-  //update singleBooking-state every time an input is edited
+  //checkAva-function. Checks avaliability every time a DATE is chosen in calendar
+  const checkAva = () => {
+    fetch("http://localhost:8080/booktable/searchtables/" + singleBooking.date)
+      .then((response) => response.json())
+      .then((data) => setAvaDate(data));
+
+    updateNine();
+    updateSix();
+  };
+
+  //handleChange-function. Updates singleBooking-state every time an input is edited
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.type === "number") {
       setSingleBooking({ ...singleBooking, [e.target.name]: +e.target.value });
@@ -76,7 +111,7 @@ export const SingleBooking = () => {
     }
   };
 
-  // This function is triggered when the select changes
+  // updateTime-function. Updates singleBookings-state when the time-dropwdown-select changes
   const updateTime = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSingleBooking({
       ...singleBooking,
@@ -84,7 +119,7 @@ export const SingleBooking = () => {
     });
   };
 
-  //save changes "Spara"
+  //saveChanges-function. Creates a POST when admin saves the changes.
   const saveChanges = () => {
     fetch(
       "http://localhost:8080/admin/bookings/" + singleBooking._id + "/edit",
@@ -102,13 +137,7 @@ export const SingleBooking = () => {
     navigate("/admin");
   };
 
-  const checkAva = () => {
-    fetch("http://localhost:8080/booktable/searchtables/" + singleBooking.date)
-      .then((response) => response.json())
-      .then((data) => setAvaTime(data));
-  };
-
-  //tsx
+  //JSX
   return (
     <div className="wrapper">
       <div className="adminWrapper">
@@ -146,9 +175,22 @@ export const SingleBooking = () => {
                 onChange={updateTime}
               >
                 <option value="18">18</option>
+
                 <option value="21">21</option>
               </select>
             </div>
+          </div>
+          <div>
+            <b>
+              {freeatsix
+                ? " true, finns tider kl 18... "
+                : " false, fullbokat kl 18... "}
+            </b>
+            <b>
+              {freeatnine
+                ? " true, finns tider kl 21"
+                : " false, fullbokat kl 21 "}
+            </b>
           </div>
           <button onClick={checkAva}>kolla tillgänglighet</button>
 

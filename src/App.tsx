@@ -5,6 +5,7 @@ import { Bookings } from "./components/pages/Bookings";
 import { Home } from "./components/pages/Home";
 import { Admin } from "./components/pages/Admin";
 import { SingleBooking } from "./components/adminComponents/SingleBooking";
+import { AddBooking } from "./components/adminComponents/AddBooking";
 import "./styles/layout.scss";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
 
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/admin/:id" element={<SingleBooking />}></Route>
+          <Route path="/admin/addbooking" element={<AddBooking />}></Route>
           <Route path="/admin/:id/edit" element={<Bookings />}></Route>
         </Route>
       </Routes>

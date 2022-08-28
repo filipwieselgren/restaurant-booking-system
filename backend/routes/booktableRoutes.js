@@ -20,19 +20,23 @@ router.get("/searchtables/:date", async (req, res) => {
       const maxAmountOfTables = 2;
       if (sixaclockArr.length < 1 && nineaclockArr.length < maxAmountOfTables) {
         const bothTimes = { sixaclock: true, nineaclock: true };
+        console.log(bothTimes);
         res.status(200).send(bothTimes);
       } else if (sixaclockArr.length < maxAmountOfTables) {
         const sixOnlyAvalible = { sixaclock: true, nineaclock: false };
+        console.log(sixOnlyAvalible);
 
         res.status(200).send(sixOnlyAvalible);
       } else if (nineaclockArr.length < maxAmountOfTables) {
         const nineOnlyAvalible = { sixaclock: false, nineaclock: true };
 
         res.status(200).send(nineOnlyAvalible);
+        console.log(nineOnlyAvalible);
       }
     } else {
       const bothTimesFull = { sixaclock: false, nineaclock: false };
       res.send(bothTimesFull);
+      console.log(bothTimesFull);
     }
   } catch (error) {
     console.log(error);
