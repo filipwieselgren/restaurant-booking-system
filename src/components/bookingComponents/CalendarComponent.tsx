@@ -31,6 +31,7 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
     "December",
   ];
   const monthDaysArray = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const [choosenDate, setChoosenDate] = useState(0);
 
   useEffect(() => {
     getMonthNames();
@@ -104,21 +105,12 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
 
   // funktion som ska skicka valt datum
   const selectedDate = (d: number) => {
-    /*  let booking: IBooking = {
-      name: "",
-      amountOfPeople: 0,
-      date: "",
-      time: 0,
-      email: "",
-      phone: 0,
-    }; */
-
     let day = d;
     let year = changeYear;
     let month = currentMonthName;
     let date = d + "-" + month + "-" + year;
-    console.log("du valde datum:", date);
 
+    setChoosenDate(d);
     props.getData(date);
   };
 
@@ -126,7 +118,11 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
 
   const daysHTML = getListOfDays.map((d, i) => {
     return (
-      <div onClick={() => selectedDate(d)} className="dayContainer" key={i}>
+      <div
+        onClick={() => selectedDate(d)}
+        className={`dayContainer ${choosenDate === d && "clicked"}`}
+        key={i}
+      >
         {d}
       </div>
     );

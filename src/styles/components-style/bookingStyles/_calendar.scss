@@ -63,7 +63,13 @@
         cursor: pointer;
         text-align: center;
         width: 42px;
-        height: 5px;
+        height: 42px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .clicked {
+        background-color: rgb(222, 220, 220);
       }
     }
   }

@@ -23,36 +23,102 @@ contactEmail.verify((error) => {
   }
 });
 
-router.get("/searchtables/:date", async (req, res) => {
+router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
   try {
     const date = req.params.date;
+    const qtyParams = req.params.amountOfPeople;
+
+    let totalBookedTablesAtSix = 0;
+    let totalBookedTablesAtNine = 0;
+    const maxAmountOfTables = 15;
+    const biggerBookingMaxTables = 13;
+
+    let qty = 0;
+
+    if (qtyParams <= 6) {
+      qty = 1;
+    } else {
+      qty = 2;
+    }
 
     const bookings = await BookingsModel.find({ date });
-    console.log(bookings);
 
-    if (bookings.length < 30) {
-      const sixaclockArr = bookings.filter((date) => {
-        return date.time === 18;
-      });
-      const nineaclockArr = bookings.filter((date) => {
-        return date.time === 21;
-      });
+    const sixaclockArr = bookings.filter((date) => {
+      return date.time === 18;
+    });
 
-      console.log("six arr", sixaclockArr);
-      console.log("nine arr", nineaclockArr);
+    for (i = 0; i < sixaclockArr.length; i++) {
+      if (sixaclockArr[i].tables === 2) {
+        totalBookedTablesAtSix += 2;
+      } else {
+        totalBookedTablesAtSix += 1;
+      }
+    }
 
-      const maxAmountOfTables = 2;
-      if (sixaclockArr.length < 1 && nineaclockArr.length < maxAmountOfTables) {
+    const nineaclockArr = bookings.filter((date) => {
+      return date.time === 21;
+    });
+
+    for (i = 0; i < nineaclockArr.length; i++) {
+      if (nineaclockArr[i].tables === 2) {
+        totalBookedTablesAtNine += 2;
+      } else {
+        totalBookedTablesAtNine += 1;
+      }
+    }
+
+    const ifTwoTablesAtSix = qty + totalBookedTablesAtSix <= maxAmountOfTables;
+    const ifTwoTablesAtNine =
+      qty + totalBookedTablesAtNine <= maxAmountOfTables;
+
+    console.log("booked at six", totalBookedTablesAtSix);
+    console.log("booked at nine", totalBookedTablesAtNine);
+
+    if (totalBookedTablesAtSix + totalBookedTablesAtNine + qty <= 30) {
+      if (
+        totalBookedTablesAtSix < maxAmountOfTables &&
+        totalBookedTablesAtNine < maxAmountOfTables &&
+        ifTwoTablesAtSix &&
+        ifTwoTablesAtNine
+      ) {
         const bothTimes = { sixaclock: true, nineaclock: true };
         res.status(200).send(bothTimes);
-      } else if (sixaclockArr.length < maxAmountOfTables) {
-        const sixOnlyAvalible = { sixaclock: true, nineaclock: false };
+      }
 
-        res.status(200).send(sixOnlyAvalible);
-      } else if (nineaclockArr.length < maxAmountOfTables) {
-        const nineOnlyAvalible = { sixaclock: false, nineaclock: true };
+      if (qty === 2) {
+        if (
+          totalBookedTablesAtSix <= biggerBookingMaxTables &&
+          totalBookedTablesAtNine > biggerBookingMaxTables
+        ) {
+          const sixOnlyAvalible = { sixaclock: true, nineaclock: false };
 
-        res.status(200).send(nineOnlyAvalible);
+          res.status(200).send(sixOnlyAvalible);
+        } else if (
+          totalBookedTablesAtNine <= biggerBookingMaxTables &&
+          totalBookedTablesAtSix > biggerBookingMaxTables
+        ) {
+          const nineOnlyAvalible = { sixaclock: false, nineaclock: true };
+
+          res.status(200).send(nineOnlyAvalible);
+        }
+      }
+
+      if (qty === 1) {
+        if (
+          totalBookedTablesAtSix < maxAmountOfTables &&
+          totalBookedTablesAtNine >= maxAmountOfTables
+        ) {
+          const sixOnlyAvalible = { sixaclock: true, nineaclock: false };
+
+          res.status(200).send(sixOnlyAvalible);
+        } else if (
+          totalBookedTablesAtNine < maxAmountOfTables &&
+          totalBookedTablesAtSix >= maxAmountOfTables
+        ) {
+          const nineOnlyAvalible = { sixaclock: false, nineaclock: true };
+
+          res.status(200).send(nineOnlyAvalible);
+        }
       }
     } else {
       const bothTimesFull = { sixaclock: false, nineaclock: false };

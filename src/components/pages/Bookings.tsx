@@ -29,7 +29,6 @@ export const Bookings = () => {
     time: 0,
     email: "",
     phone: 0,
-    _id: "",
     tables: 0,
   });
 
@@ -183,8 +182,8 @@ export const Bookings = () => {
     ? (timeNotPicked = <div>Choose a time 🕰</div>)
     : (timeNotPicked = <></>);
 
-  const checkIfDateIsAvailable = async (d: string) => {
-    let api: string = `http://localhost:8080/booktable/searchtables/${d}`;
+  const checkIfDateIsAvailable = async (d: string, qty: number) => {
+    let api: string = `http://localhost:8080/booktable/searchtables/${d}/${qty}`;
 
     if (booking.date && booking.amountOfPeople !== 0) {
       try {
@@ -268,7 +267,9 @@ export const Bookings = () => {
         <div className="buttonContainer">
           <button
             className={`${activeCancelButton && "cancelButton"}`}
-            onClick={() => checkIfDateIsAvailable(booking.date)}
+            onClick={() =>
+              checkIfDateIsAvailable(booking.date, booking.amountOfPeople)
+            }
           >
             {buttonText}
           </button>

@@ -23,7 +23,6 @@ export const SingleBooking = () => {
     date: "",
     time: 0,
     _id: "",
-    tables: 0,
   });
 
   //prevent from submit

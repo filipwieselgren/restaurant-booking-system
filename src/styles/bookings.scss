@@ -5,6 +5,10 @@
 @import "./components-style/bookingStyles/personDataForm";
 @import "./mixins/variables";
 @import "./mixins/mixins";
+
+.clicked {
+  background-color: rgb(222, 220, 220);
+}
 .bookingPage {
   height: 100vh;
   background-color: rgb(222, 220, 220);
@@ -30,14 +34,6 @@
       align-items: center;
       height: 40px;
 
-      /*    .ifDateForm {
-        background-color: $modalColor;
-      } */
-
-      /*  .ifTimeForm,
-      .ifConfirmation {
-        background-color: rgba(pink, 0.3);
-      } */
       .ifTimeForm {
         border-right: 1px solid black;
       }
@@ -59,14 +55,6 @@
         background-color: $modalColor;
       }
     }
-
-    /*   .formContainer {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    } */
 
     .buttonContainer {
       width: 100%;
