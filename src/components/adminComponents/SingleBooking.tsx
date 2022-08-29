@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ISixDisable } from "../../models/ITablesAvalibles";
 import { INineDisable } from "../../models/ITablesAvalibles";
+import { Link } from "react-router-dom";
 import "../../styles/admin.scss";
 import "../../styles/components-style/adminStyles/_singleBooking.scss";
 import { response } from "express";
@@ -147,11 +148,13 @@ export const SingleBooking = () => {
     <div className="wrapper">
       <div className="adminWrapper">
         <form onSubmit={preventSubmit}>
-          <h3>Bokningsdetaljer</h3>
+          <h3>Booking details</h3>
           <div className="bookingDiv">
             <div>
-              <h3>Antal personer</h3>
+              <h3>Persons</h3>
+
               <input
+                className="inputs"
                 type="number"
                 name="amountOfPeople"
                 value={singleBooking.amountOfPeople}
@@ -162,8 +165,9 @@ export const SingleBooking = () => {
             </div>
 
             <div>
-              <h3>Datum</h3>
+              <h3>Date</h3>
               <input
+                className="inputs"
                 type="date"
                 name="date"
                 value={new Date(singleBooking.date).toLocaleDateString()}
@@ -173,9 +177,10 @@ export const SingleBooking = () => {
             </div>
 
             <div>
-              <h3>Tid</h3>
+              <h3>Time</h3>
 
               <select
+                className="inputs"
                 name="time"
                 value={singleBooking.time}
                 onChange={updateTime}
@@ -200,12 +205,13 @@ export const SingleBooking = () => {
               ? "ja kl 21"
               : "fullbokat kl 21 DETTA SKA BORT SEN"}
           </div>
-          <button onClick={checkAva}>uppdatera tillgängliga tider</button>
+          <button onClick={checkAva}>Update avalible times</button>
 
-          <h3>Personuppgifter</h3>
+          <h3>Personal details</h3>
           <div className="detailsDiv">
-            <h3>Namn</h3>
+            <h3>Name</h3>
             <input
+              className="inputs"
               type="text"
               name="name"
               value={singleBooking.name}
@@ -213,8 +219,9 @@ export const SingleBooking = () => {
             />
           </div>
           <div className="detailsDiv">
-            <h3>E-post</h3>
+            <h3>Email</h3>
             <input
+              className="inputs"
               type="text"
               name="email"
               value={singleBooking.email}
@@ -222,8 +229,9 @@ export const SingleBooking = () => {
             />
           </div>
           <div className="detailsDiv">
-            <h3>Telefonnummer</h3>
+            <h3>Mobile</h3>
             <input
+              className="inputs"
               type="text"
               name="phone"
               value={singleBooking.phone}
@@ -231,12 +239,18 @@ export const SingleBooking = () => {
             />
           </div>
           <div className="inputDiv">
-            <button onClick={saveChanges}>spara ändringar</button>
-            <button onClick={deleteBooking}>ta bort bokning</button>
+            <div className="save" onClick={saveChanges}>
+              Save changes
+            </div>
+            <div className="delete" onClick={deleteBooking}>
+              Delete booking
+            </div>
           </div>
         </form>
 
-        <button>Avbryt</button>
+        <div className="cancel">
+          <Link to="/admin">Cancel</Link>
+        </div>
       </div>
     </div>
   );

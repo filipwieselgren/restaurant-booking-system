@@ -1,8 +1,7 @@
 import "../../styles/admin.scss";
 import "../../styles/components-style/adminStyles/_singleBooking.scss";
-import { Link } from "react-router-dom";
 
-export const AddBooking = () => {
+export const BookingComponent = () => {
   return (
     <>
       <div className="wrapper">
@@ -52,9 +51,7 @@ export const AddBooking = () => {
             </div>
           </form>
 
-          <button>
-            <Link to="/admin">Avbryt</Link>
-          </button>
+          <button>Avbryt</button>
         </div>
       </div>
     </>

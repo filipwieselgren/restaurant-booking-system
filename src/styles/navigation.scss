@@ -11,40 +11,57 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-
-    .logoWrapper {
-      width: 210px;
-      height: 100px;
+    .loginWrapper {
+      width: 95%;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: row;
-      .logo {
-        font-size: 35pt;
+      justify-content: end;
+      .loginBtn {
+        font-size: 12pt;
+        font-style: italic;
+        font-family: "Times New Roman", Times, serif;
         &:hover {
           cursor: pointer;
+          border-bottom: 1px solid black;
         }
       }
     }
-    .menuWrapper {
-      width: 210px;
-      height: 50px;
+
+    .logonmenu {
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      .menuBtn {
-        font-size: 18pt;
-        &:hover {
-          cursor: pointer;
-          border-bottom: 1px solid black;
+      flex-direction: column;
+      .logoWrapper {
+        width: 270px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        .logo {
+          font-size: 50pt;
+          &:hover {
+            cursor: pointer;
+          }
         }
       }
-      .contactBtn {
-        font-size: 18pt;
-        &:hover {
-          cursor: pointer;
-          border-bottom: 1px solid black;
+      .menuWrapper {
+        width: 270px;
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .menuBtn {
+          font-size: 18pt;
+          &:hover {
+            cursor: pointer;
+            border-bottom: 1px solid black;
+          }
+        }
+        .contactBtn {
+          font-size: 18pt;
+          &:hover {
+            cursor: pointer;
+            border-bottom: 1px solid black;
+          }
         }
       }
     }
@@ -53,17 +70,23 @@
 
 @include tablet-up {
   .navWrapper {
-    flex-direction: row;
-    .logoWrapper {
-      padding-left: 40px;
-      .logo {
+    width: 100%;
+    flex-direction: column;
+    .logonmenu {
+      width: 95%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .logoWrapper {
+        width: auto;
+        .logo {
+        }
       }
-    }
-    .menuWrapper {
-      padding-right: 40px;
-      .menuBtn {
-      }
-      .contactBtn {
+      .menuWrapper {
+        .menuBtn {
+        }
+        .contactBtn {
+        }
       }
     }
   }

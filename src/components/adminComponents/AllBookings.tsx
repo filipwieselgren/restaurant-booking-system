@@ -14,7 +14,7 @@ export const AllBookings = (props: IBooked) => {
       <p>{props.time}</p>
       <p>{props.phone}</p>
       <div className="editBtn">
-        <Link to={"/admin/" + props._id}>Ändra</Link>
+        <Link to={"/admin/" + props._id}>Edit</Link>
       </div>
     </div>
   );

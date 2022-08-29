@@ -7,14 +7,9 @@ export const Home = () => {
     <div className="homeWrapper">
       <Link to={"/booktable/searchtables"}>
         <div className="bookButton">
-          <p>Boka bord</p>
+          <p>Book table</p>
         </div>
       </Link>
-      <div className="adminLinkWrapper">
-        <Link to={"/admin"}>
-          <p>Admin? Logga in här</p>
-        </Link>
-      </div>
     </div>
   );
 };

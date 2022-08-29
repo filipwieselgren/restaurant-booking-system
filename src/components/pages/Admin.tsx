@@ -39,33 +39,30 @@ export const Admin = () => {
     <div className="wrapper">
       <div className="adminWrapper">
         <div className="menuWrapper">
-          <div className="buttonDiv">
-            <div>LOGGA UT</div>
-          </div>
           <div className="inputDiv">
             <div>
               <input
                 type="text"
-                placeholder="sök bland bokningar"
+                placeholder="search by full email"
                 value={searched}
                 onChange={handleChange}
               />
-              <button onClick={searchBooking}>SÖK</button>
+              <button onClick={searchBooking}>SEARCH</button>
             </div>
             <div>
-              <button>
+              <div className="add">
                 {" "}
-                <Link to="/admin/addbooking">Lägg till bokning</Link>{" "}
-              </button>
+                <Link to="/admin/addbooking">Create new</Link>{" "}
+              </div>
             </div>
           </div>
 
           <div className="headlinesDiv">
-            <h3>Datum</h3>
-            <h3>Namn & e-post</h3>
-            <h3>Platser</h3>
-            <h3>Tid</h3>
-            <h3>Telefonnummer</h3>
+            <h3>Date</h3>
+            <h3>Name/email</h3>
+            <h3>Amount</h3>
+            <h3>Time</h3>
+            <h3>Mobile</h3>
           </div>
         </div>
 

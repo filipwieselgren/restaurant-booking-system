@@ -49,13 +49,22 @@
   height: $height;
   font-size: $fontsize;
   border-radius: 15px;
-  box-shadow: 8px 10px 5px -5px rgba(0, 0, 0, 0.25);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   display: flex;
   align-items: center;
   justify-content: center;
 
   &:hover {
     cursor: pointer;
-    box-shadow: 8px 10px 5px -5px rgba(0, 0, 0, 0.45);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
+}
+
+@mixin inputs {
+  border-style: none;
+  border-radius: 8px;
+  height: 30px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 5px;
+  padding-left: 10px;
 }

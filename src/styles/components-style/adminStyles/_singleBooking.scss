@@ -19,6 +19,15 @@
         h3 {
           font-size: 10pt;
         }
+        input {
+          @include inputs;
+        }
+      }
+      select {
+        @include inputs;
+        &::hover {
+          cursor: pointer;
+        }
       }
     }
     .detailsDiv {
@@ -37,6 +46,7 @@
       input {
         height: 15px;
         width: 150px;
+        @include inputs;
       }
     }
 
@@ -44,12 +54,19 @@
       width: 100%;
       display: flex;
       justify-content: end;
-      input {
-        &:hover {
-          cursor: pointer;
-        }
+      .save {
+        @include button(#5db85d, 100px, 30px, 8pt);
+        margin: 10px;
+      }
+      .delete {
+        @include button(#f25d5d, 100px, 30px, 8pt);
+        margin: 10px;
       }
     }
+  }
+  .cancel {
+    @include button(#f25d5d, 100px, 30px, 8pt);
+    margin: 10px;
   }
 }
 

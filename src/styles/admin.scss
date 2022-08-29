@@ -21,24 +21,27 @@
         width: 80%;
         display: flex;
         flex-direction: column;
-        .buttonDiv {
-          width: 100%;
-          display: flex;
-          justify-content: end;
-          padding-top: 20px;
-        }
+
         .inputDiv {
           width: 100%;
+          margin-top: 20pt;
           height: 50px;
           display: flex;
           justify-content: space-between;
           input {
-            height: 20px;
+            @include inputs;
           }
           button {
-            height: 26px;
-            &:hover {
-              cursor: pointer;
+            height: 30px;
+            background-color: white;
+            border-style: none;
+            border-radius: 10px;
+            margin-left: 5px;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 5px;
+          }
+          div {
+            .add {
+              @include button(#5db85d, 100px, 30px, 8pt);
             }
           }
         }
@@ -47,6 +50,7 @@
           display: flex;
           align-items: center;
           justify-content: space-evenly;
+          margin-bottom: 20px;
           h3 {
             font-size: 8pt;
             padding: 0px;

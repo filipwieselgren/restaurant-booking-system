@@ -3,33 +3,20 @@
 @include phone-up {
   .homeWrapper {
     width: 100%;
+    height: 100%;
     padding-top: 150px;
+    padding-bottom: 350px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 
     .bookButton {
-      @include button(#5db85d, 400px, 150px, 50pt);
+      @include button(#5db85d, 300px, 80px, 30pt);
+
       p {
         color: white;
-      }
-    }
-
-    .adminLinkWrapper {
-      width: 95%;
-      padding-top: 100px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      p {
-        font-size: 15pt;
-        font-style: italic;
-        padding-right: 20px;
-        background-color: rgba(255, 255, 255, 0.672);
-        &:hover {
-          text-decoration: underline;
-        }
+        font-family: "Open Sans", sans-serif;
       }
     }
   }
@@ -37,11 +24,8 @@
 
 @include tablet-up {
   .homeWrapper {
-    .adminLinkWrapper {
-      width: 100%;
-      padding-top: 170px;
-      display: flex;
-      justify-content: end;
+    .bookButton {
+      @include button(#5db85d, 350px, 100px, 40pt);
     }
   }
 }
