@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { IBooked } from "../../models/IBooked";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { ISixDisable } from "../../models/ITablesAvalibles";
+import { INineDisable } from "../../models/ITablesAvalibles";
 import "../../styles/admin.scss";
 import "../../styles/components-style/adminStyles/_singleBooking.scss";
 import { response } from "express";
@@ -26,32 +28,20 @@ export const SingleBooking = () => {
   });
   //state for checking avaliability of date
   const [avaDate, setAvaDate] = useState({});
-  const [freeatsix, setfreeatsix] = useState<Boolean>(false);
-  const [freeatnine, setfreeatnine] = useState<Boolean>(false);
+
+  //state for making drop-down disabled if no tables left
+  const [tablesAtSix, setTablesAtSix] = useState<ISixDisable>({
+    sixaclock: false,
+    isDisabled: false,
+  });
+  const [tablesAtNine, setTablesAtNine] = useState<INineDisable>({
+    nineaclock: false,
+    isDisabled: false,
+  });
 
   //set variables
   const params = useParams();
   const navigate = useNavigate();
-
-  const updateSix = () => {
-    for (const [key, value] of Object.entries(avaDate)) {
-      if (key === "sixaclock" && value === true) {
-        setfreeatsix(true);
-      } else {
-        setfreeatsix(false);
-      }
-    }
-  };
-
-  const updateNine = () => {
-    for (const [key, value] of Object.entries(avaDate)) {
-      if (key === "nineaclock" && value === true) {
-        setfreeatnine(true);
-      } else {
-        setfreeatnine(false);
-      }
-    }
-  };
 
   //prevent from submit
   const preventSubmit = (e: FormEvent) => {
@@ -92,14 +82,29 @@ export const SingleBooking = () => {
     navigate("/admin");
   };
 
+  //set state till true/false beroende på tillgänglighet
+  const renderAva = () => {
+    for (const [key, value] of Object.entries(avaDate)) {
+      if (key === "sixaclock" && value === true) {
+        setTablesAtSix({ sixaclock: true, isDisabled: false });
+      } else if (key === "sixaclock" && value === false) {
+        setTablesAtSix({ sixaclock: false, isDisabled: true });
+      }
+
+      if (key === "nineaclock" && value === true) {
+        setTablesAtNine({ nineaclock: true, isDisabled: false });
+      } else if (key === "nineaclock" && value === false) {
+        setTablesAtNine({ nineaclock: false, isDisabled: false });
+      }
+    }
+  };
+
   //checkAva-function. Checks avaliability every time a DATE is chosen in calendar
   const checkAva = () => {
     fetch("http://localhost:8080/booktable/searchtables/" + singleBooking.date)
       .then((response) => response.json())
       .then((data) => setAvaDate(data));
-
-    updateNine();
-    updateSix();
+    renderAva();
   };
 
   //handleChange-function. Updates singleBooking-state every time an input is edited
@@ -175,23 +180,25 @@ export const SingleBooking = () => {
                 value={singleBooking.time}
                 onChange={updateTime}
               >
-                <option value="18">18</option>
+                <option value="18" disabled={tablesAtSix.isDisabled}>
+                  18
+                </option>
 
-                <option value="21">21</option>
+                <option value="21" disabled={tablesAtNine.isDisabled}>
+                  21
+                </option>
               </select>
             </div>
           </div>
           <div>
-            <b>
-              {freeatsix
-                ? " true, finns tider kl 18... "
-                : " false, fullbokat kl 18... "}
-            </b>
-            <b>
-              {freeatnine
-                ? " true, finns tider kl 21"
-                : " false, fullbokat kl 21 "}
-            </b>
+            {tablesAtSix.sixaclock
+              ? "ja kl 18"
+              : "fullbokat kl 18 DETTA SKA BORT SEN"}
+          </div>
+          <div>
+            {tablesAtNine.nineaclock
+              ? "ja kl 21"
+              : "fullbokat kl 21 DETTA SKA BORT SEN"}
           </div>
           <button onClick={checkAva}>kolla tillgänglighet</button>
 
