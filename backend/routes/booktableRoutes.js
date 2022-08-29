@@ -74,7 +74,7 @@ router.post("/persondata", async (req, res) => {
   const date = req.body.date;
   const time = req.body.time;
   const people = req.body.amountOfPeople;
-  const cancel = "https://localhost:3000/cancel-booking";
+  const cancel = "https://localhost:3000/booktable/cancel";
   const mail = {
     from: name,
     to: req.body.email,
