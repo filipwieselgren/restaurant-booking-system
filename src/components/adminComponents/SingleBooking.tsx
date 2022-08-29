@@ -200,7 +200,7 @@ export const SingleBooking = () => {
               ? "ja kl 21"
               : "fullbokat kl 21 DETTA SKA BORT SEN"}
           </div>
-          <button onClick={checkAva}>kolla tillgänglighet</button>
+          <button onClick={checkAva}>uppdatera tillgängliga tider</button>
 
           <h3>Personuppgifter</h3>
           <div className="detailsDiv">
