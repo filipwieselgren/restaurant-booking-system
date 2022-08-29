@@ -52,11 +52,8 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
     const ifTwoTablesAtNine =
       qty + totalBookedTablesAtNine <= maxAmountOfTables;
 
-    const ifBiggerBookingAtNine =
-      qty + totalBookedTablesAtNine <= maxAmountOfTables;
-
-    const ifBiggerBookingAtSix =
-      qty + totalBookedTablesAtSix <= maxAmountOfTables;
+    console.log("booked at six", totalBookedTablesAtSix);
+    console.log("booked at nine", totalBookedTablesAtNine);
 
     if (totalBookedTablesAtSix + totalBookedTablesAtNine + qty <= 30) {
       if (
@@ -71,17 +68,15 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
 
       if (qty === 2) {
         if (
-          totalBookedTablesAtSix < maxAmountOfTables &&
-          totalBookedTablesAtNine >= biggerBookingMaxTables &&
-          ifBiggerBookingAtSix
+          totalBookedTablesAtSix <= biggerBookingMaxTables &&
+          totalBookedTablesAtNine > biggerBookingMaxTables
         ) {
           const sixOnlyAvalible = { sixaclock: true, nineaclock: false };
 
           res.status(200).send(sixOnlyAvalible);
         } else if (
-          totalBookedTablesAtNine < maxAmountOfTables &&
-          totalBookedTablesAtSix >= biggerBookingMaxTables &&
-          ifBiggerBookingAtNine
+          totalBookedTablesAtNine <= biggerBookingMaxTables &&
+          totalBookedTablesAtSix > biggerBookingMaxTables
         ) {
           const nineOnlyAvalible = { sixaclock: false, nineaclock: true };
 
@@ -106,41 +101,6 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
           res.status(200).send(nineOnlyAvalible);
         }
       }
-
-      /*  console.log("horunge");
-      console.log("qty math", ifTwoTablesAtSix, ifBiggerBookingAtNine);
-      console.log("six", totalBookedTablesAtSix >= maxAmountOfTables);
-      console.log("nine", totalBookedTablesAtNine < maxAmountOfTables); */
-      /*   if (
-        totalBookedTablesAtSix < maxAmountOfTables &&
-        totalBookedTablesAtNine < maxAmountOfTables &&
-        ifTwoTablesAtSix &&
-        ifTwoTablesAtNine
-      ) {
-        console.log("tot six", totalBookedTablesAtSix);
-        console.log("tot nine", totalBookedTablesAtNine);
-        console.log("qty", qty);
-        console.log("qty math", ifTwoTablesAtSix, ifBiggerBookingAtNine);
-
-        const bothTimes = { sixaclock: true, nineaclock: true };
-        res.status(200).send(bothTimes);
-      } else if (
-        totalBookedTablesAtSix < maxAmountOfTables &&
-        totalBookedTablesAtNine >= maxAmountOfTables &&
-        ifBiggerBookingAtSix
-      ) {
-        const sixOnlyAvalible = { sixaclock: true, nineaclock: false };
-
-        res.status(200).send(sixOnlyAvalible);
-      } else if (
-        totalBookedTablesAtNine < maxAmountOfTables &&
-        totalBookedTablesAtSix >= maxAmountOfTables &&
-        ifBiggerBookingAtNine
-      ) {
-        const nineOnlyAvalible = { sixaclock: false, nineaclock: true };
-
-        res.status(200).send(nineOnlyAvalible);
-      } */
     } else {
       const bothTimesFull = { sixaclock: false, nineaclock: false };
       res.send(bothTimesFull);
@@ -158,20 +118,3 @@ router.post("/persondata", async (req, res) => {
 });
 
 module.exports = router;
-
-/*   if (sixaclockArr.length < 1 && nineaclockArr.length < maxAmountOfTables) {
-        const bothTimes = { sixaclock: true, nineaclock: true };
-        res.status(200).send(bothTimes);
-      } else if (sixaclockArr.length < maxAmountOfTables) {
-        const sixOnlyAvalible = { sixaclock: true, nineaclock: false };
-
-        res.status(200).send(sixOnlyAvalible);
-      } else if (nineaclockArr.length < maxAmountOfTables) {
-        const nineOnlyAvalible = { sixaclock: false, nineaclock: true };
-
-        res.status(200).send(nineOnlyAvalible);
-      }
-    } else {
-      const bothTimesFull = { sixaclock: false, nineaclock: false };
-      res.send(bothTimesFull);
-    } */
