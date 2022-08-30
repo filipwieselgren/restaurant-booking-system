@@ -52,7 +52,7 @@ export const Admin = () => {
             <div>
               <div className="add">
                 {" "}
-                <Link to="/admin/addbooking">Create new</Link>{" "}
+                <Link to="/booktable/searchtables">Create new</Link>{" "}
               </div>
             </div>
           </div>
