@@ -1,6 +1,8 @@
 const express = require("express");
+const app = express();
 const router = express.Router();
 const { ObjectId } = require("mongodb");
+const sendEmailConfirmation = require("../functions/sendEmail");
 
 const BookingsModel = require("../models/Bookings.js");
 
@@ -65,16 +67,6 @@ router.post("/create/:amountOfPeople/:date/:time", async (req, res) => {
   res.status(201).send(newBookingAdmin);
 });
 
-// ANVÄNDS EJ, TA BORT?
-// router.get("/bookings/:id", async (req, res) => {
-//   const id = ObjectId(req.params.id);
-//   console.log(id);
-
-//   const singleBooking = await BookingsModel.find({ _id: id });
-//   console.log(singleBooking);
-//   res.status(201).send(singleBooking);
-// });
-
 //ändra single bokning
 router.post("/bookings/:id/edit", async (req, res) => {
   const id = ObjectId(req.params.id);
@@ -94,6 +86,7 @@ router.post("/bookings/:id/edit", async (req, res) => {
 
 //ta bort single bokning
 router.delete("/bookings/:id/delete", async (req, res) => {
+  console.log("Hej");
   const id = ObjectId(req.params.id);
   try {
     const deletedBooking = await BookingsModel.findByIdAndDelete(id);
@@ -103,6 +96,18 @@ router.delete("/bookings/:id/delete", async (req, res) => {
   } catch (e) {
     return res.status(400);
   }
+});
+
+router.delete("/cancel/:id", async (req, res) => {
+  const cancelid = req.params.id;
+
+  console.log(cancelid);
+  const deletedBooking = await BookingsModel.findOneAndDelete({
+    cancelid: cancelid,
+  });
+
+  // Måste skicka med e-post, namn och res
+  sendEmailConfirmation(deletedBooking.email, deletedBooking.name, res);
 });
 
 // Sök efter bokning

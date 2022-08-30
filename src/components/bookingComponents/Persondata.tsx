@@ -54,6 +54,13 @@ export const PersonData = (
           body: JSON.stringify(props.postBookingData),
         }
       );
+<<<<<<< HEAD
+=======
+      console.log(rawResponse);
+      /*  const content = await rawResponse;
+
+      console.log(content); */
+>>>>>>> cancel-via-email
     })();
   };
 
