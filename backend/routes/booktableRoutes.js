@@ -121,30 +121,23 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
           res.status(200).send(nineOnlyAvalible);
         }
       }
-      }
+    }
 
-      if (qty === 1) {
-        if (
-          totalBookedTablesAtSix < maxAmountOfTables &&
-          totalBookedTablesAtNine >= maxAmountOfTables
-        ) {
-          const sixOnlyAvalible = { sixaclock: true, nineaclock: false };
->>>>>>> 379cd266ea7212763cbc934913cf97959b42f564
+    if (qty === 1) {
+      if (
+        totalBookedTablesAtSix < maxAmountOfTables &&
+        totalBookedTablesAtNine >= maxAmountOfTables
+      ) {
+        const sixOnlyAvalible = { sixaclock: true, nineaclock: false };
 
-          res.status(200).send(sixOnlyAvalible);
-        } else if (
-          totalBookedTablesAtNine < maxAmountOfTables &&
-          totalBookedTablesAtSix >= maxAmountOfTables
-        ) {
-          const nineOnlyAvalible = { sixaclock: false, nineaclock: true };
+        res.status(200).send(sixOnlyAvalible);
+      } else if (
+        totalBookedTablesAtNine < maxAmountOfTables &&
+        totalBookedTablesAtSix >= maxAmountOfTables
+      ) {
+        const nineOnlyAvalible = { sixaclock: false, nineaclock: true };
 
-<<<<<<< HEAD
         res.status(200).send(nineOnlyAvalible);
-        console.log(nineOnlyAvalible);
-=======
-          res.status(200).send(nineOnlyAvalible);
-        }
->>>>>>> 379cd266ea7212763cbc934913cf97959b42f564
       }
     } else {
       const bothTimesFull = { sixaclock: false, nineaclock: false };
