@@ -10,12 +10,6 @@ export const CancelBooking = () => {
 
   let params = useParams();
 
-  //   useEffect(() => {
-  //     console.log(params.id);
-
-  //     test(params.id);
-  //   }, []);
-
   const test = async (id: any) => {
     console.log("Test");
 
