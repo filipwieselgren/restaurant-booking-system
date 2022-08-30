@@ -47,7 +47,7 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
       return date.time === 18;
     });
 
-    for (i = 0; i < sixaclockArr.length; i++) {
+    for (let i = 0; i < sixaclockArr.length; i++) {
       if (sixaclockArr[i].tables === 2) {
         totalBookedTablesAtSix += 2;
       } else {
@@ -59,7 +59,7 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
       return date.time === 21;
     });
 
-    for (i = 0; i < nineaclockArr.length; i++) {
+    for (let i = 0; i < nineaclockArr.length; i++) {
       if (nineaclockArr[i].tables === 2) {
         totalBookedTablesAtNine += 2;
       } else {
