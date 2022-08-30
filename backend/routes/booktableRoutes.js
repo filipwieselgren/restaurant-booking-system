@@ -7,21 +7,21 @@ app.use(cors());
 
 const BookingsModel = require("../models/Bookings.js");
 
-const contactEmail = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "filipwieselgren@gmail.com",
-    pass: "kztcpyrswulhulsn",
-  },
-});
+// const contactEmail = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "filipwieselgren@gmail.com",
+//     pass: "kztcpyrswulhulsn",
+//   },
+// });
 
-contactEmail.verify((error) => {
-  if (error) {
-    console.log("This is  why it working:", error);
-  } else {
-    console.log("Ready to Send");
-  }
-});
+// contactEmail.verify((error) => {
+//   if (error) {
+//     console.log("This is  why it working:", error);
+//   } else {
+//     console.log("Ready to Send");
+//   }
+// });
 
 router.get("/searchtables/:date", async (req, res) => {
   try {
@@ -61,7 +61,10 @@ router.get("/searchtables/:date", async (req, res) => {
 router.post("/persondata", async (req, res) => {
   const createBooking = new BookingsModel(req.body);
 
-  nodemailer.createTransport({
+  await createBooking.save();
+  console.log("p1", req.body);
+
+  const contactEmail = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: req.body.email,
@@ -69,12 +72,21 @@ router.post("/persondata", async (req, res) => {
     },
   });
 
+  contactEmail.verify((error) => {
+    if (error) {
+      console.log("This is  why it working:", error);
+    } else {
+      console.log("Ready to Send");
+    }
+  });
+
   const name = req.body.name;
   const email = req.body.email;
   const date = req.body.date;
   const time = req.body.time;
+  const id = req.body.cancelid;
   const people = req.body.amountOfPeople;
-  const cancel = "https://localhost:3000/booktable/cancel";
+  const cancel = `http://localhost:3000/booktable/cancel/${id}`;
   const mail = {
     from: name,
     to: req.body.email,
@@ -95,8 +107,7 @@ router.post("/persondata", async (req, res) => {
       res.json({ status: "Message Sent" });
     }
   });
-  await createBooking.save();
-  console.log("p1", req.body);
+
   // res.end();
 });
 

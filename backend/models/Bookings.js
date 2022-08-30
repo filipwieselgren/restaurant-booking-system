@@ -9,6 +9,7 @@ const bokingsSchema = new Schema({
   time: { type: Number, required: true },
   email: { type: String, required: true },
   phone: Number,
+  cancelid: { type: String, required: true },
 });
 
 const BookingsModel = mongoose.model("bookings", bokingsSchema);
