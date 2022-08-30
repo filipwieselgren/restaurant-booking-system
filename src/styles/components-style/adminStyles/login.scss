@@ -1,0 +1,38 @@
+@import "../../mixins/mixins";
+.loginPage {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+
+  .loginContainer {
+    border-radius: 5px;
+    margin-top: 70px;
+    width: 50%;
+    height: 300px;
+    background-color: rgba(white, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+
+    form {
+      //height: 20%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      .buttonContainer {
+        margin-top: 25px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        button {
+          @include button(#5db85d, 70px, 20px, 9pt);
+        }
+      }
+    }
+  }
+}

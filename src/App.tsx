@@ -6,6 +6,7 @@ import { Home } from "./components/pages/Home";
 import { Admin } from "./components/pages/Admin";
 import { SingleBooking } from "./components/adminComponents/SingleBooking";
 import "./styles/layout.scss";
+import { LoginAdmin } from "./components/adminComponents/LoginAdmin";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/admin/:id" element={<SingleBooking />}></Route>
           <Route path="/admin/:id/edit" element={<Bookings />}></Route>
+          <Route path="/admin/login" element={<LoginAdmin />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

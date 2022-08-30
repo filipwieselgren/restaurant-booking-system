@@ -11,7 +11,7 @@ export const Home = () => {
         </div>
       </Link>
       <div className="adminLinkWrapper">
-        <Link to={"/admin"}>
+        <Link to={"/admin/login"}>
           <p>Admin? Logga in här</p>
         </Link>
       </div>

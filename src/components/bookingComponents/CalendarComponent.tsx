@@ -136,23 +136,30 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
     <section className="calendarContainer">
       <article className="monthAndYearHeader">
         <ul className="monthAndYearContainer">
-          <li className="arrowLeft">
-            <i
-              onClick={
-                () =>
-                  currentMonthNumber === 1 && changeYear === getYear
-                    ? stop()
-                    : goToLastMonth()
-                // Lägg till så man inte kan gå längre tbx än månaden man är i
-              }
-              className="bi bi-chevron-left"
-            ></i>
-          </li>
-          <li className="month">{currentMonthName}</li>
-          <li className="year">{changeYear}</li>
-          <li className="arrowRigth">
-            <i onClick={goToNextMonth} className="bi bi-chevron-right"></i>
-          </li>
+          <div className="arrowContainer">
+            <li className="arrowLeft">
+              <i
+                onClick={
+                  () =>
+                    currentMonthNumber === 1 && changeYear === getYear
+                      ? stop()
+                      : goToLastMonth()
+                  // Lägg till så man inte kan gå längre tbx än månaden man är i
+                }
+                className="bi bi-chevron-left"
+              ></i>
+            </li>
+          </div>
+          <div className="datesContainer">
+            <li className="month">{currentMonthName}</li>
+            <li className="year">{changeYear}</li>
+          </div>
+
+          <div className="arrowContainer">
+            <li className="arrowRight">
+              <i onClick={goToNextMonth} className="bi bi-chevron-right"></i>
+            </li>
+          </div>
         </ul>
       </article>
       <article className="weekDaysContainer">

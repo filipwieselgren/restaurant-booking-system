@@ -6,7 +6,7 @@ mongoose = require("mongoose");
 const booktableRoutes = require("./routes/booktableRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const contactRoutes = require("./routes/contactRoutes");
-
+const AdminModel = require("./models/Admin.js");
 const cors = require("cors");
 const express = require("express");
 const app = express();
@@ -32,11 +32,31 @@ const port = 8080;
 
 const URI = process.env.MONGODBKEY;
 
+/* mongoose
+  .connect(URI)
+  .then((result) => {
+    app.listen(port);
+    console.log("connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  }); */
+
 mongoose
   .connect(URI)
   .then((result) => {
     app.listen(port);
     console.log("connected");
+
+    AdminModel.findOne().then((admin) => {
+      if (!admin) {
+        const admin = new AdminModel({
+          email: "admin@test.com",
+          password: "admin1234",
+        });
+        admin.save();
+      }
+    });
   })
   .catch((err) => {
     console.log(err);
