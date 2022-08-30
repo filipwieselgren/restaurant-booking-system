@@ -1,7 +1,6 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { IBooked } from "../../models/IBooked";
 
 export const CancelBooking = () => {
   const [cancel, setCancel] = useState("");
@@ -16,8 +15,6 @@ export const CancelBooking = () => {
 
   const test = async (id: any) => {
     console.log("Test");
-
-    console.log(`http://localhost:8080/admin/cancel/${id}`);
 
     let response = await axios.delete(
       `http://localhost:8080/admin/cancel/${id}`
