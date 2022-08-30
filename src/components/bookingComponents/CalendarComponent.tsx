@@ -105,16 +105,6 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
 
   // funktion som ska skicka valt datum
   const selectedDate = (d: number) => {
-    let booking: IBooking = {
-      name: "",
-      amountOfPeople: 0,
-      date: "",
-      time: 0,
-      email: "",
-      phone: 0,
-      cancelid: +new Date(),
-    };
-
     let day = d;
     let year = changeYear;
     let month = currentMonthName;
