@@ -7,22 +7,6 @@ app.use(cors());
 
 const BookingsModel = require("../models/Bookings.js");
 
-// const contactEmail = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "filipwieselgren@gmail.com",
-//     pass: "kztcpyrswulhulsn",
-//   },
-// });
-
-// contactEmail.verify((error) => {
-//   if (error) {
-//     console.log("This is  why it working:", error);
-//   } else {
-//     console.log("Ready to Send");
-//   }
-// });
-
 router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
   try {
     const date = req.params.date;
@@ -178,8 +162,6 @@ router.post("/persondata", async (req, res) => {
       res.json({ status: "Message Sent" });
     }
   });
-
-  // res.end();
 });
 
 module.exports = router;

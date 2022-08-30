@@ -6,6 +6,7 @@ import "../../styles/cancel.scss";
 export const CancelBooking = () => {
   const [cancel, setCancel] = useState<string>("");
   const [text, setText] = useState<boolean>(true);
+  const [button, setButton] = useState<boolean>(true);
 
   let params = useParams();
 
@@ -24,6 +25,7 @@ export const CancelBooking = () => {
 
     setCancel(response.data);
     setText(false);
+    setButton(false);
   };
 
   let infoText = (
@@ -34,19 +36,27 @@ export const CancelBooking = () => {
   if (text === false) {
     infoText = (
       <div className="info-text">
-        Your booking is canceled. We have sent a confirmation to your email and
-        feel free to book a table at us any other day. 💚
+        Your booking is canceled. We have sent a confirmation to your email.
+        Feel free to book a table any other day. 💚
       </div>
     );
+  }
+
+  let btn = (
+    <button className="cancel-btn" onClick={() => test(params.id)}>
+      Yes I want to cancel my booking
+    </button>
+  );
+
+  if (button === false) {
+    btn = <></>;
   }
 
   return (
     <>
       <div className="main-wrapper">
         {infoText}
-        <button className="cancel-btn" onClick={() => test(params.id)}>
-          Yes I want to cancel my booking
-        </button>
+        {btn}
       </div>
     </>
   );
