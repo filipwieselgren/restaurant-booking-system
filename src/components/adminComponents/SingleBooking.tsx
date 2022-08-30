@@ -40,6 +40,8 @@ export const SingleBooking = () => {
     isDisabled: false,
   });
 
+  const [disabled, setDisabled] = useState<Boolean>(false);
+
   //set variables
   const params = useParams();
   const navigate = useNavigate();
@@ -67,6 +69,14 @@ export const SingleBooking = () => {
       }
     }
   }, [bookings]);
+
+  useEffect(() => {
+    if (tablesAtSix && tablesAtNine) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [tablesAtSix, tablesAtNine]);
 
   //deleteBooking-function. Deletes booking
   const deleteBooking = () => {
@@ -239,9 +249,9 @@ export const SingleBooking = () => {
             />
           </div>
           <div className="inputDiv">
-            <div className="save" onClick={saveChanges}>
+            <button className="save" onClick={saveChanges}>
               Save changes
-            </div>
+            </button>
             <div className="delete" onClick={deleteBooking}>
               Delete booking
             </div>
