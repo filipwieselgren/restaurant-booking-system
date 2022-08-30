@@ -30,6 +30,7 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
     "November",
     "December",
   ];
+
   const monthDaysArray = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   const [choosenDate, setChoosenDate] = useState(0);
 
@@ -105,16 +106,31 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
 
   // funktion som ska skicka valt datum
   const selectedDate = (d: number) => {
+    //////// SKRIV IF SATS SÅ MAN INTEKAN KLICKA PÅ DATUM SOM PASSERAT
+
     let day = d;
     let year = changeYear;
-    let month = currentMonthName;
+    let month = currentMonthNumber;
     let date = d + "-" + month + "-" + year;
 
-    setChoosenDate(d);
-    props.getData(date);
-  };
+    let yearNow = new Date().getFullYear();
+    let monthNow = new Date().getMonth() + 1;
+    let dayNow = new Date().getDate();
 
-  //console.log(currentMonthNumber);
+    let dateNow = dayNow + "-" + monthNow + "-" + yearNow;
+
+    let checkDate = parseFloat(date) - parseFloat(dateNow);
+
+    if (
+      (currentMonthNumber === monthNow && checkDate < 0) ||
+      currentMonthNumber < monthNow
+    ) {
+      alert("You can't book this date");
+    } else {
+      setChoosenDate(d);
+      props.getData(date);
+    }
+  };
 
   const daysHTML = getListOfDays.map((d, i) => {
     return (
