@@ -22,12 +22,24 @@
         input {
           @include inputs;
         }
+        .boxWrapper {
+          @include checkbox;
+        }
       }
       select {
         @include inputs;
         &::hover {
           cursor: pointer;
         }
+      }
+    }
+
+    .avaBtnWrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      .avaBtn {
+        @include button(white, 160px, 30px, 10pt);
       }
     }
     .detailsDiv {

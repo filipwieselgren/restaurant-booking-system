@@ -9,11 +9,16 @@ import { INineDisable } from "../../models/ITablesAvalibles";
 import { Link } from "react-router-dom";
 import "../../styles/admin.scss";
 import "../../styles/components-style/adminStyles/_singleBooking.scss";
+import "../../styles/components-style/bookingStyles/_amountOfPeople.scss";
 import { response } from "express";
 
 //COMPONENT
 
 export const SingleBooking = () => {
+  //set variables
+  const params = useParams();
+  const navigate = useNavigate();
+
   //STATES
   //state for all bookings
   const [bookings, setBookings] = useState<IBooked[]>([]);
@@ -27,8 +32,6 @@ export const SingleBooking = () => {
     time: 0,
     _id: "",
   });
-  //state for checking avaliability of date
-  const [avaDate, setAvaDate] = useState({});
 
   //state for making drop-down disabled if no tables left
   const [tablesAtSix, setTablesAtSix] = useState<ISixDisable>({
@@ -40,11 +43,12 @@ export const SingleBooking = () => {
     isDisabled: false,
   });
 
-  const [disabled, setDisabled] = useState<Boolean>(false);
+  //state for disableing "save-btn" if date is fully booked
+  const [disabled, setDisabled] = useState(false);
 
-  //set variables
-  const params = useParams();
-  const navigate = useNavigate();
+  //state for adding more persons to booking via checkbox
+  const [changeMax, setChangeMax] = useState("6");
+  const [checkbox, setCheckbox] = useState(false);
 
   //prevent from submit
   const preventSubmit = (e: FormEvent) => {
@@ -52,6 +56,14 @@ export const SingleBooking = () => {
   };
 
   //HOOKS AND FUNCTIONS
+  useEffect(() => {
+    if (tablesAtSix && tablesAtNine) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, []);
+
   //fetch all bookings in array and find single booking. Set single booking in state
   useEffect(() => {
     fetch("http://localhost:8080/admin/login")
@@ -70,13 +82,17 @@ export const SingleBooking = () => {
     }
   }, [bookings]);
 
-  useEffect(() => {
-    if (tablesAtSix && tablesAtNine) {
-      setDisabled(false);
+  //add more persons function
+  const addMorePersons = (e: ChangeEvent<HTMLInputElement>) => {
+    let target = e.target.checked;
+    setCheckbox(target);
+
+    if (target) {
+      setChangeMax("12");
     } else {
-      setDisabled(true);
+      setChangeMax("6");
     }
-  }, [tablesAtSix, tablesAtNine]);
+  };
 
   //deleteBooking-function. Deletes booking
   const deleteBooking = () => {
@@ -93,8 +109,8 @@ export const SingleBooking = () => {
     navigate("/admin");
   };
 
-  //set state till true/false beroende på tillgänglighet
-  const renderAva = () => {
+  //set states till true/false beroende på tillgänglighet
+  const renderAva = (avaDate: {}) => {
     for (const [key, value] of Object.entries(avaDate)) {
       if (key === "sixaclock" && value === true) {
         setTablesAtSix({ sixaclock: true, isDisabled: false });
@@ -110,15 +126,21 @@ export const SingleBooking = () => {
     }
   };
 
-  //checkAva-function. Checks avaliability every time a DATE is chosen in calendar
-  const checkAva = () => {
-    fetch("http://localhost:8080/booktable/searchtables/" + singleBooking.date)
-      .then((response) => response.json())
-      .then((data) => setAvaDate(data));
-    renderAva();
+  //checkAva-function. Checks avaliability every time you click "update-btn"
+  const checkAva = async () => {
+    let response = await fetch(
+      "http://localhost:8080/booktable/searchtables/" +
+        singleBooking.date +
+        "/" +
+        singleBooking.amountOfPeople
+    );
+
+    let data = await response.json();
+
+    renderAva(data);
   };
 
-  //handleChange-function. Updates singleBooking-state every time an input is edited
+  //handleChange-function. Updates singleBooking every time an input is edited
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.type === "number") {
       setSingleBooking({ ...singleBooking, [e.target.name]: +e.target.value });
@@ -127,7 +149,7 @@ export const SingleBooking = () => {
     }
   };
 
-  // updateTime-function. Updates singleBookings-state when the time-dropwdown-select changes
+  // updateTime-function. Updates singleBookings time when the time-dropwdown-select changes
   const updateTime = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSingleBooking({
       ...singleBooking,
@@ -170,8 +192,22 @@ export const SingleBooking = () => {
                 value={singleBooking.amountOfPeople}
                 onChange={handleChange}
                 min="1"
-                max="6"
+                max={changeMax}
               />
+              <div className="boxWrapper">
+                <div className="checkboxContainer">
+                  <p>Add persons</p>
+                  <div className="check">
+                    <input
+                      onChange={addMorePersons}
+                      className="checkbox"
+                      id="check"
+                      type="checkbox"
+                    />
+                    <label className="checkbox" htmlFor="check"></label>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div>
@@ -205,17 +241,12 @@ export const SingleBooking = () => {
               </select>
             </div>
           </div>
-          <div>
-            {tablesAtSix.sixaclock
-              ? "ja kl 18"
-              : "fullbokat kl 18 DETTA SKA BORT SEN"}
+
+          <div className="avaBtnWrapper">
+            <div className="avaBtn" onClick={checkAva}>
+              See avalible times
+            </div>
           </div>
-          <div>
-            {tablesAtNine.nineaclock
-              ? "ja kl 21"
-              : "fullbokat kl 21 DETTA SKA BORT SEN"}
-          </div>
-          <button onClick={checkAva}>Update avalible times</button>
 
           <h3>Personal details</h3>
           <div className="detailsDiv">
@@ -249,7 +280,7 @@ export const SingleBooking = () => {
             />
           </div>
           <div className="inputDiv">
-            <button className="save" onClick={saveChanges}>
+            <button className="save" disabled={disabled} onClick={saveChanges}>
               Save changes
             </button>
             <div className="delete" onClick={deleteBooking}>
