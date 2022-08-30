@@ -100,14 +100,17 @@ router.delete("/bookings/:id/delete", async (req, res) => {
 
 router.delete("/cancel/:id", async (req, res) => {
   const cancelid = req.params.id;
+  try {
+    console.log(cancelid);
+    const deletedBooking = await BookingsModel.findOneAndDelete({
+      cancelid: cancelid,
+    });
 
-  console.log(cancelid);
-  const deletedBooking = await BookingsModel.findOneAndDelete({
-    cancelid: cancelid,
-  });
-
-  // Måste skicka med e-post, namn och res
-  sendEmailConfirmation(deletedBooking.email, deletedBooking.name, res);
+    // Måste skicka med e-post, namn och res
+    sendEmailConfirmation(deletedBooking.email, deletedBooking.name, res);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // Sök efter bokning

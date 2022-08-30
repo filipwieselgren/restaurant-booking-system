@@ -1,36 +1,57 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { IBooked } from "../../models/IBooked";
+import "../../styles/cancel.scss";
 
 export const CancelBooking = () => {
-  const [cancel, setCancel] = useState("");
+  const [cancel, setCancel] = useState<string>("");
+  const [text, setText] = useState<boolean>(true);
+  const [button, setButton] = useState<boolean>(true);
 
   let params = useParams();
 
-  //   useEffect(() => {
-  //     console.log(params.id);
-
-  //     test(params.id);
-  //   }, []);
-
   const test = async (id: any) => {
     console.log("Test");
-
-    console.log(`http://localhost:8080/admin/cancel/${id}`);
 
     let response = await axios.delete(
       `http://localhost:8080/admin/cancel/${id}`
     );
 
     setCancel(response.data);
+    setText(false);
+    setButton(false);
   };
 
-  console.log(cancel);
+  let infoText = (
+    <div className="info-text">
+      Are you sure you want to cancel your booking?
+    </div>
+  );
+  if (text === false) {
+    infoText = (
+      <div className="info-text">
+        Your booking is canceled. We have sent a confirmation to your email.
+        Feel free to book a table any other day. 💚
+      </div>
+    );
+  }
+
+  let btn = (
+    <button className="cancel-btn" onClick={() => test(params.id)}>
+      Yes I want to cancel my booking
+    </button>
+  );
+
+  if (button === false) {
+    btn = <></>;
+  }
 
   return (
     <>
-      <button onClick={() => test(params.id)}>Cancel</button>
+      <div className="main-wrapper">
+        {infoText}
+        {btn}
+      </div>
     </>
   );
 };
