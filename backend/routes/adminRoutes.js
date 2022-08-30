@@ -67,16 +67,6 @@ router.post("/create/:amountOfPeople/:date/:time", async (req, res) => {
   res.status(201).send(newBookingAdmin);
 });
 
-// ANVÄNDS EJ, TA BORT?
-// router.get("/bookings/:id", async (req, res) => {
-//   const id = ObjectId(req.params.id);
-//   console.log(id);
-
-//   const singleBooking = await BookingsModel.find({ _id: id });
-//   console.log(singleBooking);
-//   res.status(201).send(singleBooking);
-// });
-
 //ändra single bokning
 router.post("/bookings/:id/edit", async (req, res) => {
   const id = ObjectId(req.params.id);
