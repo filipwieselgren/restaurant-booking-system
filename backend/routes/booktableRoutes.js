@@ -138,14 +138,14 @@ router.post("/persondata", async (req, res) => {
   const contactEmail = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: req.body.email,
+      user: "filipwieselgren@gmail.com",
       pass: "kztcpyrswulhulsn",
     },
   });
 
   contactEmail.verify((error) => {
     if (error) {
-      console.log("This is  why it working:", error);
+      console.log("This is  why it's not working:", error);
     } else {
       console.log("Ready to Send");
     }

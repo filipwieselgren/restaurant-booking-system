@@ -8,7 +8,7 @@ module.exports = sendEmailConfirmation = (email, name, res) => {
   const contactEmail = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: email,
+      user: "filipwieselgren@gmail.com",
       pass: "kztcpyrswulhulsn",
     },
   });

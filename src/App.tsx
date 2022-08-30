@@ -22,6 +22,7 @@ function App() {
             path="/booktable/cancel/:id"
             element={<CancelBooking />}
           ></Route>
+          {/* <Route path="/booktable/cancel/:id" element={<Bookings />}></Route> */}
 
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/admin/:id" element={<SingleBooking />}></Route>

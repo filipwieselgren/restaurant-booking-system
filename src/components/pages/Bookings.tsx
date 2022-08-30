@@ -10,6 +10,7 @@ import { IPersonData } from "../../models/IPersondata";
 import axios from "axios";
 import { ITablesAvalible } from "../../models/ITablesAvalibles";
 import { time } from "console";
+import { CancelBooking } from "../bookingComponents/CancelBooking";
 
 export const Bookings = () => {
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
@@ -261,6 +262,7 @@ export const Bookings = () => {
             />
           </section>
         )}
+
         {timeNotPicked}
         {chooseTimeAndDate}
         {timeNotAvailable}
