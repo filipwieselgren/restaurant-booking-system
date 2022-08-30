@@ -7,6 +7,7 @@ import { Admin } from "./components/pages/Admin";
 import { SingleBooking } from "./components/adminComponents/SingleBooking";
 import { AddBooking } from "./components/adminComponents/AddBooking";
 import "./styles/layout.scss";
+import { CancelBooking } from "./components/bookingComponents/CancelBooking";
 
 function App() {
   return (
@@ -18,6 +19,10 @@ function App() {
           <Route path="/booktable/choose-time" element={<Bookings />}></Route>
           <Route path="/booktable/persondata" element={<Bookings />}></Route>
           <Route path="/booktable/post" element={<Confirmation />}></Route>
+          <Route
+            path="/booktable/cancel/:id"
+            element={<CancelBooking />}
+          ></Route>
 
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/admin/:id" element={<SingleBooking />}></Route>

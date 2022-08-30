@@ -60,9 +60,6 @@ export const PersonData = (
           body: JSON.stringify(props.postBookingData),
         }
       );
-      /*  const content = await rawResponse;
-
-      console.log(content); */
     })();
   };
 

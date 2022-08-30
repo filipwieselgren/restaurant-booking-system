@@ -29,6 +29,8 @@ export const Bookings = () => {
     time: 0,
     email: "",
     phone: 0,
+    cancelid: +new Date(),
+    tables: 0,
   });
 
   const url = useLocation();
@@ -64,7 +66,15 @@ export const Bookings = () => {
   const getQTY = (q: number) => {
     setDateAndTimeMissing(false);
     booking.amountOfPeople = q;
-    // console.log("i bookings funktion, antal:", q);
+
+    if (q <= 6) {
+      booking.tables = 1;
+    } else {
+      booking.tables = 2;
+    }
+    console.log("i bookings funktion, tables:", booking.tables);
+
+    console.log("i bookings funktion, antal:", q);
   };
 
   // funktion som hämtar tid av bokning
@@ -82,7 +92,7 @@ export const Bookings = () => {
     // console.log("efter ha fått personData, bookings:", booking);
   };
 
-  // console.log(booking);
+  console.log(booking);
 
   //funktion som ändrar innehåll i modal beroende på url
   const switchForm = () => {
@@ -134,6 +144,7 @@ export const Bookings = () => {
         ? navigate("/booktable/persondata")
         : setChooseTime(true);
       booking.time === 0 ? setChooseTime(true) : setChooseTime(false);
+      setTest(false);
     }
 
     if (url.pathname === "/booktable/persondata") {
@@ -172,8 +183,8 @@ export const Bookings = () => {
     ? (timeNotPicked = <div>Choose a time 🕰</div>)
     : (timeNotPicked = <></>);
 
-  const checkIfDateIsAvailable = async (d: string) => {
-    let api: string = `http://localhost:8080/booktable/searchtables/${d}`;
+  const checkIfDateIsAvailable = async (d: string, qty: number) => {
+    let api: string = `http://localhost:8080/booktable/searchtables/${d}/${qty}`;
 
     if (booking.date && booking.amountOfPeople !== 0) {
       try {
@@ -201,17 +212,7 @@ export const Bookings = () => {
   }, [times]);
 
   const checkTime = (nfb: string) => {
-    nfb === "block-time" ? setTest(true) : setTest(false);
-
-    console.log(nfb);
-
-    const timeAvailable = "time";
-
-    if (nfb === timeAvailable || chooseTime === false) {
-      setChooseTime(true);
-    } else if (nfb === timeAvailable && chooseTime === true) {
-      setChooseTime(false);
-    }
+    setChooseTime(false);
   };
 
   let timeNotAvailable = <></>;
@@ -247,7 +248,7 @@ export const Bookings = () => {
 
         {showTime && (
           <section className="formContainerTime">
-            <TimeForm getData={getTime} times={times} checkTime={checkTime} />i{" "}
+            <TimeForm getData={getTime} times={times} checkTime={checkTime} />{" "}
           </section>
         )}
 
@@ -267,7 +268,9 @@ export const Bookings = () => {
         <div className="buttonContainer">
           <button
             className={`${activeCancelButton && "cancelButton"}`}
-            onClick={() => checkIfDateIsAvailable(booking.date)}
+            onClick={() =>
+              checkIfDateIsAvailable(booking.date, booking.amountOfPeople)
+            }
           >
             {buttonText}
           </button>

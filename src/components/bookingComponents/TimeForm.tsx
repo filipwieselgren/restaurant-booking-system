@@ -38,7 +38,9 @@ export const TimeForm = (props: IBookingProps<number> & ITimes) => {
         key={i}
         className={t.notFullyBooked}
       >
-        <p>{t.t}</p>
+        <p>
+          {t.notFullyBooked === "block-time" ? `We are full at ${t.t}` : t.t}
+        </p>
       </article>
     );
   });
