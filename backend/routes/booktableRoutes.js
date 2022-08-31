@@ -57,6 +57,7 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
 
     console.log("booked at six", totalBookedTablesAtSix);
     console.log("booked at nine", totalBookedTablesAtNine);
+    console.log(totalBookedTablesAtSix + totalBookedTablesAtNine);
 
     if (totalBookedTablesAtSix + totalBookedTablesAtNine + qty <= 30) {
       if (
