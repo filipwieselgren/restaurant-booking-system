@@ -1,3 +1,4 @@
+@import "../../mixins/variables";
 .formContainerTime {
   width: 100%;
   height: 80%;
@@ -18,7 +19,8 @@
   .time {
     width: 170px;
     height: 50px;
-    background-color: pink;
+    background-color: rgba(pink, 0.4);
+
     text-align: center;
     cursor: pointer;
   }
@@ -29,5 +31,9 @@
     background-color: rgba(0, 0, 0, 0.141);
     text-align: center;
     color: white;
+  }
+
+  .clicked {
+    background-color: pink;
   }
 }

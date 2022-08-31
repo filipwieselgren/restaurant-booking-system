@@ -255,11 +255,7 @@ export const Bookings = () => {
 
         {showPersondata && (
           <section className="formContainerPersonData">
-            <PersonData
-              postBookingData={booking}
-              getData={getPersonData}
-              /* getData={getPersonData} */
-            />
+            <PersonData postBookingData={booking} getData={getPersonData} />
           </section>
         )}
 

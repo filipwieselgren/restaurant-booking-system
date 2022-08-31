@@ -8,6 +8,8 @@ interface ITimes {
 }
 
 export const TimeForm = (props: IBookingProps<number> & ITimes) => {
+  const [choosenTime, setChoosenTime] = useState<Number>();
+
   const arrayOfTimes = [
     {
       t: 18,
@@ -20,6 +22,7 @@ export const TimeForm = (props: IBookingProps<number> & ITimes) => {
   ];
 
   const getTime = (t: number, notFullyBooked: string) => {
+    setChoosenTime(t);
     if (notFullyBooked !== "block-time") {
       props.getData(t);
       props.checkTime(notFullyBooked);
@@ -36,7 +39,7 @@ export const TimeForm = (props: IBookingProps<number> & ITimes) => {
       <article
         onClick={() => getTime(t.t, t.notFullyBooked)}
         key={i}
-        className={t.notFullyBooked}
+        className={`${t.notFullyBooked} ${choosenTime === t.t && "clicked"}`}
       >
         <p>
           {t.notFullyBooked === "block-time" ? `We are full at ${t.t}` : t.t}

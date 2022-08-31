@@ -5,6 +5,25 @@ const { ObjectId } = require("mongodb");
 const sendEmailConfirmation = require("../functions/sendEmail");
 
 const BookingsModel = require("../models/Bookings.js");
+const AdminModel = require("../models/Admin.js");
+
+router.post("/login", async (req, res) => {
+  const admin = await AdminModel.findOne({
+    email: req.body.email,
+    password: req.body.password,
+  });
+
+  if (admin) {
+    res.send("true");
+    console.log("användare finns");
+  } else {
+    res.send("false");
+
+    console.log("användare finns inte");
+  }
+
+  console.log("find admin", admin);
+});
 
 router.get("/login", async (req, res) => {
   const getBookings = await BookingsModel.find();

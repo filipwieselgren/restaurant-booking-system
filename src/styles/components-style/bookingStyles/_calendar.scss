@@ -18,7 +18,8 @@
 
     .monthAndYearHeader {
       height: 70px;
-      background-color: rgb(84, 211, 84);
+      background-color: rgba(pink, 0.5);
+      // background-color: rgb(84, 211, 84);
       width: 100%;
       margin: 0;
       padding: 0;
@@ -27,6 +28,8 @@
       justify-content: center;
 
       .monthAndYearContainer {
+        width: 100%;
+
         color: white;
         margin: 0;
         padding: 0;
@@ -35,6 +38,27 @@
         gap: 40px;
         //padding-top: 10px;
         list-style: none;
+
+        .arrowContainer {
+          width: 15%;
+          display: flex;
+          justify-content: center;
+          color: black;
+
+          .arrowRight,
+          .arrowLeft {
+            cursor: pointer;
+          }
+        }
+
+        .datesContainer {
+          color: black;
+
+          width: 70%;
+          display: flex;
+          justify-content: center;
+          gap: 30px;
+        }
       }
     }
 
@@ -56,8 +80,7 @@
       width: 100%;
       display: flex;
       flex-wrap: wrap;
-      /*     justify-content: center;
-   */
+
       height: 100%;
       .dayContainer {
         cursor: pointer;
@@ -69,7 +92,7 @@
         align-items: center;
       }
       .clicked {
-        background-color: rgb(222, 220, 220);
+        background-color: rgba(pink, 0.3);
       }
     }
   }

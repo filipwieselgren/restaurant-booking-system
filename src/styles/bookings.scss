@@ -6,24 +6,26 @@
 @import "./mixins/variables";
 @import "./mixins/mixins";
 
-.clicked {
-  background-color: rgb(222, 220, 220);
-}
 .bookingPage {
   height: 100vh;
-  background-color: rgb(222, 220, 220);
+  //background-color: rgb(222, 220, 220);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
   .bookingFormsContainer {
+    margin-top: 30px;
     background-color: $modalColor;
     width: 80%;
     height: 95vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @include tablet-up {
+      width: 60%;
+    }
 
     .wichForm {
       margin: 0%;
@@ -34,7 +36,8 @@
       align-items: center;
       height: 40px;
 
-      .ifTimeForm {
+      .ifTimeForm,
+      .ifDateForm {
         border-right: 1px solid black;
       }
 
@@ -65,12 +68,13 @@
       margin-top: 10px;
 
       button {
-        background-color: rgb(127, 208, 127);
+        @include button(#5db85d, 75px, 25px, 9pt);
+        /*  background-color: rgb(127, 208, 127);
         border: 0;
         height: 30px;
         width: 80px;
         border-radius: 9px;
-        cursor: pointer;
+        cursor: pointer; */
       }
 
       .cancelButton {

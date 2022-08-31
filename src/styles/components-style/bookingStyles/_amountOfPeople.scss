@@ -13,22 +13,12 @@
   @include tablet-up {
     width: 60%;
   }
-  @include desktop {
-    width: 40%;
+  @include desktop-up {
+    width: 50%;
   }
   .qtyHeaderContainer {
     .checkboxContainer {
       display: flex;
-
-      /*  HTML CSSResult Skip Results Iframe EDIT ON :root {
-        font-size: 100px;
-      }
-
-      body {
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-      } */
 
       .check {
         position: relative;
@@ -209,7 +199,9 @@
     }
 
     .clicked {
-      background-color: rgb(222, 220, 220);
+      background-color: rgba(pink, 0.3);
+
+      //  background-color: rgb(222, 220, 220);
     }
   }
 }

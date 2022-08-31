@@ -6,6 +6,7 @@ import { Home } from "./components/pages/Home";
 import { Admin } from "./components/pages/Admin";
 import { SingleBooking } from "./components/adminComponents/SingleBooking";
 import "./styles/layout.scss";
+import { LoginAdmin } from "./components/adminComponents/LoginAdmin";
 import { CancelBooking } from "./components/bookingComponents/CancelBooking";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           ></Route>
           {/* <Route path="/booktable/cancel/:id" element={<Bookings />}></Route> */}
 
+          <Route path="/admin/login" element={<LoginAdmin />}></Route>
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/admin/:id" element={<SingleBooking />}></Route>
           <Route path="/admin/:id/edit" element={<Bookings />}></Route>
