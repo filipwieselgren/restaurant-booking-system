@@ -39,6 +39,12 @@ export const Admin = () => {
     <div className="wrapper">
       <div className="adminWrapper">
         <div className="menuWrapper">
+          <div>
+            <div className="add">
+              {" "}
+              <Link to="/booktable/searchtables">Create new</Link>{" "}
+            </div>
+          </div>
           <div className="inputDiv">
             <div>
               <input
@@ -49,17 +55,11 @@ export const Admin = () => {
               />
               <button onClick={searchBooking}>SEARCH</button>
             </div>
-            <div>
-              <div className="add">
-                {" "}
-                <Link to="/booktable/searchtables">Create new</Link>{" "}
-              </div>
-            </div>
           </div>
 
           <div className="headlinesDiv">
             <h3>Date</h3>
-            <h3>Name/email</h3>
+            <h3>Name</h3>
             <h3>Amount</h3>
             <h3>Time</h3>
             <h3>Mobile</h3>

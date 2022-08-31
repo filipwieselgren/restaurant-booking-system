@@ -7,6 +7,7 @@ import { Admin } from "./components/pages/Admin";
 import { SingleBooking } from "./components/adminComponents/SingleBooking";
 import "./styles/layout.scss";
 import { CancelBooking } from "./components/bookingComponents/CancelBooking";
+import { NotFound } from "./components/notfound";
 
 function App() {
   return (
@@ -25,8 +26,9 @@ function App() {
 
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/admin/:id" element={<SingleBooking />}></Route>
-          <Route path="/admin/:id/edit" element={<Bookings />}></Route>
         </Route>
+        <Route path="/*" element={<NotFound />}></Route>
+        <Route path="/admin/*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>
   );

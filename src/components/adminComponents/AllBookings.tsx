@@ -5,14 +5,22 @@ import "../../styles/components-style/adminStyles/_allBookings.scss";
 export const AllBookings = (props: IBooked) => {
   return (
     <div className="listDiv">
-      <p>{props.date}</p>
       <div>
-        <p>{props.name}</p>
-        <p>{props.email}</p>
+        <p>{props.date}</p>
       </div>
-      <p>{props.amountOfPeople}</p>
-      <p>{props.time}</p>
-      <p>{props.phone}</p>
+      <div>
+        <p className="pWidth">{props.name}</p>
+        <p className="pWidth">{props.email}</p>
+      </div>
+      <div>
+        <p className="pShort">{props.amountOfPeople}</p>
+      </div>
+      <div>
+        <p className="pShort">{props.time}</p>
+      </div>
+      <div>
+        <p className="pWidth">{props.phone}</p>
+      </div>
       <div className="editBtn">
         <Link to={"/admin/" + props._id}>Edit</Link>
       </div>

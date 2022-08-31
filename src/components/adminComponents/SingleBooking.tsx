@@ -190,7 +190,7 @@ export const SingleBooking = () => {
           <h3>Booking details</h3>
           <div className="bookingDiv">
             <div>
-              <h3>Persons</h3>
+              <h3>Persons </h3>
 
               <input
                 className="inputs"
@@ -218,7 +218,7 @@ export const SingleBooking = () => {
             </div>
 
             <div>
-              <h3>Date</h3>
+              <h3>Date </h3>
               <input
                 className="inputs"
                 type="date"
@@ -230,12 +230,12 @@ export const SingleBooking = () => {
             </div>
 
             <div>
-              <h3>Time</h3>
+              <h3>Booked time: {singleBooking.time}</h3>
 
               <select
                 className="inputs"
                 name="time"
-                value={singleBooking.time}
+                value=""
                 onChange={updateTime}
               >
                 <option value="18" disabled={tablesAtSix.isDisabled}>

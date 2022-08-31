@@ -158,7 +158,7 @@ router.post("/persondata", async (req, res) => {
   const contactEmail = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: req.body.email,
+      user: "filipwieselgren@gmail.com",
       pass: "kztcpyrswulhulsn",
     },
   });
