@@ -7,37 +7,58 @@ import { IPersonData } from "../../models/IPersondata";
 interface IPersonDataProps {
   postBookingData: IBooking;
   getData(d: IPersonData): void;
-
-  //getBookingData: IBookingProps<IPersonData>;
 }
 
-export const PersonData = (
-  props: IPersonDataProps /* IBookingProps<IPersonData> */
-) => {
+export const PersonData = (props: IPersonDataProps) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
+  // false -  error, true - finns inte error
   const [emailError, setEmailError] = useState(true);
   const [phoneError, setPhoneError] = useState(true);
   const [nameError, setNameError] = useState(true);
 
   const [validationDone, setValidationDone] = useState(false);
-  const [startOnChange, setStartOnChange] = useState(false);
+  const [startOnChangeName, setStartOnChangeName] = useState(false);
+  const [startOnChangeEmail, setStartOnChangeEmail] = useState(false);
+  const [startOnChangePhone, setStartOnChangePhone] = useState(false);
 
   const navigate = useNavigate();
 
-  const twoHandlers = (e: ChangeEvent<HTMLInputElement>) => {
+  const twoHandlersName = (e: ChangeEvent<HTMLInputElement>) => {
     handleName(e);
-    if (startOnChange) {
-      console.log("started on change");
-      checkIfStillNotValidated();
+    if (startOnChangeName) {
+      validateName();
     }
   };
 
-  const checkIfStillNotValidated = () => {
-    console.log("i check funktionen");
-    validateName();
+  const twoHandlersEmail = (e: ChangeEvent<HTMLInputElement>) => {
+    handleEmail(e);
+
+    if (startOnChangeEmail) {
+      validateEmail();
+    }
+  };
+
+  const twoHandlersPhone = (e: ChangeEvent<HTMLInputElement>) => {
+    handlePhone(e);
+
+    if (startOnChangePhone) {
+      validatePhone();
+    }
+  };
+
+  const validateName = () => {
+    if (name.length > 0) {
+      console.log("ändringggg");
+    }
+
+    if (name.length === 0) {
+      setNameError(false);
+    } else {
+      setNameError(true);
+    }
   };
 
   const validateEmail = () => {
@@ -64,13 +85,6 @@ export const PersonData = (
       } else {
         setPhoneError(true);
       }
-    }
-  };
-  const validateName = () => {
-    if (name.length === 0) {
-      setNameError(false);
-    } else {
-      setNameError(true);
     }
   };
 
@@ -107,8 +121,14 @@ export const PersonData = (
       setValidationDone(true);
     }
 
-    if (!validationDone) {
-      setStartOnChange(true);
+    if (nameError) {
+      setStartOnChangeName(true);
+    }
+    if (emailError) {
+      setStartOnChangeEmail(true);
+    }
+    if (phoneError) {
+      setStartOnChangePhone(true);
     }
 
     if (validationDone === true) {
@@ -129,11 +149,16 @@ export const PersonData = (
     }
   };
 
-  console.log("validation done", validationDone);
-  console.log("startonchane", startOnChange);
+  const validate = () => {
+    validateName();
+  };
+
+  /* console.log("validation done", validationDone);
   console.log("mail", emailError);
   console.log("name", nameError);
-  console.log("phone", phoneError);
+  console.log("phone", phoneError); */
+  console.log("name", name);
+  console.log("start on change", startOnChangeName);
 
   return (
     <section className="personDataContainer">
@@ -147,10 +172,8 @@ export const PersonData = (
 
           <input
             value={name}
-            onChange={twoHandlers}
-            /* onChange={() =>
-              `${handleName}${startOnChange && checkIfStillNotValidated}`
-            } */
+            onBlur={validate}
+            onChange={twoHandlersName}
             // onChange={handleName}
             id="nameInput"
             type="text"
@@ -160,7 +183,7 @@ export const PersonData = (
           {!emailError && <p>Fyll i en korrekt emailadress</p>}
           <input
             value={email}
-            onChange={handleEmail}
+            onChange={twoHandlersEmail}
             id="emailInput"
             type="text"
             placeholder="Email:"
@@ -170,7 +193,7 @@ export const PersonData = (
 
           <input
             value={phone}
-            onChange={handlePhone}
+            onChange={twoHandlersPhone}
             id="phoneInput"
             type="text"
             placeholder="Telefonnummer:"
