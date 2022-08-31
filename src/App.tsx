@@ -19,10 +19,10 @@ function App() {
           <Route path="/booktable/persondata" element={<Bookings />}></Route>
           <Route path="/booktable/post" element={<Confirmation />}></Route>
 
+          <Route path="/admin/login" element={<LoginAdmin />}></Route>
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/admin/:id" element={<SingleBooking />}></Route>
           <Route path="/admin/:id/edit" element={<Bookings />}></Route>
-          <Route path="/admin/login" element={<LoginAdmin />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

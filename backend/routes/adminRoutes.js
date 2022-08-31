@@ -20,7 +20,7 @@ router.post("/login", async (req, res) => {
     console.log("användare finns inte");
   }
 
-  console.log("fins admin", admin);
+  console.log("find admin", admin);
 });
 
 router.get("/login", async (req, res) => {

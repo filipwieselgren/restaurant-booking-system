@@ -1,4 +1,5 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/components-style/adminStyles/login.scss";
 
 interface IAdmin {
@@ -9,25 +10,22 @@ interface IAdmin {
 export const LoginAdmin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  /*  const [admin, setAdmin] = useState<IAdmin>({
-    email: "",
-    password: "",
-  }); */
-
+  const [ifNotAdmin, setIfNotAdmin] = useState(false);
   let admin: IAdmin = { email, password };
-  console.log("admin", admin);
+
+  const navigate = useNavigate();
+
+  //useEffect(() => {}, [ifAdmin]);
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    // admin.email = email;
   };
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    //admin.password = password;
   };
 
-  const sendData = () => {
+  const preventSubmit = (e: FormEvent) => {
+    e.preventDefault();
     (async () => {
       const rawResponse = await fetch("http://localhost:8080/admin/login", {
         method: "POST",
@@ -39,18 +37,23 @@ export const LoginAdmin = () => {
         body: JSON.stringify(admin),
       })
         .then((response) => response.json())
-        .then((data) => console.log(data));
-    })();
-  };
+        .then((data) => {
+          if (data) {
+            setIfNotAdmin(false);
 
-  const preventSubmit = (e: FormEvent) => {
-    e.preventDefault();
+            navigate("/admin");
+          } else {
+            setIfNotAdmin(true);
+          }
+        });
+    })();
   };
 
   return (
     <section className="loginPage">
       <article className="loginContainer">
-        <p>Logga in som administratör</p>
+        <p className="loginHeader">Logga in som administratör</p>
+
         <form onSubmit={preventSubmit} action="post">
           <input
             onChange={handleEmail}
@@ -65,11 +68,12 @@ export const LoginAdmin = () => {
             placeholder="Password:"
           />
           <div className="buttonContainer">
-            <button onClick={sendData} type="submit">
-              Logga in
-            </button>
+            <button type="submit">Logga in</button>
           </div>
         </form>
+        {ifNotAdmin && (
+          <p className="wrongData">Fel användarnamn eller lösenord</p>
+        )}
       </article>
     </section>
   );
