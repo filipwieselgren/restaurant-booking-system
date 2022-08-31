@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IBooking } from "../../models/IBooking";
 import { IBookingProps } from "../../models/IBookingProps";
@@ -18,14 +18,72 @@ export const PersonData = (
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
+  const [emailError, setEmailError] = useState(true);
+  const [phoneError, setPhoneError] = useState(true);
+  const [nameError, setNameError] = useState(true);
+
+  const [validationDone, setValidationDone] = useState(false);
+  const [startOnChange, setStartOnChange] = useState(false);
+
   const navigate = useNavigate();
 
+  const twoHandlers = (e: ChangeEvent<HTMLInputElement>) => {
+    handleName(e);
+    if (startOnChange) {
+      console.log("started on change");
+      checkIfStillNotValidated();
+    }
+  };
+
+  const checkIfStillNotValidated = () => {
+    console.log("i check funktionen");
+    validateName();
+  };
+
+  const validateEmail = () => {
+    let regex = /\S+@\S+\.\S+/.test(email);
+
+    if (email.length === 0) {
+      setEmailError(false);
+    } else {
+      if (regex) {
+        setEmailError(true);
+      } else {
+        setEmailError(false);
+      }
+    }
+
+    // return /\S+@\S+\.\S+/.test(email);
+  };
+  const validatePhone = () => {
+    if (phone.length === 0) {
+      setPhoneError(false);
+    } else {
+      if (phone.length < 10 || phone.length > 10) {
+        setPhoneError(false);
+      } else {
+        setPhoneError(true);
+      }
+    }
+  };
+  const validateName = () => {
+    if (name.length === 0) {
+      setNameError(false);
+    } else {
+      setNameError(true);
+    }
+  };
+
   const handleName = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+    let target = e.target.value;
+
+    setName(target);
   };
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+    let target = e.target.value;
+
+    setEmail(target);
   };
 
   const handlePhone = (e: ChangeEvent<HTMLInputElement>) => {
@@ -41,27 +99,41 @@ export const PersonData = (
   const preventSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    /*   fetch("/booktable/persondata", {
-      method: "POST",
-      headers: { "Content-Type": "application/JSON" },
-      body: JSON.stringify(props.postBookingData),
-    }); */
+    validateEmail();
+    validateName();
+    validatePhone();
 
-    (async () => {
-      const rawResponse = await fetch(
-        "http://localhost:8080/booktable/persondata",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            mode: "no-cors",
-          },
-          body: JSON.stringify(props.postBookingData),
-        }
-      );
-    })();
+    if (emailError === true && nameError === true && phoneError === true) {
+      setValidationDone(true);
+    }
+
+    if (!validationDone) {
+      setStartOnChange(true);
+    }
+
+    if (validationDone === true) {
+      (async () => {
+        const rawResponse = await fetch(
+          "http://localhost:8080/booktable/persondata",
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              mode: "no-cors",
+            },
+            body: JSON.stringify(props.postBookingData),
+          }
+        );
+      })();
+    }
   };
+
+  console.log("validation done", validationDone);
+  console.log("startonchane", startOnChange);
+  console.log("mail", emailError);
+  console.log("name", nameError);
+  console.log("phone", phoneError);
 
   return (
     <section className="personDataContainer">
@@ -71,20 +143,30 @@ export const PersonData = (
         </div>
 
         <div className="inputsContainer">
+          {!nameError && <p>Fyll i fältet</p>}
+
           <input
             value={name}
-            onChange={handleName}
+            onChange={twoHandlers}
+            /* onChange={() =>
+              `${handleName}${startOnChange && checkIfStillNotValidated}`
+            } */
+            // onChange={handleName}
             id="nameInput"
             type="text"
             placeholder="Namn:"
+            className={`${!nameError && "validationError"} `}
           />
+          {!emailError && <p>Fyll i en korrekt emailadress</p>}
           <input
             value={email}
             onChange={handleEmail}
             id="emailInput"
             type="text"
             placeholder="Email:"
+            className={`${!emailError && "validationError"} `}
           />
+          {!phoneError && <p>Fyll i ett korrekt telefonnummer</p>}
 
           <input
             value={phone}
@@ -92,6 +174,7 @@ export const PersonData = (
             id="phoneInput"
             type="text"
             placeholder="Telefonnummer:"
+            className={`${!phoneError && "validationError"} `}
           />
         </div>
 
