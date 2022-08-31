@@ -17,6 +17,7 @@ export const PersonData = (
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [bookingDone, setBookingDone] = useState(false);
 
   const navigate = useNavigate();
 
@@ -33,6 +34,7 @@ export const PersonData = (
   };
 
   const sendData = () => {
+    setBookingDone(true);
     props.getData({ name, email, phone });
 
     // navigate("/booktable/post");
@@ -63,9 +65,11 @@ export const PersonData = (
     })();
   };
 
-  return (
-    <section className="personDataContainer">
-      <form onSubmit={preventSubmit} className="personDataForm" action="post">
+  let formInput;
+
+  if (bookingDone === false) {
+    formInput = (
+      <>
         <div className="confirmHeaderContainer">
           <p>Bekräfta din bokning</p>
         </div>
@@ -105,6 +109,26 @@ export const PersonData = (
             Läs om våra GDPR-villkor här
           </Link>
         </div>
+      </>
+    );
+  } else {
+    formInput = (
+      <>
+        <div>Your booking is confirmed</div>
+        <div className="swal-icon swal-icon--success">
+          <span className="swal-icon--success__line swal-icon--success__line--long"></span>
+          <span className="swal-icon--success__line swal-icon--success__line--tip"></span>
+          <div className="swal-icon--success__ring"></div>
+          <div className="swal-icon--success__hide-corners"></div>
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <section className="personDataContainer">
+      <form onSubmit={preventSubmit} className="personDataForm" action="post">
+        {formInput}
       </form>
     </section>
   );
