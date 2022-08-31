@@ -44,7 +44,7 @@ export const SingleBooking = () => {
   });
 
   //state for disableing "save-btn" if date is fully booked
-  const [disabled, setDisabled] = useState(false);
+  const [disabledBtn, setDisabledBtn] = useState(false);
 
   //state for adding more persons to booking via checkbox
   const [changeMax, setChangeMax] = useState("6");
@@ -56,13 +56,6 @@ export const SingleBooking = () => {
   };
 
   //HOOKS AND FUNCTIONS
-  useEffect(() => {
-    if (tablesAtSix && tablesAtNine) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }, []);
 
   //fetch all bookings in array and find single booking. Set single booking in state
   useEffect(() => {
@@ -82,6 +75,11 @@ export const SingleBooking = () => {
     }
   }, [bookings]);
 
+  //disable save-button if fully booked
+  useEffect(() => {
+    disableButton();
+  }, [tablesAtSix, tablesAtNine]);
+
   //add more persons function
   const addMorePersons = (e: ChangeEvent<HTMLInputElement>) => {
     let target = e.target.checked;
@@ -92,21 +90,6 @@ export const SingleBooking = () => {
     } else {
       setChangeMax("6");
     }
-  };
-
-  //deleteBooking-function. Deletes booking
-  const deleteBooking = () => {
-    fetch(
-      "http://localhost:8080/admin/bookings/" + singleBooking._id + "/delete",
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: null,
-      }
-    );
-    navigate("/admin");
   };
 
   //set states till true/false beroende på tillgänglighet
@@ -126,7 +109,15 @@ export const SingleBooking = () => {
     }
   };
 
-  //checkAva-function. Checks avaliability every time you click "update-btn"
+  const disableButton = () => {
+    if (tablesAtSix.sixaclock || tablesAtNine.nineaclock) {
+      setDisabledBtn(false);
+    } else {
+      setDisabledBtn(true);
+    }
+  };
+
+  //checkAva-function. Checks avaliability every time you click "check-time-btn"
   const checkAva = async () => {
     let response = await fetch(
       "http://localhost:8080/booktable/searchtables/" +
@@ -140,7 +131,7 @@ export const SingleBooking = () => {
     renderAva(data);
   };
 
-  //handleChange-function. Updates singleBooking every time an input is edited
+  //Updates singleBooking-object every time an input is edited
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.type === "number") {
       setSingleBooking({ ...singleBooking, [e.target.name]: +e.target.value });
@@ -149,7 +140,7 @@ export const SingleBooking = () => {
     }
   };
 
-  // updateTime-function. Updates singleBookings time when the time-dropwdown-select changes
+  //Updates singleBookings time when the time-dropwdown-select changes
   const updateTime = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSingleBooking({
       ...singleBooking,
@@ -172,6 +163,22 @@ export const SingleBooking = () => {
       }
     );
 
+    navigate("/admin");
+  };
+
+  //deleteBooking-function. Deletes booking
+  const deleteBooking = () => {
+    fetch(
+      `http://localhost:8080/admin/bookings/${singleBooking._id}/delete`,
+
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: null,
+      }
+    );
     navigate("/admin");
   };
 
@@ -280,7 +287,11 @@ export const SingleBooking = () => {
             />
           </div>
           <div className="inputDiv">
-            <button className="save" disabled={disabled} onClick={saveChanges}>
+            <button
+              className="save"
+              disabled={disabledBtn}
+              onClick={saveChanges}
+            >
               Save changes
             </button>
             <div className="delete" onClick={deleteBooking}>
