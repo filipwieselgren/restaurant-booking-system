@@ -185,11 +185,15 @@ export const Bookings = () => {
     : (timeNotPicked = <></>);
 
   const checkIfDateIsAvailable = async (d: string, qty: number) => {
+    console.log(typeof d);
+    console.log(qty);
+
     let api: string = `http://localhost:8080/booktable/searchtables/${d}/${qty}`;
 
     if (booking.date && booking.amountOfPeople !== 0) {
       try {
         let response = await axios.get(api);
+        console.log("I Get response");
 
         setTimes(response.data);
 
@@ -198,18 +202,25 @@ export const Bookings = () => {
         console.log(error);
       }
     } else {
+      console.log("I don't get a date or time");
       setDateAndTimeMissing(true);
     }
   };
 
   useEffect(() => {
-    if (startUseEffect)
-      if (times.nineaclock || times.sixaclock) {
+    console.log("useEffect");
+
+    if (startUseEffect) {
+      if (times.nineaclock === true || times.sixaclock === true) {
+        console.log("Nine or six is true");
+
         setShowFullyBookedText(false);
         navigateToForms(times);
       } else {
+        console.log("Nine and six is not true");
         setShowFullyBookedText(true);
       }
+    }
   }, [times]);
 
   const checkTime = (nfb: string) => {

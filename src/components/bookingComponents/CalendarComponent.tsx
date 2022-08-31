@@ -110,7 +110,7 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
 
     let day = d;
     let year = changeYear;
-    let month = currentMonthNumber;
+    let month = currentMonthName;
     let date = d + "-" + month + "-" + year;
 
     let yearNow = new Date().getFullYear();
@@ -125,7 +125,7 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
       (currentMonthNumber === monthNow && checkDate < 0) ||
       currentMonthNumber < monthNow
     ) {
-      // alert("You can't book this date");
+      alert("You can't book this date");
     } else {
       setChoosenDate(d);
       props.getData(date);
