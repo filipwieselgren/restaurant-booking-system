@@ -53,7 +53,7 @@ export const SingleBooking = () => {
   const [checkbox, setCheckbox] = useState(false);
 
   //state for avaliability ("ava" contains returned response after checking if date is availible. Returns Object with values true/false)
-  const [ava, setAva] = useState({});
+  const [avalibleTime, setAvalibleTime] = useState({});
 
   //HOOKS//
   //fetch all bookings in array and set in bookings-state.
@@ -78,9 +78,10 @@ export const SingleBooking = () => {
   //disable save-button if fully booked
   useEffect(() => {
     disableButton();
+    console.log(tablesAtSix, tablesAtNine);
   }, [tablesAtSix, tablesAtNine]);
 
-  //checking avaliability when entering the page, set resp to singleBooking-state
+  //checking avaliability when singlebooking-state is updated
   useEffect(() => {
     if (bookings.length >= 1) {
       fetch(
@@ -90,13 +91,14 @@ export const SingleBooking = () => {
           singleBooking.amountOfPeople
       )
         .then((response) => response.json())
-        .then((data) => setAva(data));
+        .then((data) => setAvalibleTime(data));
     }
-  }, []);
+    console.log(singleBooking);
+  }, [bookings, singleBooking]);
 
   //set tables-states depending on time-avaliability
   useEffect(() => {
-    for (const [key, value] of Object.entries(ava)) {
+    for (const [key, value] of Object.entries(avalibleTime)) {
       if (key === "sixaclock" && value === true) {
         setTablesAtSix({ sixaclock: true, isDisabled: false });
       } else if (key === "sixaclock" && value === false) {
@@ -109,7 +111,8 @@ export const SingleBooking = () => {
         setTablesAtNine({ nineaclock: false, isDisabled: false });
       }
     }
-  }, [ava]);
+    console.log(avalibleTime);
+  }, [avalibleTime]);
 
   //FUNCTIONS//
   //add more persons to booking
@@ -122,10 +125,6 @@ export const SingleBooking = () => {
     } else {
       setChangeMax("6");
     }
-    setSingleBooking({
-      ...singleBooking,
-      [e.target.name]: e.target.value,
-    });
   };
 
   //disable "save-button" if date is fully booked
@@ -243,9 +242,12 @@ export const SingleBooking = () => {
               <select
                 className="inputs"
                 name="time"
-                value=""
+                value={singleBooking.time}
                 onChange={updateTime}
               >
+                <option value="" disabled selected>
+                  Select time
+                </option>
                 <option value="18" disabled={tablesAtSix.isDisabled}>
                   18
                 </option>
