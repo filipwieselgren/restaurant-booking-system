@@ -56,12 +56,15 @@ export const LoginAdmin = () => {
 
         <form onSubmit={preventSubmit} action="post">
           <input
+            id="email"
             onChange={handleEmail}
             value={email}
             type="text"
             placeholder="Email:"
           />
+
           <input
+            id="pass"
             onChange={handlePassword}
             value={password}
             type="password"

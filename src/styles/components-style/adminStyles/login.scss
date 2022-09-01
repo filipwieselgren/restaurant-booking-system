@@ -15,6 +15,10 @@
     align-items: center;
     box-shadow: 5px 5px 5px rgba(black, 0.4);
 
+    @include tablet-up {
+      width: 40%;
+    }
+
     .loginHeader {
       margin: 0;
       margin-top: 17px;
@@ -28,13 +32,36 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 20px;
+      margin-top: 20px;
+
+      @include tablet {
+        gap: 20px;
+      }
+
+      @include tablet-up {
+        margin: 0;
+        padding: 40px;
+      }
+      input {
+        width: 150px;
+        @include tablet {
+          width: 170px;
+        }
+
+        @include tablet-up {
+          width: 180px;
+        }
+      }
 
       .buttonContainer {
         margin-top: 25px;
         width: 100%;
         display: flex;
         justify-content: center;
+        @include tablet {
+          margin-top: 15px;
+        }
 
         button {
           @include button(#5db85d, 70px, 20px, 9pt);

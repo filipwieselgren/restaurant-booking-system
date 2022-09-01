@@ -7,7 +7,7 @@ export const Navigation = () => {
     <div className="navWrapper">
       <div className="loginWrapper">
         {" "}
-        <Link to={"/admin"}>
+        <Link to={"/admin/login"}>
           <div className="loginBtn">Admin? Log in here!</div>
         </Link>
       </div>
