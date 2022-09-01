@@ -73,9 +73,6 @@ export const Bookings = () => {
     } else {
       booking.tables = 2;
     }
-    console.log("i bookings funktion, tables:", booking.tables);
-
-    console.log("i bookings funktion, antal:", q);
   };
 
   // funktion som hämtar tid av bokning
@@ -92,8 +89,6 @@ export const Bookings = () => {
     // console.log("i bookings funktion, person: ", p);
     // console.log("efter ha fått personData, bookings:", booking);
   };
-
-  console.log(booking);
 
   //funktion som ändrar innehåll i modal beroende på url
   const switchForm = () => {
@@ -219,8 +214,6 @@ export const Bookings = () => {
   let timeNotAvailable = <></>;
 
   test ? (timeNotAvailable = <div>This time is not available 🥸</div>) : <></>;
-
-  console.log("chooseTime:", chooseTime);
 
   return (
     <section className="bookingPage">

@@ -21,13 +21,23 @@
         width: 80%;
         display: flex;
         flex-direction: column;
+        div {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          margin-top: 20px;
+          .add {
+            @include button(#5db85d, 100px, 30px, 8pt);
+          }
+        }
 
         .inputDiv {
           width: 100%;
           margin-top: 20pt;
           height: 50px;
           display: flex;
-          justify-content: space-between;
+          margin-bottom: 20px;
+          justify-content: center;
           input {
             @include inputs;
           }
@@ -39,30 +49,28 @@
             margin-left: 5px;
             box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 5px;
           }
-          div {
-            .add {
-              @include button(#5db85d, 100px, 30px, 8pt);
-            }
-          }
         }
+
         .headlinesDiv {
-          width: 75%;
+          width: 100%;
+          gap: 20px;
           display: flex;
           align-items: center;
-          justify-content: space-evenly;
+          justify-content: start;
           margin-bottom: 20px;
+
           h3 {
             font-size: 8pt;
             padding: 0px;
             margin: 0px;
-            width: 30px;
+            width: 15px;
           }
         }
       }
     }
     .listWrapper {
-      height: 350px;
-      width: 80%;
+      height: 370px;
+      width: 85%;
       background-color: white;
       overflow-y: scroll;
     }

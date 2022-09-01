@@ -67,6 +67,7 @@ router.get("/:date", async (req, res) => {
   }
 });
 
+//skapa ny bokning
 router.post("/create/:amountOfPeople/:date/:time", async (req, res) => {
   const postDateAdmin = req.params.date;
   const postAmoutAdmin = req.params.amountOfPeople;
@@ -79,6 +80,8 @@ router.post("/create/:amountOfPeople/:date/:time", async (req, res) => {
     time: postTimeAdmin,
     email: req.body.email,
     phone: req.body.phone,
+    cancelid: req.body.cancelid,
+    tables: req.body.tables,
   });
 
   newBookingAdmin.save();
@@ -96,6 +99,8 @@ router.post("/bookings/:id/edit", async (req, res) => {
     time: req.body.time,
     email: req.body.email,
     phone: req.body.phone,
+    cancelid: req.body.cancelid,
+    tables: req.body.tables,
   };
 
   await BookingsModel.updateOne({ _id: id }, { $set: editBooking });
@@ -105,7 +110,6 @@ router.post("/bookings/:id/edit", async (req, res) => {
 
 //ta bort single bokning
 router.delete("/bookings/:id/delete", async (req, res) => {
-  console.log("Hej");
   const id = ObjectId(req.params.id);
   try {
     const deletedBooking = await BookingsModel.findByIdAndDelete(id);
