@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { IAdminBookedProps } from "../../models/IAdminBookedProps";
 import "../../styles/cancel.scss";
 
 export const CancelBooking = () => {
