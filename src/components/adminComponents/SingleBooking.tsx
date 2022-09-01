@@ -229,9 +229,9 @@ export const SingleBooking = () => {
                 className="inputs"
                 type="date"
                 name="date"
-                value={new Date(singleBooking.date).toLocaleDateString()}
+                value={singleBooking.date}
                 onChange={handleChange}
-                min={new Date().toISOString().split("T")[0]} //block previous dates
+                // min={new Date().toISOString().split("T")[0]} //block previous dates
               />
             </div>
 

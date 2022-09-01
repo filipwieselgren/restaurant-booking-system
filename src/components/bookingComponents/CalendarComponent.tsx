@@ -111,7 +111,7 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
     let day = d;
     let year = changeYear;
     let month = currentMonthName;
-    let date = d + "-" + month + "-" + year;
+    let date = day + "-" + month + "-" + year;
 
     let yearNow = new Date().getFullYear();
     let monthNow = new Date().getMonth() + 1;
