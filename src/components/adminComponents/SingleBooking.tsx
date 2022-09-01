@@ -1,7 +1,7 @@
 import React from "react";
 import { ChangeEvent, FormEvent } from "react";
 import { useState, useEffect } from "react";
-import { IBooked } from "../../models/IBooked";
+import { IAdminBookedProps } from "../../models/IAdminBookedProps";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ISixDisable } from "../../models/ITablesAvalibles";
@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import "../../styles/admin.scss";
 import "../../styles/components-style/adminStyles/_singleBooking.scss";
 import "../../styles/components-style/bookingStyles/_amountOfPeople.scss";
-import { response } from "express";
 
 export const SingleBooking = () => {
   //set variables
@@ -22,9 +21,9 @@ export const SingleBooking = () => {
 
   //STATES//
   //state for all bookings
-  const [bookings, setBookings] = useState<IBooked[]>([]);
+  const [bookings, setBookings] = useState<IAdminBookedProps[]>([]);
   //state for a single Booking
-  const [singleBooking, setSingleBooking] = useState<IBooked>({
+  const [singleBooking, setSingleBooking] = useState<IAdminBookedProps>({
     name: "",
     email: "",
     phone: 0,
@@ -32,6 +31,8 @@ export const SingleBooking = () => {
     date: "",
     time: 0,
     _id: "",
+    cancelid: 0,
+    tables: 0,
   });
 
   //state for making drop-down disabled if no tables left
@@ -48,8 +49,8 @@ export const SingleBooking = () => {
   const [disabledBtn, setDisabledBtn] = useState(false);
 
   //state for adding more persons to booking via checkbox
-  // const [changeMax, setChangeMax] = useState("6");
-  // const [checkbox, setCheckbox] = useState(false);
+  const [changeMax, setChangeMax] = useState("6");
+  const [checkbox, setCheckbox] = useState(false);
 
   //state for avaliability ("ava" contains returned response after checking if date is availible. Returns Object with values true/false)
   const [ava, setAva] = useState({});
@@ -91,7 +92,7 @@ export const SingleBooking = () => {
         .then((response) => response.json())
         .then((data) => setAva(data));
     }
-  }, [singleBooking]);
+  }, []);
 
   //set tables-states depending on time-avaliability
   useEffect(() => {
@@ -112,21 +113,20 @@ export const SingleBooking = () => {
 
   //FUNCTIONS//
   //add more persons to booking
-  // const addMorePersons = (e: ChangeEvent<HTMLInputElement>) => {
-  //   let target = e.target.checked;
-  //   setCheckbox(target);
+  const addMorePersons = (e: ChangeEvent<HTMLInputElement>) => {
+    let target = e.target.checked;
+    setCheckbox(target);
 
-  //   if (target) {
-  //     setChangeMax("12");
-  //   } else {
-  //     setChangeMax("6");
-  //   }
-
-  //   setSingleBooking({
-  //     ...singleBooking,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
+    if (target) {
+      setChangeMax("12");
+    } else {
+      setChangeMax("6");
+    }
+    setSingleBooking({
+      ...singleBooking,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   //disable "save-button" if date is fully booked
   const disableButton = () => {
@@ -205,23 +205,24 @@ export const SingleBooking = () => {
                 value={singleBooking.amountOfPeople}
                 onChange={handleChange}
                 min="1"
-                max="12"
-                // max={changeMax}
+                max={changeMax}
               />
-              {/* <div className="boxWrapper">
-                <div className="checkboxContainer">
-                  <p>Add persons</p>
-                  <div className="check">
-                    <input
-                      onChange={addMorePersons}
-                      className="checkbox"
-                      id="check"
-                      type="checkbox"
-                    />
-                    <label className="checkbox" htmlFor="check"></label>
+              {
+                <div className="boxWrapper">
+                  <div className="checkboxContainer">
+                    <p>Add persons</p>
+                    <div className="check">
+                      <input
+                        onChange={addMorePersons}
+                        className="checkbox"
+                        id="check"
+                        type="checkbox"
+                      />
+                      <label className="checkbox" htmlFor="check"></label>
+                    </div>
                   </div>
                 </div>
-              </div> */}
+              }
             </div>
 
             <div>

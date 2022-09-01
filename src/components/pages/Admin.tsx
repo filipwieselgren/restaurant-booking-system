@@ -2,14 +2,14 @@ import React, { ChangeEvent } from "react";
 import { AllBookings } from "../adminComponents/AllBookings";
 import "../../styles/admin.scss";
 import { useState, useEffect } from "react";
-import { IBooked } from "../../models/IBooked";
+import { IAdminBookedRender } from "../../models/IAdminBookedProps";
 import { Link } from "react-router-dom";
 
 const search = (email: string) => {};
 
 export const Admin = () => {
   //states
-  const [bookings, setBookings] = useState<IBooked[]>([]);
+  const [bookings, setBookings] = useState<IAdminBookedRender[]>([]);
   const [searched, setSearched] = useState("");
 
   //get bookings and set in state

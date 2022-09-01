@@ -1,8 +1,8 @@
-import { IBooked } from "../../models/IBooked";
+import { IAdminBookedRender } from "../../models/IAdminBookedProps";
 import { Link } from "react-router-dom";
 import "../../styles/components-style/adminStyles/_allBookings.scss";
 
-export const AllBookings = (props: IBooked) => {
+export const AllBookings = (props: IAdminBookedRender) => {
   return (
     <div className="listDiv">
       <div>
