@@ -93,8 +93,7 @@ export const SingleBooking = () => {
         .then((response) => response.json())
         .then((data) => setAvalibleTime(data));
     }
-    console.log(singleBooking);
-  }, [bookings, singleBooking]);
+  }, [singleBooking]);
 
   //set tables-states depending on time-avaliability
   useEffect(() => {
