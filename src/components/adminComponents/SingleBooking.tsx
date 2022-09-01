@@ -12,14 +12,15 @@ import "../../styles/components-style/adminStyles/_singleBooking.scss";
 import "../../styles/components-style/bookingStyles/_amountOfPeople.scss";
 import { response } from "express";
 
-//COMPONENT
-
 export const SingleBooking = () => {
   //set variables
   const params = useParams();
   const navigate = useNavigate();
+  const preventSubmit = (e: FormEvent) => {
+    e.preventDefault();
+  };
 
-  //STATES
+  //STATES//
   //state for all bookings
   const [bookings, setBookings] = useState<IBooked[]>([]);
   //state for a single Booking
@@ -47,23 +48,21 @@ export const SingleBooking = () => {
   const [disabledBtn, setDisabledBtn] = useState(false);
 
   //state for adding more persons to booking via checkbox
-  const [changeMax, setChangeMax] = useState("6");
-  const [checkbox, setCheckbox] = useState(false);
+  // const [changeMax, setChangeMax] = useState("6");
+  // const [checkbox, setCheckbox] = useState(false);
 
-  //prevent from submit
-  const preventSubmit = (e: FormEvent) => {
-    e.preventDefault();
-  };
+  //state for avaliability ("ava" contains returned response after checking if date is availible. Returns Object with values true/false)
+  const [ava, setAva] = useState({});
 
-  //HOOKS AND FUNCTIONS
-
-  //fetch all bookings in array and find single booking. Set single booking in state
+  //HOOKS//
+  //fetch all bookings in array and set in bookings-state.
   useEffect(() => {
     fetch("http://localhost:8080/admin/login")
       .then((response) => response.json())
       .then((data) => setBookings(data));
   }, []);
 
+  //find single booking. Set in singleBooking-state
   useEffect(() => {
     if (params.id) {
       for (let i = 0; i < bookings.length; i++) {
@@ -80,21 +79,23 @@ export const SingleBooking = () => {
     disableButton();
   }, [tablesAtSix, tablesAtNine]);
 
-  //add more persons function
-  const addMorePersons = (e: ChangeEvent<HTMLInputElement>) => {
-    let target = e.target.checked;
-    setCheckbox(target);
-
-    if (target) {
-      setChangeMax("12");
-    } else {
-      setChangeMax("6");
+  //checking avaliability when entering the page, set resp to singleBooking-state
+  useEffect(() => {
+    if (bookings.length >= 1) {
+      fetch(
+        "http://localhost:8080/booktable/searchtables/" +
+          singleBooking.date +
+          "/" +
+          singleBooking.amountOfPeople
+      )
+        .then((response) => response.json())
+        .then((data) => setAva(data));
     }
-  };
+  }, [singleBooking]);
 
-  //set states till true/false beroende på tillgänglighet
-  const renderAva = (avaDate: {}) => {
-    for (const [key, value] of Object.entries(avaDate)) {
+  //set tables-states depending on time-avaliability
+  useEffect(() => {
+    for (const [key, value] of Object.entries(ava)) {
       if (key === "sixaclock" && value === true) {
         setTablesAtSix({ sixaclock: true, isDisabled: false });
       } else if (key === "sixaclock" && value === false) {
@@ -107,8 +108,27 @@ export const SingleBooking = () => {
         setTablesAtNine({ nineaclock: false, isDisabled: false });
       }
     }
-  };
+  }, [ava]);
 
+  //FUNCTIONS//
+  //add more persons to booking
+  // const addMorePersons = (e: ChangeEvent<HTMLInputElement>) => {
+  //   let target = e.target.checked;
+  //   setCheckbox(target);
+
+  //   if (target) {
+  //     setChangeMax("12");
+  //   } else {
+  //     setChangeMax("6");
+  //   }
+
+  //   setSingleBooking({
+  //     ...singleBooking,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+
+  //disable "save-button" if date is fully booked
   const disableButton = () => {
     if (tablesAtSix.sixaclock || tablesAtNine.nineaclock) {
       setDisabledBtn(false);
@@ -117,21 +137,7 @@ export const SingleBooking = () => {
     }
   };
 
-  //checkAva-function. Checks avaliability every time you click "check-time-btn"
-  const checkAva = async () => {
-    let response = await fetch(
-      "http://localhost:8080/booktable/searchtables/" +
-        singleBooking.date +
-        "/" +
-        singleBooking.amountOfPeople
-    );
-
-    let data = await response.json();
-
-    renderAva(data);
-  };
-
-  //Updates singleBooking-object every time an input is edited
+  //update singleBooking-object every time an PERSON DETAILS-INPUT is edited
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.type === "number") {
       setSingleBooking({ ...singleBooking, [e.target.name]: +e.target.value });
@@ -140,7 +146,7 @@ export const SingleBooking = () => {
     }
   };
 
-  //Updates singleBookings time when the time-dropwdown-select changes
+  //update singleBookings TIME when the time-dropwdown-select changes
   const updateTime = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSingleBooking({
       ...singleBooking,
@@ -148,7 +154,7 @@ export const SingleBooking = () => {
     });
   };
 
-  //saveChanges-function. Creates a POST when admin saves the changes.
+  //creates a POST when admin saves the changes.
   const saveChanges = () => {
     fetch(
       "http://localhost:8080/admin/bookings/" + singleBooking._id + "/edit",
@@ -166,7 +172,7 @@ export const SingleBooking = () => {
     navigate("/admin");
   };
 
-  //deleteBooking-function. Deletes booking
+  //delete single booking
   const deleteBooking = () => {
     fetch(
       `http://localhost:8080/admin/bookings/${singleBooking._id}/delete`,
@@ -182,7 +188,7 @@ export const SingleBooking = () => {
     navigate("/admin");
   };
 
-  //JSX
+  //JSX//
   return (
     <div className="wrapper">
       <div className="adminWrapper">
@@ -199,9 +205,10 @@ export const SingleBooking = () => {
                 value={singleBooking.amountOfPeople}
                 onChange={handleChange}
                 min="1"
-                max={changeMax}
+                max="12"
+                // max={changeMax}
               />
-              <div className="boxWrapper">
+              {/* <div className="boxWrapper">
                 <div className="checkboxContainer">
                   <p>Add persons</p>
                   <div className="check">
@@ -214,7 +221,7 @@ export const SingleBooking = () => {
                     <label className="checkbox" htmlFor="check"></label>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div>
@@ -249,11 +256,11 @@ export const SingleBooking = () => {
             </div>
           </div>
 
-          <div className="avaBtnWrapper">
+          {/* <div className="avaBtnWrapper">
             <div className="avaBtn" onClick={checkAva}>
               See avalible times
             </div>
-          </div>
+          </div> */}
 
           <h3>Personal details</h3>
           <div className="detailsDiv">
