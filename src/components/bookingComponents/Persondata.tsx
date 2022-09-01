@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IBooking } from "../../models/IBooking";
 import { IBookingProps } from "../../models/IBookingProps";
@@ -10,6 +10,8 @@ interface IPersonDataProps {
 }
 
 export const PersonData = (props: IPersonDataProps) => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -19,12 +21,9 @@ export const PersonData = (props: IPersonDataProps) => {
   const [phoneError, setPhoneError] = useState(true);
   const [nameError, setNameError] = useState(true);
 
-  const [validationDone, setValidationDone] = useState(false);
   const [startOnChangeName, setStartOnChangeName] = useState(false);
   const [startOnChangeEmail, setStartOnChangeEmail] = useState(false);
   const [startOnChangePhone, setStartOnChangePhone] = useState(false);
-
-  const navigate = useNavigate();
 
   const twoHandlersName = (e: ChangeEvent<HTMLInputElement>) => {
     handleName(e);
@@ -50,14 +49,12 @@ export const PersonData = (props: IPersonDataProps) => {
   };
 
   const validateName = () => {
-    if (name.length > 0) {
-      console.log("ändringggg");
-    }
-
     if (name.length === 0) {
       setNameError(false);
+      return false;
     } else {
       setNameError(true);
+      return true;
     }
   };
 
@@ -69,22 +66,20 @@ export const PersonData = (props: IPersonDataProps) => {
     } else {
       if (regex) {
         setEmailError(true);
+        return true;
       } else {
         setEmailError(false);
+        return false;
       }
     }
-
-    // return /\S+@\S+\.\S+/.test(email);
   };
   const validatePhone = () => {
-    if (phone.length === 0) {
-      setPhoneError(false);
+    if (phone.length === 10) {
+      setPhoneError(true);
+      return true;
     } else {
-      if (phone.length < 10 || phone.length > 10) {
-        setPhoneError(false);
-      } else {
-        setPhoneError(true);
-      }
+      setPhoneError(false);
+      return false;
     }
   };
 
@@ -110,55 +105,69 @@ export const PersonData = (props: IPersonDataProps) => {
     // navigate("/booktable/post");
   };
 
-  const preventSubmit = (e: FormEvent) => {
+  const preventSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    validateEmail();
-    validateName();
-    validatePhone();
+    let emailValidator = validateEmail();
+    let nameValidator = validateName();
+    let phoneValidator = validatePhone();
 
-    if (emailError === true && nameError === true && phoneError === true) {
-      setValidationDone(true);
+    if (nameValidator) {
+      setNameError(true);
+    } else {
+      setNameError(false);
     }
 
-    if (nameError) {
+    if (emailValidator) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+
+    if (phoneValidator) {
+      setPhoneError(true);
+    } else {
+      setPhoneError(false);
+    }
+
+    if (!nameValidator) {
       setStartOnChangeName(true);
     }
-    if (emailError) {
+    if (!emailValidator) {
       setStartOnChangeEmail(true);
     }
-    if (phoneError) {
+    if (!phoneValidator) {
       setStartOnChangePhone(true);
     }
-
-    if (validationDone === true) {
-      (async () => {
-        const rawResponse = await fetch(
-          "http://localhost:8080/booktable/persondata",
-          {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              mode: "no-cors",
-            },
-            body: JSON.stringify(props.postBookingData),
-          }
-        );
-      })();
+    if (nameValidator && emailValidator && phoneValidator) {
+      sendFetch();
     }
   };
 
-  const validate = () => {
-    validateName();
+  const sendFetch = () => {
+    (async () => {
+      const rawResponse = await fetch(
+        "http://localhost:8080/booktable/persondata",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            mode: "no-cors",
+          },
+          body: JSON.stringify(props.postBookingData),
+        }
+      );
+    })();
   };
 
-  /* console.log("validation done", validationDone);
+  /*  console.log("validation done", validationDone);
   console.log("mail", emailError);
   console.log("name", nameError);
-  console.log("phone", phoneError); */
-  console.log("name", name);
-  console.log("start on change", startOnChangeName);
+  console.log("phone", phoneError);
+  console.log("phone length", phone.length); */
+
+  console.log("phone", phone.length);
 
   return (
     <section className="personDataContainer">
@@ -172,7 +181,7 @@ export const PersonData = (props: IPersonDataProps) => {
 
           <input
             value={name}
-            onBlur={validate}
+            onBlur={validateName}
             onChange={twoHandlersName}
             // onChange={handleName}
             id="nameInput"
@@ -183,6 +192,7 @@ export const PersonData = (props: IPersonDataProps) => {
           {!emailError && <p>Fyll i en korrekt emailadress</p>}
           <input
             value={email}
+            onBlur={validateEmail}
             onChange={twoHandlersEmail}
             id="emailInput"
             type="text"
@@ -193,6 +203,7 @@ export const PersonData = (props: IPersonDataProps) => {
 
           <input
             value={phone}
+            onBlur={validatePhone}
             onChange={twoHandlersPhone}
             id="phoneInput"
             type="text"
