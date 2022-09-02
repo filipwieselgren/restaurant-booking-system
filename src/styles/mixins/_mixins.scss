@@ -23,6 +23,11 @@
     @content;
   }
 }
+@mixin tablet-step2 {
+  @media (min-width: 800px) {
+    @content;
+  }
+}
 
 @mixin tablet-up {
   @media (min-width: 900px) {

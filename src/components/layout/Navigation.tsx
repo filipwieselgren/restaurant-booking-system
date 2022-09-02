@@ -16,7 +16,7 @@ export const Navigation = () => {
         <div className="logoWrapper">
           <Link to={"/"}>
             <div className="logo">
-              <img src={logoImg} alt="" />
+              <img src={logoImg} alt="logotype" />
             </div>
           </Link>
         </div>

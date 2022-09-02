@@ -1,3 +1,6 @@
+@import "./mixins/mixins";
+@import "./layout/footer";
+@import "./layout/navigation.scss";
 body {
   margin: 0;
   padding: 0;
@@ -13,5 +16,6 @@ a {
 }
 
 #root {
+  //height: 150vh;
   background-image: url("../assets/background.jpg");
 }
