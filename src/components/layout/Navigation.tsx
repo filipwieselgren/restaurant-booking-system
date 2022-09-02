@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../../styles/navigation.scss";
+import "../../styles/layout/navigation.scss";
 const logoImg = require("../../assets/logo.png");
 
 export const Navigation = () => {
