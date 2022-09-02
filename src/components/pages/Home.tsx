@@ -10,11 +10,6 @@ export const Home = () => {
           <p>Book table</p>
         </div>
       </Link>
-      <div className="adminLinkWrapper">
-        <Link to={"/admin/login"}>
-          <p>Admin? Logga in här</p>
-        </Link>
-      </div>
     </div>
   );
 };

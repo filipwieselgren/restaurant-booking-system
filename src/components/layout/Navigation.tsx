@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../../styles/navigation.scss";
+const logoImg = require("../../assets/logo.png");
 
 export const Navigation = () => {
   return (
@@ -14,7 +15,9 @@ export const Navigation = () => {
       <div className="logonmenu">
         <div className="logoWrapper">
           <Link to={"/"}>
-            <div className="logo">LOGGA</div>
+            <div className="logo">
+              <img src={logoImg} alt="" />
+            </div>
           </Link>
         </div>
         <div className="menuWrapper">

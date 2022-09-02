@@ -2,7 +2,7 @@
 
 @include phone-up {
   .navWrapper {
-    height: 100px;
+    height: 150px;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.715);
     padding-top: 40px;
@@ -36,9 +36,12 @@
         justify-content: center;
         flex-direction: row;
         .logo {
-          font-size: 50pt;
+          width: 270px;
           &:hover {
             cursor: pointer;
+          }
+          img {
+            width: 100%;
           }
         }
       }
@@ -70,6 +73,7 @@
 
 @include tablet-up {
   .navWrapper {
+    height: 100px;
     width: 100%;
     flex-direction: column;
     .logonmenu {
