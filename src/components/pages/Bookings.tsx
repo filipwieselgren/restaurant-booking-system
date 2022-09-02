@@ -11,6 +11,7 @@ import axios from "axios";
 import { ITablesAvalible } from "../../models/ITablesAvalibles";
 import { time } from "console";
 import { CancelBooking } from "../bookingComponents/CancelBooking";
+import { PromiseProvider } from "mongoose";
 
 export const Bookings = () => {
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
@@ -46,6 +47,10 @@ export const Bookings = () => {
   const [dateAndTimeMissing, setDateAndTimeMissing] = useState<boolean>(false);
   const [chooseTime, setChooseTime] = useState<boolean>(false);
 
+  const [navigateOnTimeForm, setNavigateOnTimeForm] = useState(false);
+  const [navigateOnPersonDataForm, setNavigateOnPersonDataForm] =
+    useState(false);
+
   useEffect(() => {
     if (activeCancelButton) {
       setButtonText("Avbryt");
@@ -54,6 +59,17 @@ export const Bookings = () => {
     }
 
     switchForm();
+
+    if (url.pathname === "/booktable/choose-time") {
+      setNavigateOnTimeForm(true);
+    } else {
+      setNavigateOnTimeForm(false);
+    }
+    if (url.pathname === "/booktable/persondata") {
+      setNavigateOnPersonDataForm(true);
+    } else {
+      setNavigateOnPersonDataForm(false);
+    }
   }, [url, activeCancelButton]);
 
   // funktion som hämtar datum, år, dag, månad
@@ -86,8 +102,6 @@ export const Bookings = () => {
     booking.email = p.email;
     booking.name = p.name;
     booking.phone = +p.phone;
-    // console.log("i bookings funktion, person: ", p);
-    // console.log("efter ha fått personData, bookings:", booking);
   };
 
   //funktion som ändrar innehåll i modal beroende på url
@@ -114,6 +128,8 @@ export const Bookings = () => {
       setIsActiveTime(true);
       setIsActiveCalendar(false);
       setIsActivePersonData(false);
+
+      setActiveCancelButton(false);
     }
     if (url.pathname === "/booktable/persondata") {
       setShowPersondata(true);
@@ -125,6 +141,21 @@ export const Bookings = () => {
       setIsActiveTime(false);
 
       setActiveCancelButton(true);
+    }
+  };
+
+  const navigateToDateFormByClick = () => {
+    if (
+      url.pathname === "/booktable/choose-time" ||
+      url.pathname === "/booktable/persondata"
+    ) {
+      navigate("/booktable/searchtables");
+    }
+  };
+
+  const navigateToTimeFormByClick = () => {
+    if (url.pathname === "/booktable/persondata") {
+      navigate("/booktable/choose-time");
     }
   };
 
@@ -215,14 +246,26 @@ export const Bookings = () => {
 
   test ? (timeNotAvailable = <div>This time is not available 🥸</div>) : <></>;
 
+  console.log("booking", booking);
+
   return (
     <section className="bookingPage">
       <article className="bookingFormsContainer">
         <div className="wichForm">
-          <div className={`ifDateForm ${isActiveCalendar && "active"}`}>
+          <div
+            onClick={navigateToDateFormByClick}
+            className={`ifDateForm ${isActiveCalendar && "active"} ${
+              navigateOnTimeForm && "navigate"
+            } ${navigateOnPersonDataForm && "navigate"}`}
+          >
             <p>Antal och datum</p>
           </div>
-          <div className={`ifTimeForm ${isActiveTime && "active"}`}>
+          <div
+            onClick={navigateToTimeFormByClick}
+            className={`ifTimeForm ${isActiveTime && "active"} ${
+              navigateOnPersonDataForm && "navigate"
+            }`}
+          >
             <p>Val av tid</p>
           </div>
           <div className={`ifConfirmation ${isActivePersonData && "active"}`}>
