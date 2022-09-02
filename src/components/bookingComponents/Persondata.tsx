@@ -101,7 +101,6 @@ export const PersonData = (props: IPersonDataProps) => {
   };
 
   const sendData = () => {
-    // setBookingDone(true);
     props.getData({ name, email, phone });
 
     // navigate("/booktable/post");
@@ -160,6 +159,7 @@ export const PersonData = (props: IPersonDataProps) => {
           body: JSON.stringify(props.postBookingData),
         }
       );
+      setBookingDone(true);
 
       console.log(rawResponse);
     })();
@@ -223,17 +223,17 @@ export const PersonData = (props: IPersonDataProps) => {
       </>
     );
   } else {
-    // formInput = (
-    //   <>
-    //     <div>Your booking is confirmed</div>
-    //     <div className="swal-icon swal-icon--success">
-    //       <span className="swal-icon--success__line swal-icon--success__line--long"></span>
-    //       <span className="swal-icon--success__line swal-icon--success__line--tip"></span>
-    //       <div className="swal-icon--success__ring"></div>
-    //       <div className="swal-icon--success__hide-corners"></div>
-    //     </div>
-    //   </>
-    // );
+    formInput = (
+      <>
+        <div>Your booking is confirmed</div>
+        <div className="swal-icon swal-icon--success">
+          <span className="swal-icon--success__line swal-icon--success__line--long"></span>
+          <span className="swal-icon--success__line swal-icon--success__line--tip"></span>
+          <div className="swal-icon--success__ring"></div>
+          <div className="swal-icon--success__hide-corners"></div>
+        </div>
+      </>
+    );
   }
 
   return (
