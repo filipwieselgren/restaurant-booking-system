@@ -21,8 +21,6 @@ export const SingleBooking = () => {
   };
 
   //STATES//
-  //state for all bookings
-  const [bookings, setBookings] = useState<IAdminBookedProps[]>([]);
   //state for a single Booking
   const [singleBooking, setSingleBooking] = useState<IAdminBookedProps>({
     name: "",
@@ -67,24 +65,18 @@ export const SingleBooking = () => {
       .then((data) => setSingleBooking(data));
   }, []);
 
-  //disable save-button if fully booked
-  useEffect(() => {
-    disableButton();
-    console.log(tablesAtSix, tablesAtNine);
-  }, [tablesAtSix, tablesAtNine]);
-
   //checking avaliability when singlebooking-state is updated
+  //OBS denna ska inte köras förrän ovan HOOK körts. FIXA! SOFIA!
   useEffect(() => {
-    if (bookings.length >= 1) {
-      fetch(
-        "http://localhost:8080/booktable/searchtables/" +
-          singleBooking.date +
-          "/" +
-          singleBooking.amountOfPeople
-      )
-        .then((response) => response.json())
-        .then((data) => setAvalibleTime(data));
-    }
+    fetch(
+      "http://localhost:8080/booktable/searchtables/" +
+        singleBooking.date +
+        "/" +
+        singleBooking.amountOfPeople
+    )
+      .then((response) => response.json())
+      .then((data) => setAvalibleTime(data));
+
     console.log(singleBooking);
   }, [singleBooking]);
 
@@ -103,8 +95,12 @@ export const SingleBooking = () => {
         setTablesAtNine({ nineaclock: false, isDisabled: true });
       }
     }
-    console.log(avalibleTime);
   }, [avalibleTime]);
+
+  //disable save-button if fully booked
+  useEffect(() => {
+    disableButton();
+  }, [tablesAtSix, tablesAtNine]);
 
   //FUNCTIONS//
   //add more persons to booking
