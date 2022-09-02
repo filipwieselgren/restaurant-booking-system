@@ -110,8 +110,16 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
 
     let day = d;
     let year = changeYear;
-    let month = currentMonthName;
-    let date = day + "-" + month + "-" + year;
+    let month = currentMonthNumber.toString();
+    let editedMonth = "";
+
+    if (month.length === 1) {
+      editedMonth = "0" + month;
+    } else {
+      editedMonth = month;
+    }
+
+    let date = d + "-" + editedMonth + "-" + year;
 
     let yearNow = new Date().getFullYear();
     let monthNow = new Date().getMonth() + 1;

@@ -59,7 +59,7 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
     console.log("booked at nine", totalBookedTablesAtNine);
     console.log(totalBookedTablesAtSix + totalBookedTablesAtNine);
 
-    if (totalBookedTablesAtSix + totalBookedTablesAtNine + qty <= 30) {
+    if (totalBookedTablesAtSix + totalBookedTablesAtNine + qty < 30) {
       if (
         totalBookedTablesAtSix < maxAmountOfTables &&
         totalBookedTablesAtNine < maxAmountOfTables &&
@@ -89,7 +89,7 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
         }
       }
 
-      if (qty === 1) {
+      /*    if (qty === 1) {
         if (
           totalBookedTablesAtSix < maxAmountOfTables &&
           totalBookedTablesAtNine >= maxAmountOfTables
@@ -105,7 +105,7 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
 
           res.status(200).send(nineOnlyAvalible);
         }
-      }
+      } */
 
       if (qty === 1) {
         if (

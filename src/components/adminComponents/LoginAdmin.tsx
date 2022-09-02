@@ -11,11 +11,10 @@ export const LoginAdmin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [ifNotAdmin, setIfNotAdmin] = useState(false);
+  const [loader, setLoader] = useState(false);
   let admin: IAdmin = { email, password };
 
   const navigate = useNavigate();
-
-  //useEffect(() => {}, [ifAdmin]);
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -26,6 +25,10 @@ export const LoginAdmin = () => {
 
   const preventSubmit = (e: FormEvent) => {
     e.preventDefault();
+
+    // setLoader(true);
+
+    // setTimeout(() => {
     (async () => {
       const rawResponse = await fetch("http://localhost:8080/admin/login", {
         method: "POST",
@@ -47,12 +50,15 @@ export const LoginAdmin = () => {
           }
         });
     })();
+    // }, 1000);
   };
 
   return (
     <section className="loginPage">
       <article className="loginContainer">
         <p className="loginHeader">Logga in som administratör</p>
+
+        {loader && <span className="loader"></span>}
 
         <form onSubmit={preventSubmit} action="post">
           <input
