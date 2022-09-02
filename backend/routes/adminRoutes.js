@@ -7,6 +7,7 @@ const sendEmailConfirmation = require("../functions/sendEmail");
 const BookingsModel = require("../models/Bookings.js");
 const AdminModel = require("../models/Admin.js");
 
+//admin login
 router.post("/login", async (req, res) => {
   const admin = await AdminModel.findOne({
     email: req.body.email,
@@ -30,13 +31,21 @@ router.get("/login", async (req, res) => {
 
   getBookings.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  console.log(getBookings.length);
-
   res.send(getBookings);
 });
 
-// Steg 1 - kollar tid
+//hämta single booking
+router.get("/bookings/:id", async (req, res) => {
+  const id = ObjectId(req.params.id);
+  try {
+    const singleBooking = await BookingsModel.findOne({ _id: id });
+    res.status(200).send(singleBooking);
+  } catch (error) {
+    res.status(404);
+  }
+});
 
+// ANVÄNDS DENNA?
 router.get("/:date", async (req, res) => {
   try {
     const date = req.params.date;
@@ -65,28 +74,6 @@ router.get("/:date", async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-});
-
-//skapa ny bokning
-router.post("/create/:amountOfPeople/:date/:time", async (req, res) => {
-  const postDateAdmin = req.params.date;
-  const postAmoutAdmin = req.params.amountOfPeople;
-  const postTimeAdmin = req.params.time;
-
-  const newBookingAdmin = new BookingsModel({
-    name: req.body.name,
-    date: postDateAdmin,
-    amountOfPeople: postAmoutAdmin,
-    time: postTimeAdmin,
-    email: req.body.email,
-    phone: req.body.phone,
-    cancelid: req.body.cancelid,
-    tables: req.body.tables,
-  });
-
-  newBookingAdmin.save();
-  console.log("newBooking", newBookingAdmin);
-  res.status(201).send(newBookingAdmin);
 });
 
 //ändra single bokning
