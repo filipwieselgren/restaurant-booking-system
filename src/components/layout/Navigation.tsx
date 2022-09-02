@@ -20,7 +20,7 @@ export const Navigation = () => {
           <Link to={"/meny"}>
             <div className="menuBtn">Our menu</div>
           </Link>
-          <Link to={"/kontakt"}>
+          <Link to={"/contact"}>
             <div className="contactBtn">Contact us</div>
           </Link>
         </div>
