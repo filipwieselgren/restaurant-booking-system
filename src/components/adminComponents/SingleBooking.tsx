@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ISixDisable } from "../../models/ITablesAvalibles";
 import { INineDisable } from "../../models/ITablesAvalibles";
+import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "../../styles/admin.scss";
 import "../../styles/components-style/adminStyles/_singleBooking.scss";
@@ -55,25 +56,16 @@ export const SingleBooking = () => {
   //state for avaliability ("ava" contains returned response after checking if date is availible. Returns Object with values true/false)
   const [avalibleTime, setAvalibleTime] = useState({});
 
-  //HOOKS//
-  //fetch all bookings in array and set in bookings-state.
-  useEffect(() => {
-    fetch("http://localhost:8080/admin/login")
-      .then((response) => response.json())
-      .then((data) => setBookings(data));
-  }, []);
+  //params id
+  const { id } = useParams();
 
+  //HOOKS//
   //find single booking. Set in singleBooking-state
   useEffect(() => {
-    if (params.id) {
-      for (let i = 0; i < bookings.length; i++) {
-        if (bookings[i]._id === params.id) {
-          setSingleBooking(bookings[i]);
-        } else {
-        }
-      }
-    }
-  }, [bookings]);
+    fetch("http://localhost:8080/admin/bookings/" + id)
+      .then((response) => response.json())
+      .then((data) => setSingleBooking(data));
+  }, []);
 
   //disable save-button if fully booked
   useEffect(() => {
@@ -93,6 +85,7 @@ export const SingleBooking = () => {
         .then((response) => response.json())
         .then((data) => setAvalibleTime(data));
     }
+    console.log(singleBooking);
   }, [singleBooking]);
 
   //set tables-states depending on time-avaliability
@@ -107,7 +100,7 @@ export const SingleBooking = () => {
       if (key === "nineaclock" && value === true) {
         setTablesAtNine({ nineaclock: true, isDisabled: false });
       } else if (key === "nineaclock" && value === false) {
-        setTablesAtNine({ nineaclock: false, isDisabled: false });
+        setTablesAtNine({ nineaclock: false, isDisabled: true });
       }
     }
     console.log(avalibleTime);
@@ -135,9 +128,19 @@ export const SingleBooking = () => {
     }
   };
 
-  //update singleBooking-object every time an PERSON DETAILS-INPUT is edited
+  //update singleBooking-object every time DATE-INPUT is edited
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSingleBooking({ ...singleBooking, [e.target.name]: e.target.value });
+  };
+
+  //update singleBooking-object every time AMOUNT-INPUT is edited
+  const handleAmount = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.type === "number") {
+      if (e.target.value <= "6") {
+        singleBooking.tables = 1;
+      } else {
+        singleBooking.tables = 2;
+      }
       setSingleBooking({ ...singleBooking, [e.target.name]: +e.target.value });
     } else {
       setSingleBooking({ ...singleBooking, [e.target.name]: e.target.value });
@@ -201,7 +204,7 @@ export const SingleBooking = () => {
                 type="number"
                 name="amountOfPeople"
                 value={singleBooking.amountOfPeople}
-                onChange={handleChange}
+                onChange={handleAmount}
                 min="1"
                 max={changeMax}
               />

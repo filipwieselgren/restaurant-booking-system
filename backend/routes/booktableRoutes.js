@@ -106,24 +106,6 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
           res.status(200).send(nineOnlyAvalible);
         }
       }
-
-      if (qty === 1) {
-        if (
-          totalBookedTablesAtSix < maxAmountOfTables &&
-          totalBookedTablesAtNine >= maxAmountOfTables
-        ) {
-          const sixOnlyAvalible = { sixaclock: true, nineaclock: false };
-
-          res.status(200).send(sixOnlyAvalible);
-        } else if (
-          totalBookedTablesAtNine < maxAmountOfTables &&
-          totalBookedTablesAtSix >= maxAmountOfTables
-        ) {
-          const nineOnlyAvalible = { sixaclock: false, nineaclock: true };
-
-          res.status(200).send(nineOnlyAvalible);
-        }
-      }
     } else {
       const bothTimesFull = { sixaclock: false, nineaclock: false };
       res.send(bothTimesFull);
