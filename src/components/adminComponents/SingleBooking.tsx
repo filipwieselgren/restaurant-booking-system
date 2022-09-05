@@ -60,7 +60,9 @@ export const SingleBooking = () => {
   useEffect(() => {
     fetch("http://localhost:8080/admin/login")
       .then((response) => response.json())
-      .then((data) => setBookings(data));
+      .then((data) => {
+        setBookings(data);
+      });
   }, []);
 
   //find single booking. Set in singleBooking-state
@@ -185,6 +187,12 @@ export const SingleBooking = () => {
     );
     navigate("/admin");
   };
+
+  // let test = bookings.filter((booking) => {
+  //   return booking._id === params.id;
+  // });
+
+  console.log(bookings);
 
   //JSX//
   return (
