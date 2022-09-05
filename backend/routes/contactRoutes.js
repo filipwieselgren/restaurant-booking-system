@@ -4,7 +4,7 @@ const router = express.Router();
 const ContactModel = require("../models/Contact");
 
 //posta mail från användare till Restaurangens databas
-router.post("/send", async (req, res) => {
+router.post("/", async (req, res) => {
   const contactName = req.body.name;
   const contactEmail = req.body.email;
   const contactMessage = req.body.message;
