@@ -37,7 +37,7 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
   useEffect(() => {
     getMonthNames();
     getDays();
-  }, [, currentMonthDays, currentMonthNumber]);
+  }, [currentMonthDays, currentMonthNumber]);
 
   const getMonthNames = () => {
     if (currentMonthNumber === 0) {
@@ -132,7 +132,7 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
     let monthNow = new Date().getMonth() + 1;
     let dayNow = new Date().getDate();
 
-    let dateNow = dayNow + "-" + monthNow + "-" + yearNow;
+    let dateNow = yearNow + "-" + monthNow + "-" + dayNow;
 
     let checkDate = parseFloat(date) - parseFloat(dateNow);
 

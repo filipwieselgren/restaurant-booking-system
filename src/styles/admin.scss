@@ -41,14 +41,6 @@
           input {
             @include inputs;
           }
-          button {
-            height: 30px;
-            background-color: white;
-            border-style: none;
-            border-radius: 10px;
-            margin-left: 5px;
-            box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 5px;
-          }
         }
 
         .headlinesDiv {

@@ -160,7 +160,6 @@ export const PersonData = (props: IPersonDataProps) => {
         }
       );
       setBookingDone(true);
-
       console.log(rawResponse);
     })();
   };

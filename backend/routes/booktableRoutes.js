@@ -119,9 +119,6 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
 router.post("/persondata", async (req, res) => {
   const createBooking = new BookingsModel(req.body);
 
-  await createBooking.save();
-  console.log("p1", req.body);
-
   const contactEmail = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -165,6 +162,8 @@ router.post("/persondata", async (req, res) => {
       res.json({ status: "Message Sent" });
     }
   });
+  await createBooking.save();
+  console.log("p1", req.body);
 });
 
 module.exports = router;
