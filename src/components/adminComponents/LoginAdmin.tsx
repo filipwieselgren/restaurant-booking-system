@@ -28,7 +28,6 @@ export const LoginAdmin = () => {
 
     // setLoader(true);
 
-    // setTimeout(() => {
     (async () => {
       const rawResponse = await fetch("http://localhost:8080/admin/login", {
         method: "POST",
@@ -50,7 +49,6 @@ export const LoginAdmin = () => {
           }
         });
     })();
-    // }, 1000);
   };
 
   return (

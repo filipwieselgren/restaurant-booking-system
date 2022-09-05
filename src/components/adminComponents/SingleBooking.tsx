@@ -52,7 +52,12 @@ export const SingleBooking = () => {
   const [checkbox, setCheckbox] = useState(false);
 
   //state for avaliability ("ava" contains returned response after checking if date is availible. Returns Object with values true/false)
-  const [avalibleTime, setAvalibleTime] = useState({});
+  const [avalibleTime, setAvalibleTime] = useState({
+    twoAtSix: false,
+    twoAtNine: false,
+    oneAtSix: false,
+    oneAtNine: false,
+  });
 
   //params id
   const { id } = useParams();
@@ -60,28 +65,61 @@ export const SingleBooking = () => {
   //HOOKS//
   //find single booking. Set in singleBooking-state
   useEffect(() => {
-    fetch("http://localhost:8080/admin/bookings/" + id)
+    fetch(`http://localhost:8080/admin/bookings/${id}`)
       .then((response) => response.json())
-      .then((data) => setSingleBooking(data));
+      .then((data) => {
+        setSingleBooking(data);
+      });
   }, []);
 
   //checking avaliability when singlebooking-state is updated
   //OBS denna ska inte köras förrän ovan HOOK körts. FIXA! SOFIA!
   useEffect(() => {
-    fetch(
-      "http://localhost:8080/booktable/searchtables/" +
-        singleBooking.date +
-        "/" +
-        singleBooking.amountOfPeople
-    )
-      .then((response) => response.json())
-      .then((data) => setAvalibleTime(data));
+    if (singleBooking.amountOfPeople != 0) {
+      fetch(
+        `http://localhost:8080/admin/${singleBooking._id}/${singleBooking.date}/${singleBooking.tables}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("data", data);
+          setAvalibleTime(data);
+        });
 
-    console.log(singleBooking);
+      /*  fetch(
+        `http://localhost:8080/booktable/searchtables/${singleBooking.date}/${singleBooking.amountOfPeople}`
+      )
+        .then((response) => response.json())
+        .then((data) => setAvalibleTime(data)); */
+    }
   }, [singleBooking]);
 
-  //set tables-states depending on time-avaliability
+  console.log("booking", singleBooking);
+  console.log("ava times", avalibleTime);
+
   useEffect(() => {
+    if (avalibleTime) {
+      tablesAtSix.sixaclock = avalibleTime.twoAtSix;
+      tablesAtNine.nineaclock = avalibleTime.twoAtNine;
+    }
+  }, [avalibleTime]);
+
+  //set tables-states depending on time-avaliability
+  /*   useEffect(() => {
+    for (const [key, value] of Object.entries(avalibleTime)) {
+      if (key === "twoAtSix" && value === true) {
+        setTablesAtSix({ sixaclock: true, isDisabled: false });
+      } else if (key === "TwoAtSix" && value === false) {
+        setTablesAtSix({ sixaclock: false, isDisabled: true });
+      }
+
+      if (key === "twoAtNine" && value === true) {
+        setTablesAtNine({ nineaclock: true, isDisabled: false });
+      } else if (key === "twoAtNine" && value === false) {
+        setTablesAtNine({ nineaclock: false, isDisabled: true });
+      }
+    }
+  }, [avalibleTime]); */
+  /*   useEffect(() => {
     for (const [key, value] of Object.entries(avalibleTime)) {
       if (key === "sixaclock" && value === true) {
         setTablesAtSix({ sixaclock: true, isDisabled: false });
@@ -95,7 +133,7 @@ export const SingleBooking = () => {
         setTablesAtNine({ nineaclock: false, isDisabled: true });
       }
     }
-  }, [avalibleTime]);
+  }, [avalibleTime]); */
 
   //disable save-button if fully booked
   useEffect(() => {
@@ -108,8 +146,17 @@ export const SingleBooking = () => {
     let target = e.target.checked;
     setCheckbox(target);
 
-    if (target) {
-      setChangeMax("12");
+    if (singleBooking.time === 18 && tablesAtSix.sixaclock) {
+      if (target) {
+        setChangeMax("12");
+      }
+    } else {
+      setChangeMax("6");
+    }
+    if (singleBooking.time === 21 && tablesAtNine.nineaclock) {
+      if (target) {
+        setChangeMax("12");
+      }
     } else {
       setChangeMax("6");
     }
@@ -131,16 +178,16 @@ export const SingleBooking = () => {
 
   //update singleBooking-object every time AMOUNT-INPUT is edited
   const handleAmount = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.type === "number") {
-      if (e.target.value <= "6") {
-        singleBooking.tables = 1;
-      } else {
-        singleBooking.tables = 2;
-      }
-      setSingleBooking({ ...singleBooking, [e.target.name]: +e.target.value });
+    //if (e.target.type === "number") {
+    if (+e.target.value <= 6) {
+      singleBooking.tables = 1;
     } else {
-      setSingleBooking({ ...singleBooking, [e.target.name]: e.target.value });
+      singleBooking.tables = 2;
     }
+    setSingleBooking({ ...singleBooking, [e.target.name]: +e.target.value });
+    /*  } else {
+      setSingleBooking({ ...singleBooking, [e.target.name]: e.target.value });
+    } */
   };
 
   //update singleBookings TIME when the time-dropwdown-select changes
@@ -246,11 +293,11 @@ export const SingleBooking = () => {
                 <option value="" disabled selected>
                   Select time
                 </option>
-                <option value="18" disabled={tablesAtSix.isDisabled}>
+                <option value="18" /* disabled={tablesAtSix.isDisabled} */>
                   18
                 </option>
 
-                <option value="21" disabled={tablesAtNine.isDisabled}>
+                <option value="21" /* disabled={tablesAtNine.isDisabled} */>
                   21
                 </option>
               </select>

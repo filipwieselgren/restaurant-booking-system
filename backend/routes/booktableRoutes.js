@@ -14,8 +14,8 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
 
     let totalBookedTablesAtSix = 0;
     let totalBookedTablesAtNine = 0;
-    const maxAmountOfTables = 15;
-    const biggerBookingMaxTables = 13;
+    const maxAmountOfTables = 3;
+    const biggerBookingMaxTables = 1;
 
     let qty = 0;
 
@@ -59,7 +59,7 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
     console.log("booked at nine", totalBookedTablesAtNine);
     console.log(totalBookedTablesAtSix + totalBookedTablesAtNine);
 
-    if (totalBookedTablesAtSix + totalBookedTablesAtNine + qty < 30) {
+    if (totalBookedTablesAtSix + totalBookedTablesAtNine + qty < 6) {
       if (
         totalBookedTablesAtSix < maxAmountOfTables &&
         totalBookedTablesAtNine < maxAmountOfTables &&
