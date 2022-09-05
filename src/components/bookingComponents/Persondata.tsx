@@ -26,10 +26,6 @@ export const PersonData = (props: IPersonDataProps) => {
   const [startOnChangeEmail, setStartOnChangeEmail] = useState(false);
   const [startOnChangePhone, setStartOnChangePhone] = useState(false);
 
-  /*  useEffect(() => {
-    props.getData({ name, email, phone });
-  }, [email, phone, name]); */
-
   const twoHandlersName = (e: ChangeEvent<HTMLInputElement>) => {
     handleName(e);
     if (startOnChangeName) {
