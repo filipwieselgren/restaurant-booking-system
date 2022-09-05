@@ -123,18 +123,18 @@ router.delete("/cancel/:id", async (req, res) => {
   }
 });
 
-// Sök efter bokning
-router.get("/bookings/:email/search", async (req, res) => {
-  const getEmail = req.params.email;
+// Sök efter bokning via mail
+router.get("/bookings/:searchInput/search", async (req, res) => {
+  const searchInput = req.params.searchInput;
 
   const bookingsAdmin = await BookingsModel.find();
 
-  const dateBookingsAdmin = bookingsAdmin.filter((booking) => {
-    return booking.email.trim() === getEmail.trim();
+  const searchResults = bookingsAdmin.filter((b) => {
+    return b.email.includes(searchInput);
   });
 
-  console.log(dateBookingsAdmin);
-  res.status(200).send(dateBookingsAdmin);
+  console.log(searchResults);
+  res.status(200).send(searchResults);
 });
 
 module.exports = router;

@@ -4,6 +4,7 @@ import "../../styles/admin.scss";
 import { useState, useEffect } from "react";
 import { IAdminBookedRender } from "../../models/IAdminBookedProps";
 import { Link } from "react-router-dom";
+import { getSuggestedQuery } from "@testing-library/react";
 
 const search = (email: string) => {};
 
@@ -12,29 +13,32 @@ export const Admin = () => {
   const [bookings, setBookings] = useState<IAdminBookedRender[]>([]);
   const [searched, setSearched] = useState("");
 
-  //get bookings and set in state
+  //get bookings and set in state when entering admin-page
   useEffect(() => {
     fetch("http://localhost:8080/admin/login")
       .then((response) => response.json())
       .then((data) => setBookings(data));
   }, []);
 
-  //function for handeling onChange in search-input
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearched(e.target.value);
-  };
-
-  //search through the bookings by email.
-  //set the result in bookings-state. This will render the search-result at AllBookings-component
-  const searchBooking = () => {
-    search(searched);
-    setSearched("");
-
+  //runs everytime search-input event changes
+  useEffect(() => {
     fetch("http://localhost:8080/admin/bookings/" + searched + "/search")
       .then((response) => response.json())
       .then((data) => setBookings(data));
-  };
+  }, [searched]);
 
+  //runs after above code to update bookings-list with the one we search for
+  useEffect(() => {
+    bookings.filter((b) => {
+      if (searched === "") {
+        return b;
+      } else if (b.email.includes(searched)) {
+        return b;
+      }
+    });
+  }, [bookings]);
+
+  //JSX
   return (
     <div className="wrapper">
       <div className="adminWrapper">
@@ -49,11 +53,10 @@ export const Admin = () => {
             <div>
               <input
                 type="text"
-                placeholder="search by full email"
+                placeholder="search by email"
                 value={searched}
-                onChange={handleChange}
+                onChange={(e) => setSearched(e.target.value)}
               />
-              <button onClick={searchBooking}>SEARCH</button>
             </div>
           </div>
 
@@ -65,23 +68,8 @@ export const Admin = () => {
             <h3>Mobile</h3>
           </div>
         </div>
-
         <div className="listWrapper">
-          {bookings.map((booking) => {
-            return (
-              <div key={booking._id}>
-                <AllBookings
-                  _id={booking._id}
-                  name={booking.name}
-                  email={booking.email}
-                  phone={booking.phone}
-                  amountOfPeople={booking.amountOfPeople}
-                  date={booking.date}
-                  time={booking.time}
-                />
-              </div>
-            );
-          })}
+          <AllBookings adminRender={bookings} />
         </div>
       </div>
     </div>

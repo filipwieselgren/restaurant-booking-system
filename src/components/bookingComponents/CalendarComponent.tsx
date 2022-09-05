@@ -37,7 +37,7 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
   useEffect(() => {
     getMonthNames();
     getDays();
-  }, [, currentMonthDays, currentMonthNumber]);
+  }, [currentMonthDays, currentMonthNumber]);
 
   const getMonthNames = () => {
     if (currentMonthNumber === 0) {
@@ -106,8 +106,6 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
 
   // funktion som ska skicka valt datum
   const selectedDate = (d: number) => {
-    //////// SKRIV IF SATS SÅ MAN INTEKAN KLICKA PÅ DATUM SOM PASSERAT
-
     let day = d;
     let year = changeYear;
     let month = currentMonthNumber.toString();
@@ -119,13 +117,13 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
       editedMonth = month;
     }
 
-    let date = d + "-" + editedMonth + "-" + year;
+    let date = year + "-" + editedMonth + "-" + day;
 
     let yearNow = new Date().getFullYear();
     let monthNow = new Date().getMonth() + 1;
     let dayNow = new Date().getDate();
 
-    let dateNow = dayNow + "-" + monthNow + "-" + yearNow;
+    let dateNow = yearNow + "-" + monthNow + "-" + dayNow;
 
     let checkDate = parseFloat(date) - parseFloat(dateNow);
 
