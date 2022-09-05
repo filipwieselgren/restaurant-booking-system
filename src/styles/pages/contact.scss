@@ -34,6 +34,9 @@
         display: flex;
         justify-content: baseline;
         align-items: center;
+        @include tablet-up {
+          width: 300px;
+        }
 
         p {
           margin: 0;
