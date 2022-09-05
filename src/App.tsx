@@ -5,10 +5,11 @@ import { Bookings } from "./components/pages/Bookings";
 import { Home } from "./components/pages/Home";
 import { Admin } from "./components/pages/Admin";
 import { SingleBooking } from "./components/adminComponents/SingleBooking";
-import "./styles/layout.scss";
+import "./styles/layout/layout.scss";
 import { LoginAdmin } from "./components/adminComponents/LoginAdmin";
 import { CancelBooking } from "./components/bookingComponents/CancelBooking";
 import { NotFound } from "./components/notfound";
+import { Contact } from "./components/pages/Contact";
 
 function App() {
   return (
@@ -29,7 +30,10 @@ function App() {
           <Route path="/admin/login" element={<LoginAdmin />}></Route>
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/admin/:id" element={<SingleBooking />}></Route>
+
+          <Route path="/contact" element={<Contact></Contact>}></Route>
         </Route>
+
         <Route path="/*" element={<NotFound />}></Route>
         <Route path="/admin/*" element={<NotFound />}></Route>
       </Routes>

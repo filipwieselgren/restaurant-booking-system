@@ -108,10 +108,11 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
   const selectedDate = (d: number) => {
     //////// SKRIV IF SATS SÅ MAN INTEKAN KLICKA PÅ DATUM SOM PASSERAT
 
-    let day = d;
+    let day = d.toString();
     let year = changeYear;
     let month = currentMonthNumber.toString();
     let editedMonth = "";
+    let editedDay = "";
 
     if (month.length === 1) {
       editedMonth = "0" + month;
@@ -119,7 +120,13 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
       editedMonth = month;
     }
 
-    let date = d + "-" + editedMonth + "-" + year;
+    if (day.length === 1) {
+      editedDay = "0" + day;
+    } else {
+      editedDay = day;
+    }
+
+    let date = editedDay + "-" + editedMonth + "-" + year;
 
     let yearNow = new Date().getFullYear();
     let monthNow = new Date().getMonth() + 1;
