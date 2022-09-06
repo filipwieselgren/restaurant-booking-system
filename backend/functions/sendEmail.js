@@ -22,6 +22,7 @@ module.exports = sendEmailConfirmation = (email, name, res) => {
   });
 
   const customer = name;
+
   const mail = {
     from: customer,
     to: email,
