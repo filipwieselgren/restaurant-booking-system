@@ -126,15 +126,17 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
       editedDay = day;
     }
 
-    let date = editedDay + "-" + editedMonth + "-" + year;
+    let date = year + "-" + editedMonth + "-" + editedDay;
 
     let yearNow = new Date().getFullYear();
     let monthNow = new Date().getMonth() + 1;
     let dayNow = new Date().getDate();
 
-    let dateNow = yearNow + "-" + monthNow + "-" + dayNow;
+    let dateNow = `${yearNow}-${monthNow < 10 ? "0" + monthNow : monthNow}-${
+      dayNow < 10 ? "0" + dayNow : dayNow
+    }`;
 
-    let checkDate = parseFloat(date) - parseFloat(dateNow);
+    let checkDate = Date.parse(date) - Date.now();
 
     if (
       (currentMonthNumber === monthNow && checkDate < 0) ||
