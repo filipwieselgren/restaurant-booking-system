@@ -13,6 +13,8 @@ export const Admin = () => {
   const [bookings, setBookings] = useState<IAdminBookedRender[]>([]);
   const [searched, setSearched] = useState("");
 
+  //skapa state som innehåller search-result. Om search-result är tom (input har inga tecken i sig) - sätt search-result till bookings (där alla finns)
+
   //get bookings and set in state when entering admin-page
   useEffect(() => {
     fetch("http://localhost:8080/admin/login")
