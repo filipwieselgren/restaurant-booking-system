@@ -233,6 +233,7 @@ export const Bookings = () => {
       if (times.nineaclock || times.sixaclock) {
         setShowFullyBookedText(false);
         navigateToForms(times);
+        console.log("denna?");
       } else {
         setShowFullyBookedText(true);
       }
