@@ -41,7 +41,7 @@ router.get("/bookings/:id", async (req, res) => {
     const singleBooking = await BookingsModel.findOne({ _id: id });
     res.status(200).send(singleBooking);
   } catch (error) {
-    res.status(404);
+    res.status(404).send(error.message);
   }
 });
 
@@ -91,6 +91,7 @@ router.post("/bookings/:id/edit", async (req, res) => {
   };
 
   await BookingsModel.updateOne({ _id: id }, { $set: editBooking });
+
   console.log(editBooking);
   res.status(201).send(editBooking);
 });

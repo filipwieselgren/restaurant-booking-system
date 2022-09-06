@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import "../../styles/admin.scss";
 import "../../styles/components-style/adminStyles/_singleBooking.scss";
 import "../../styles/components-style/bookingStyles/_amountOfPeople.scss";
+import axios from "axios";
 
 export const SingleBooking = () => {
   //set variables
@@ -54,30 +55,50 @@ export const SingleBooking = () => {
   //state for avaliability ("ava" contains returned response after checking if date is availible. Returns Object with values true/false)
   const [avalibleTime, setAvalibleTime] = useState({});
 
+  const [runNextFetch, setRunNextFetch] = useState(false);
+
   //params id
   const { id } = useParams();
 
   //HOOKS//
   //find single booking. Set in singleBooking-state
   useEffect(() => {
-    fetch("http://localhost:8080/admin/bookings/" + id)
-      .then((response) => response.json())
-      .then((data) => setSingleBooking(data));
+    const f = async () => {
+      let response = axios.get<IAdminBookedProps>(
+        "http://localhost:8080/admin/bookings/" + id
+      );
+
+      let promise: IAdminBookedProps = (await response).data;
+      setSingleBooking(promise);
+      setRunNextFetch(true);
+
+      if (promise && promise._id === id) {
+        console.log("id ok");
+      } else {
+        console.log("id not ok");
+
+        navigate("/page-not-found");
+      }
+    };
+
+    f();
   }, []);
 
   //checking avaliability when singlebooking-state is updated
-  //OBS denna ska inte köras förrän ovan HOOK körts. FIXA! SOFIA!
-  useEffect(() => {
-    fetch(
-      "http://localhost:8080/booktable/searchtables/" +
-        singleBooking.date +
-        "/" +
-        singleBooking.amountOfPeople
-    )
-      .then((response) => response.json())
-      .then((data) => setAvalibleTime(data));
 
-    console.log(singleBooking);
+  useEffect(() => {
+    if (runNextFetch) {
+      fetch(
+        "http://localhost:8080/booktable/searchtables/" +
+          singleBooking.date +
+          "/" +
+          singleBooking.amountOfPeople
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setAvalibleTime(data);
+        });
+    }
   }, [singleBooking]);
 
   //set tables-states depending on time-avaliability
