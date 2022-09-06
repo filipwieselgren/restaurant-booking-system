@@ -65,6 +65,9 @@
       width: 85%;
       background-color: white;
       overflow-y: scroll;
+      .loader {
+        @include loader;
+      }
     }
   }
 }

@@ -4,16 +4,12 @@ import "../../styles/admin.scss";
 import { useState, useEffect } from "react";
 import { IAdminBookedRender } from "../../models/IAdminBookedProps";
 import { Link } from "react-router-dom";
-import { getSuggestedQuery } from "@testing-library/react";
-
-const search = (email: string) => {};
 
 export const Admin = () => {
   //states
   const [bookings, setBookings] = useState<IAdminBookedRender[]>([]);
   const [searched, setSearched] = useState("");
-
-  //skapa state som innehåller search-result. Om search-result är tom (input har inga tecken i sig) - sätt search-result till bookings (där alla finns)
+  const [searchResult, setSearchResult] = useState<IAdminBookedRender[]>([]);
 
   //get bookings and set in state when entering admin-page
   useEffect(() => {
@@ -26,19 +22,19 @@ export const Admin = () => {
   useEffect(() => {
     fetch("http://localhost:8080/admin/bookings/" + searched + "/search")
       .then((response) => response.json())
-      .then((data) => setBookings(data));
+      .then((data) => setSearchResult(data));
   }, [searched]);
 
   //runs after above code to update bookings-list with the one we search for
   useEffect(() => {
     bookings.filter((b) => {
-      if (searched === "") {
-        return b;
-      } else if (b.email.includes(searched)) {
+      if (searched.length === 0) {
+        setSearchResult(bookings);
+      } else if (b.email.includes(searched.trim())) {
         return b;
       }
     });
-  }, [bookings]);
+  }, [searchResult, bookings, searched]);
 
   //JSX
   return (
@@ -71,7 +67,7 @@ export const Admin = () => {
           </div>
         </div>
         <div className="listWrapper">
-          <AllBookings adminRender={bookings} />
+          <AllBookings adminSearch={searchResult} />
         </div>
       </div>
     </div>
