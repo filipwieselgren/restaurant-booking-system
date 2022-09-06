@@ -18,8 +18,6 @@ router.post("/login", async (req, res) => {
   } else {
     res.send("false");
   }
-
-  console.log("find admin", admin);
 });
 
 router.get("/login", async (req, res) => {
@@ -135,16 +133,18 @@ router.get("/bookings/:email/search", async (req, res) => {
   res.status(200).send(dateBookingsAdmin);
 });
 
-router.get("/:id/:date/:tables", async (req, res) => {
+router.get("/:id/:date/:tables/:time", async (req, res) => {
   console.log("startar");
   const date = req.params.date;
   const id = req.params.id;
-  const tables = req.params.tables;
+  const tables = +req.params.tables;
+  const time = req.params.time;
 
   let booking = {};
 
   const maxTables = 3;
   const biggerBooking = 1;
+  //let tablesForId = 0;
   let tablesForId = 0;
 
   let tablesAtSix = 0;
@@ -153,7 +153,8 @@ router.get("/:id/:date/:tables", async (req, res) => {
   const bookings = await BookingsModel.find({ date });
 
   for (let i = 0; i < bookings.length; i++) {
-    if (bookings[i].id === id) {
+    if (bookings[i]._id.toString() === id) {
+      // console.log("booking[i]", bookings[i]);
       booking = bookings[i];
       tablesForId = bookings[i].tables;
     }
@@ -183,185 +184,282 @@ router.get("/:id/:date/:tables", async (req, res) => {
     }
   }
 
-  console.log("tables:", tables);
+  // console.log("tables:", tables);
 
-  /*  if (tables === 1) {
-    if (tablesAtSix - tablesForId <= maxTables) {
+  let ifBookingIsAtSix = false;
+  let ifBookingIsAtNine = false;
+
+  console.log("booking", booking);
+
+  if (booking.time === 18) {
+    for (let i = 0; i < sixaclockArr.length; i++) {
+      if (sixaclockArr[i]._id.toString() === id) {
+        ifBookingIsAtSix = true;
+        console.log("bokning är kl 6666");
+      }
     }
-  } */
+  }
 
-  if (tablesAtSix + tablesAtNine - tablesForId < 6) {
+  if (booking.time === 21) {
+    for (let i = 0; i < nineaclockArr.length; i++) {
+      if (nineaclockArr[i]._id.toString() === id) {
+        ifBookingIsAtNine = true;
+        console.log("bokning är kl 9");
+      }
+    }
+  }
+
+  console.log("if at six", ifBookingIsAtSix);
+  console.log("if at nine", ifBookingIsAtNine);
+  console.log("nio arr", tablesAtNine);
+  console.log("sex arr", tablesAtSix);
+  /*   console.log("nio arr - tables", tablesAtNine - tables);
+  console.log("six arr - tables", tablesAtSix - tables); */
+  console.log("tables choosen in react:", tables);
+  console.log("tables already booked::", tablesForId);
+
+  if (ifBookingIsAtNine) {
+    console.log("1");
+    if (tablesAtNine - tablesForId + tables + tablesAtSix <= 6) {
+      console.log("2");
+
+      if (tables === 2) {
+        console.log("3");
+
+        if (
+          tablesAtNine - tablesForId + tables <= biggerBooking &&
+          tablesAtSix <= biggerBooking
+        ) {
+          console.log("4");
+
+          const bothTimesAvaTwo = { sixaclock: true, nineaclock: true };
+          res.status(200).send(bothTimesAvaTwo);
+        }
+
+        if (
+          tablesAtSix <= biggerBooking &&
+          tablesAtNine - tablesForId + tables >= biggerBooking
+        ) {
+          console.log("5");
+          const onlySixAvaTwo = { sixaclock: true, nineaclock: false };
+          res.status(200).send(onlySixAvaTwo);
+        }
+
+        if (
+          tablesAtSix >= biggerBooking &&
+          tablesAtNine - tablesForId + tables <= biggerBooking
+        ) {
+          console.log("6");
+          const onlyNineAvaTwo = { sixaclock: false, nineaclock: true };
+          res.status(200).send(onlyNineAvaTwo);
+        }
+      }
+
+      if (tables === 1) {
+        console.log("7");
+
+        if (
+          tablesAtSix < maxTables &&
+          tablesAtNine - tablesForId + tables < maxTables
+        ) {
+          console.log("8");
+          const bothTimesAvaOne = { sixaclock: true, nineaclock: true };
+          res.status(200).send(bothTimesAvaOne);
+        }
+
+        if (
+          tablesAtSix < maxTables &&
+          tablesAtNine - tablesForId + tables >= maxTables
+        ) {
+          console.log("9");
+          const onlySixAvaOne = { sixaclock: true, nineaclock: false };
+          res.status(200).send(onlySixAvaOne);
+        }
+
+        if (
+          tablesAtSix >= maxTables &&
+          tablesAtNine - tablesForId + tables < maxTables
+        ) {
+          console.log("10");
+          const onlyNineAvaOne = { sixaclock: false, nineaclock: true };
+          res.status(200).send(onlyNineAvaOne);
+        }
+      }
+    } else {
+      console.log("11");
+      const bothTimesFull = { sixaclock: false, nineaclock: false };
+      res.send(bothTimesFull);
+    }
+  }
+
+  if (ifBookingIsAtSix) {
+    console.log("12");
+
+    if (tablesAtSix - tablesForId + tables + tablesAtNine <= 6) {
+      console.log("13");
+
+      if (+tables === 2) {
+        console.log("14");
+
+        if (
+          tablesAtSix - tablesForId + tables <= biggerBooking &&
+          tablesAtNine <= biggerBooking
+        ) {
+          console.log("15");
+
+          const bothTimesAvaTwo = { sixaclock: true, nineaclock: true };
+          res.status(200).send(bothTimesAvaTwo);
+        }
+
+        if (
+          tablesAtSix - tablesForId + tables <= biggerBooking &&
+          tablesAtNine > biggerBooking
+        ) {
+          console.log("16");
+
+          const onlySixAvaTwo = { sixaclock: true, nineaclock: false };
+          res.status(200).send(onlySixAvaTwo);
+        }
+
+        if (
+          tablesAtSix - tablesForId + tables > biggerBooking &&
+          tablesAtNine <= biggerBooking
+        ) {
+          console.log("17");
+
+          const onlyNineAvaTwo = { sixaclock: false, nineaclock: true };
+          res.status(200).send(onlyNineAvaTwo);
+        }
+      }
+
+      if (tables === 1) {
+        console.log("18");
+
+        if (
+          tablesAtSix - tablesForId + tables < maxTables &&
+          tablesAtNine < maxTables
+        ) {
+          console.log("19");
+
+          const bothTimesAvaOne = { sixaclock: true, nineaclock: true };
+          res.status(200).send(bothTimesAvaOne);
+        }
+
+        if (
+          tablesAtSix - tablesForId + tables < maxTables &&
+          tablesAtNine >= maxTables
+        ) {
+          console.log("20");
+
+          const onlySixAvaOne = { sixaclock: true, nineaclock: false };
+          res.status(200).send(onlySixAvaOne);
+        }
+
+        if (
+          tablesAtSix - tablesForId + tables >= maxTables &&
+          tablesAtNine < maxTables
+        ) {
+          console.log("21");
+
+          const onlyNineAvaTwo = { sixaclock: false, nineaclock: true };
+          res.status(200).send(onlyNineAvaTwo);
+        }
+      }
+    } else {
+      console.log("22");
+      const bothTimesFull = { sixaclock: false, nineaclock: false };
+      res.send(bothTimesFull);
+    }
+  }
+
+  /* if (tablesAtSix + tablesAtNine - tablesForId < 6) {
     console.log("in i if först");
     console.log("tables at 6", tablesAtSix);
     console.log("tables at 9", tablesAtNine);
     console.log("tables at 6 - tables", tablesAtSix - tablesForId);
     console.log("tables at 9 - tables", tablesAtNine - tablesForId);
 
-    //  if (+tables === 2) {
-
-    // alla true
-    if (
-      tablesAtSix - tablesForId <= biggerBooking &&
-      tablesAtNine - tablesForId <= biggerBooking &&
-      tablesAtSix - tablesForId < maxTables &&
-      tablesAtNine - tablesForId < maxTables
-    ) {
-      console.log("1");
-      const bothAvailible = {
-        twoAtSix: true,
-        twoAtNine: true,
-        oneAtSix: true,
-        oneAtNine: true,
-      };
-      res.status(200).send(bothAvailible);
-    }
-
-    // bara kl 6 ledigt både 1 och 2 bord
-    if (
-      tablesAtSix - tablesForId <= biggerBooking &&
-      tablesAtNine - tablesForId > biggerBooking &&
-      tablesAtSix - tablesForId < maxTables &&
-      tablesAtNine - tablesForId >= maxTables
-    ) {
-      console.log("2");
-
-      const twoTablesAtSix = {
-        twoAtSix: true,
-        twoAtNine: false,
-        oneAtSix: true,
-        oneAtNine: false,
-      };
-      res.status(200).send(twoTablesAtSix);
-    }
-    // bara kl 9 ledigt, 1 och 2 bord
-    if (
-      tablesAtNine - tablesForId <= biggerBooking &&
-      tablesAtSix - tablesForId > biggerBooking &&
-      tablesAtSix - tablesForId >= maxTables &&
-      tablesAtNine - tablesForId < maxTables
-    ) {
-      console.log("3");
-
-      const twoTablesAtNine = {
-        twoAtNine: true,
-        twoAtSix: false,
-        oneAtSix: false,
-        oneAtNine: true,
-      };
-      res.status(200).send(twoTablesAtNine);
-    }
-
-    // bara kl 6 ledigt, bara 1 bord
-    if (
-      tablesAtNine - tablesForId >= biggerBooking &&
-      tablesAtSix - tablesForId >= biggerBooking &&
-      tablesAtSix - tablesForId < maxTables &&
-      tablesAtNine - tablesForId >= maxTables
-    ) {
-      console.log("3");
-
-      const twoTablesAtNine = {
-        twoAtNine: false,
-        twoAtSix: false,
-        oneAtSix: true,
-        oneAtNine: false,
-      };
-      res.status(200).send(twoTablesAtNine);
-    }
-
-    // 6 och 9 ledigt, bara 1 bord
-    if (
-      tablesAtNine - tablesForId > biggerBooking &&
-      tablesAtSix - tablesForId > biggerBooking &&
-      tablesAtSix - tablesForId < maxTables &&
-      tablesAtNine - tablesForId < maxTables
-    ) {
-      console.log("3");
-
-      const twoTablesAtNine = {
-        twoAtNine: false,
-        twoAtSix: false,
-        oneAtSix: true,
-        oneAtNine: true,
-      };
-      res.status(200).send(twoTablesAtNine);
-    }
-
-    // bara kl 6 ledigt, 1 bord bara
-    if (
-      tablesAtNine - tablesForId >= biggerBooking &&
-      tablesAtSix - tablesForId >= biggerBooking &&
-      tablesAtSix - tablesForId < maxTables &&
-      tablesAtNine - tablesForId >= maxTables
-    ) {
-      console.log("3");
-
-      const twoTablesAtNine = {
-        twoAtNine: false,
-        twoAtSix: false,
-        oneAtSix: true,
-        oneAtNine: false,
-      };
-      res.status(200).send(twoTablesAtNine);
-    }
-
-    // bara kl 9 ledigt, 1 bord bara
-    if (
-      tablesAtNine - tablesForId >= biggerBooking &&
-      tablesAtSix - tablesForId >= biggerBooking &&
-      tablesAtSix - tablesForId >= maxTables &&
-      tablesAtNine - tablesForId < maxTables
-    ) {
-      console.log("3");
-
-      const twoTablesAtNine = {
-        twoAtNine: false,
-        twoAtSix: false,
-        oneAtSix: false,
-        oneAtNine: false,
-      };
-      res.status(200).send(twoTablesAtNine);
-    }
-
-    // }
-    /* else if (+tables === 1) {
-      console.log("in i 1 tables");
-
+    if (+tables === 2) {
+      // alla true
       if (
-        tablesAtSix - tablesForId <= maxTables &&
-        tablesAtNine - tablesForId <= maxTables
+        tablesAtSix - tablesForId <= biggerBooking &&
+        tablesAtNine - tablesForId <= biggerBooking
       ) {
-        console.log("4");
-
-        const bothAvailible = { twoAtSix: true, twoAtNine: true };
+        console.log("1");
+        const bothAvailible = {
+          twoAtSix: true,
+          twoAtNine: true,
+        };
         res.status(200).send(bothAvailible);
       }
 
+      // bara kl 6 ledigt
+      if (
+        tablesAtSix - tablesForId <= biggerBooking &&
+        tablesAtNine - tablesForId > biggerBooking
+      ) {
+        console.log("2");
+
+        const twoTablesAtSix = {
+          sixaclock: true,
+          nineaclock: false,
+        };
+        res.status(200).send(twoTablesAtSix);
+      }
+      // bara kl 9 ledigt
+      if (
+        tablesAtNine - tablesForId <= biggerBooking &&
+        tablesAtSix - tablesForId > biggerBooking
+      ) {
+        console.log("3");
+
+        const twoTablesAtNine = {
+          nineaclock: true,
+          sixaclock: false,
+        };
+        res.status(200).send(twoTablesAtNine);
+      }
+    } else if (+tables === 1) {
+      console.log("in i 1 tables");
+
+      // 9 och 6 ledigt
+      if (
+        tablesAtSix - tablesForId < maxTables &&
+        tablesAtNine - tablesForId < maxTables
+      ) {
+        console.log("4");
+
+        const bothAvailible = { sixaclock: true, nineaclock: true };
+        res.status(200).send(bothAvailible);
+      }
+
+      // ledigt bara kl 6
       if (
         tablesAtSix - tablesForId < maxTables &&
         tablesAtNine - tablesForId >= maxTables
       ) {
         console.log("5");
 
-        const twoTablesAtSix = { twoAtSix: true, twoAtNine: false };
+        const twoTablesAtSix = { sixaclock: true, nineaclock: false };
         res.status(200).send(twoTablesAtSix);
       }
+      // bara ledigt kl 9
       if (
         tablesAtNine - tablesForId < maxTables &&
         tablesAtSix - tablesForId >= maxTables
       ) {
         console.log("6");
 
-        const twoTablesAtNine = { twoAtNine: true, twoAtSix: false };
+        const twoTablesAtNine = { nineaclock: true, sixaclock: false };
         res.status(200).send(twoTablesAtNine);
       }
-    } */
+    }
   } else {
     console.log("7");
 
     const bothTimesFull = { sixaclock: false, nineaclock: false };
     res.send(bothTimesFull);
-  }
+  } */
 
   //res.send(bookings);
 });
