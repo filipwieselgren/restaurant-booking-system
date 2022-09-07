@@ -61,6 +61,10 @@
         .GDPRLink {
           color: black;
           font-size: 7pt;
+          &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+          }
         }
       }
     }
