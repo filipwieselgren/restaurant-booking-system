@@ -106,8 +106,6 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
 
   // funktion som ska skicka valt datum
   const selectedDate = (d: number) => {
-    //////// SKRIV IF SATS SÅ MAN INTEKAN KLICKA PÅ DATUM SOM PASSERAT
-
     let day = d.toString();
     let year = changeYear;
     let month = currentMonthNumber.toString();
@@ -126,15 +124,11 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
       editedDay = day;
     }
 
-    let date = editedDay + "-" + editedMonth + "-" + year;
+    let date = year + "-" + editedMonth + "-" + editedDay;
 
-    let yearNow = new Date().getFullYear();
     let monthNow = new Date().getMonth() + 1;
-    let dayNow = new Date().getDate();
 
-    let dateNow = yearNow + "-" + monthNow + "-" + dayNow;
-
-    let checkDate = parseFloat(date) - parseFloat(dateNow);
+    let checkDate = Date.parse(date) - Date.now();
 
     if (
       (currentMonthNumber === monthNow && checkDate < 0) ||
