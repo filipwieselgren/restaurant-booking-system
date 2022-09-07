@@ -16,7 +16,9 @@ export const Admin = () => {
   useEffect(() => {
     fetch("http://localhost:8080/admin/login")
       .then((response) => response.json())
-      .then((data) => setBookings(data));
+      .then((data) => {
+        setBookings(data);
+      });
   }, []);
 
   //function for handeling onChange in search-input
@@ -32,8 +34,12 @@ export const Admin = () => {
 
     fetch("http://localhost:8080/admin/bookings/" + searched + "/search")
       .then((response) => response.json())
-      .then((data) => setBookings(data));
+      .then((data) => {
+        setBookings(data);
+      });
   };
+
+  console.log("bookings", bookings);
 
   return (
     <div className="wrapper">

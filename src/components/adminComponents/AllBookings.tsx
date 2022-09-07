@@ -4,6 +4,7 @@ import "../../styles/components-style/adminStyles/_allBookings.scss";
 
 export const AllBookings = (props: IAdminBookedRender) => {
   //only render todays and coming bookings
+
   if (props.date >= new Date().toLocaleDateString()) {
     return (
       <div className="listDiv">

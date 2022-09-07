@@ -33,7 +33,7 @@ router.get("/bookings/:id", async (req, res) => {
   const id = ObjectId(req.params.id);
   try {
     const singleBooking = await BookingsModel.findOne({ _id: id });
-    console.log("find by id", singleBooking);
+    // console.log("find by id", singleBooking);
     res.status(200).send(singleBooking);
   } catch (error) {
     console.log(error);
@@ -138,13 +138,12 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
   const date = req.params.date;
   const id = req.params.id;
   const tables = +req.params.tables;
-  const time = req.params.time;
+  const time = +req.params.time;
 
   let booking = {};
 
   const maxTables = 3;
   const biggerBooking = 1;
-  //let tablesForId = 0;
   let tablesForId = 0;
 
   let tablesAtSix = 0;
@@ -189,9 +188,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
   let ifBookingIsAtSix = false;
   let ifBookingIsAtNine = false;
 
-  console.log("booking", booking);
-
-  if (booking.time === 18) {
+  if (time === 18) {
     for (let i = 0; i < sixaclockArr.length; i++) {
       if (sixaclockArr[i]._id.toString() === id) {
         ifBookingIsAtSix = true;
@@ -200,7 +197,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
     }
   }
 
-  if (booking.time === 21) {
+  if (time === 21) {
     for (let i = 0; i < nineaclockArr.length; i++) {
       if (nineaclockArr[i]._id.toString() === id) {
         ifBookingIsAtNine = true;
@@ -217,6 +214,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
   console.log("six arr - tables", tablesAtSix - tables); */
   console.log("tables choosen in react:", tables);
   console.log("tables already booked::", tablesForId);
+  console.log("time:", time);
 
   if (ifBookingIsAtNine) {
     console.log("1");
@@ -371,97 +369,6 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
       res.send(bothTimesFull);
     }
   }
-
-  /* if (tablesAtSix + tablesAtNine - tablesForId < 6) {
-    console.log("in i if först");
-    console.log("tables at 6", tablesAtSix);
-    console.log("tables at 9", tablesAtNine);
-    console.log("tables at 6 - tables", tablesAtSix - tablesForId);
-    console.log("tables at 9 - tables", tablesAtNine - tablesForId);
-
-    if (+tables === 2) {
-      // alla true
-      if (
-        tablesAtSix - tablesForId <= biggerBooking &&
-        tablesAtNine - tablesForId <= biggerBooking
-      ) {
-        console.log("1");
-        const bothAvailible = {
-          twoAtSix: true,
-          twoAtNine: true,
-        };
-        res.status(200).send(bothAvailible);
-      }
-
-      // bara kl 6 ledigt
-      if (
-        tablesAtSix - tablesForId <= biggerBooking &&
-        tablesAtNine - tablesForId > biggerBooking
-      ) {
-        console.log("2");
-
-        const twoTablesAtSix = {
-          sixaclock: true,
-          nineaclock: false,
-        };
-        res.status(200).send(twoTablesAtSix);
-      }
-      // bara kl 9 ledigt
-      if (
-        tablesAtNine - tablesForId <= biggerBooking &&
-        tablesAtSix - tablesForId > biggerBooking
-      ) {
-        console.log("3");
-
-        const twoTablesAtNine = {
-          nineaclock: true,
-          sixaclock: false,
-        };
-        res.status(200).send(twoTablesAtNine);
-      }
-    } else if (+tables === 1) {
-      console.log("in i 1 tables");
-
-      // 9 och 6 ledigt
-      if (
-        tablesAtSix - tablesForId < maxTables &&
-        tablesAtNine - tablesForId < maxTables
-      ) {
-        console.log("4");
-
-        const bothAvailible = { sixaclock: true, nineaclock: true };
-        res.status(200).send(bothAvailible);
-      }
-
-      // ledigt bara kl 6
-      if (
-        tablesAtSix - tablesForId < maxTables &&
-        tablesAtNine - tablesForId >= maxTables
-      ) {
-        console.log("5");
-
-        const twoTablesAtSix = { sixaclock: true, nineaclock: false };
-        res.status(200).send(twoTablesAtSix);
-      }
-      // bara ledigt kl 9
-      if (
-        tablesAtNine - tablesForId < maxTables &&
-        tablesAtSix - tablesForId >= maxTables
-      ) {
-        console.log("6");
-
-        const twoTablesAtNine = { nineaclock: true, sixaclock: false };
-        res.status(200).send(twoTablesAtNine);
-      }
-    }
-  } else {
-    console.log("7");
-
-    const bothTimesFull = { sixaclock: false, nineaclock: false };
-    res.send(bothTimesFull);
-  } */
-
-  //res.send(bookings);
 });
 
 module.exports = router;
