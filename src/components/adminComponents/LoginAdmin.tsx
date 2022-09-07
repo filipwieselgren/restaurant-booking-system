@@ -52,7 +52,7 @@ export const LoginAdmin = () => {
   return (
     <section className="loginPage">
       <article className="loginContainer">
-        <p className="loginHeader">Logga in som administratör</p>
+        <p className="loginHeader">Log in as LEON administrator</p>
 
         {loader && <span className="loader"></span>}
 
@@ -73,12 +73,10 @@ export const LoginAdmin = () => {
             placeholder="Password:"
           />
           <div className="buttonContainer">
-            <button type="submit">Logga in</button>
+            <button type="submit">Log in</button>
           </div>
         </form>
-        {ifNotAdmin && (
-          <p className="wrongData">Fel användarnamn eller lösenord</p>
-        )}
+        {ifNotAdmin && <p className="wrongData">Wrong username or password</p>}
       </article>
     </section>
   );
