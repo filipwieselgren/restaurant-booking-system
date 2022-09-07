@@ -3,7 +3,7 @@ import "../../styles/pages/menu.scss";
 
 export const Menu = () => {
   return (
-    <div className="menuWrapper">
+    <div className="foodMenuWrapper">
       <div className="menuDiv">
         <h1>MENU</h1>
 

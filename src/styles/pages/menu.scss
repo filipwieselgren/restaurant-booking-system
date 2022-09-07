@@ -1,7 +1,7 @@
 @import "../../styles/mixins/mixins";
 
 @include phone-up {
-  .menuWrapper {
+  .foodMenuWrapper {
     display: flex;
     justify-content: center;
     align-items: center;
