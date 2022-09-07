@@ -39,7 +39,11 @@ export const TimeForm = (props: IBookingProps<number> & ITimes) => {
       <article
         onClick={() => getTime(t.t, t.notFullyBooked)}
         key={i}
-        className={`${t.notFullyBooked} ${choosenTime === t.t && "clicked"}`}
+        className={
+          t.notFullyBooked === "time"
+            ? `${t.notFullyBooked} ${choosenTime === t.t && "clicked"}`
+            : "block-time"
+        }
       >
         <p>
           {t.notFullyBooked === "block-time" ? `We are full at ${t.t}` : t.t}
