@@ -113,7 +113,7 @@ router.delete("/cancel/:id", async (req, res) => {
     });
     // This is what will be sent with the email when you cancel a booking
     const sendThisWhenCancelled = {
-      from: deletedBooking.name,
+      from: "filipwieselgren@gmail.com",
       to: deletedBooking.email,
       subject: `Your booking has been canceled`,
       html: `<h1>Hi ${deletedBooking.name}, your booking has been canceled. We hope to see you some other time! 💚</h1>`,

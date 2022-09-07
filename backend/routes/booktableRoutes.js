@@ -130,11 +130,11 @@ router.post("/persondata", async (req, res) => {
   const people = req.body.amountOfPeople;
   const cancel = `http://localhost:3000/booktable/cancel/${id}`;
   const sendThisWhenBooked = {
-    from: name,
+    from: "filipwieselgren@gmail.com",
     to: req.body.email,
     subject: `Your table is booked`,
     html: `<h1>Hi ${name} and welcome to Leon! 💚</h1>
-          <p>Here is your booking details</p>
+          <p>Your booking details:</p>
           <p>Name: ${name}</p>
            <p>Email: ${email}</p>
            <p>Date: ${date}</p>
