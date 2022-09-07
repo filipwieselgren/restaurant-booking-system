@@ -93,10 +93,7 @@ export const SingleBooking = () => {
   useEffect(() => {
     if (runNextFetch) {
       fetch(
-        "http://localhost:8080/booktable/searchtables/" +
-          singleBooking.date +
-          "/" +
-          singleBooking.amountOfPeople
+        `http://localhost:8080/admin/${singleBooking._id}/${singleBooking.date}/${singleBooking.tables}/${singleBooking.time}`
       )
         .then((response) => response.json())
         .then((data) => {

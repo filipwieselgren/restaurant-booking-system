@@ -55,8 +55,8 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
     const ifTwoTablesAtNine =
       qty + totalBookedTablesAtNine <= maxAmountOfTables;
 
-    console.log("booked at six", totalBookedTablesAtSix);
-    console.log("booked at nine", totalBookedTablesAtNine);
+    /*   console.log("booked at six", totalBookedTablesAtSix);
+    console.log("booked at nine", totalBookedTablesAtNine); */
     console.log(totalBookedTablesAtSix + totalBookedTablesAtNine);
 
     // Det ska vara <= här kom jag på ! annars kan man inte göra sista bokningen !
