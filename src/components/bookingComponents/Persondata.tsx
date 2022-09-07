@@ -108,6 +108,10 @@ export const PersonData = (props: IPersonDataProps) => {
     setGDPR(true);
   };
 
+  const closeGDPRModal = () => {
+    setGDPR(false);
+  };
+
   const sendData = () => {
     props.getData({ name, email, phone });
 
@@ -246,7 +250,7 @@ export const PersonData = (props: IPersonDataProps) => {
   return (
     <section className="personDataContainer">
       {GDPR ? (
-        <GdprModal></GdprModal>
+        <GdprModal closeModal={closeGDPRModal}></GdprModal>
       ) : (
         <form onSubmit={preventSubmit} className="personDataForm" action="post">
           {formInput}
