@@ -1,10 +1,11 @@
 @import "../../mixins/mixins";
+@import "../../mixins//variables";
 
 @include phone-up {
   .modalWrapper {
     width: 400px;
     height: 300px;
-    background-color: rgba(pink, 0.3);
+    background-color: $opacityBackgroundColor;
     padding-left: 20px;
     padding-right: 20px;
     overflow-y: scroll;
@@ -57,12 +58,8 @@
       }
     }
     .closeDiv {
-      display: flex;
-      justify-content: right;
       padding-top: 20px;
-      padding-bottom: 20px;
       div {
-        color: gray;
         &:hover {
           cursor: pointer;
         }
