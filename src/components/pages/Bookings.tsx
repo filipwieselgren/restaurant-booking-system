@@ -181,7 +181,7 @@ export const Bookings = () => {
     }
 
     if (url.pathname === "/booktable/persondata") {
-      navigate("/");
+      navigate("/booktable/searchtables");
     }
   };
   let chooseTimeAndDate = <></>;
