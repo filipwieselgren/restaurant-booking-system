@@ -4,7 +4,7 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 app.use(cors());
 
-module.exports = sendEmailConfirmation = (email, name, res) => {
+module.exports = sendEmailConfirmation = (sendThisToMail, res) => {
   const contactEmail = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -15,21 +15,13 @@ module.exports = sendEmailConfirmation = (email, name, res) => {
 
   contactEmail.verify((error) => {
     if (error) {
-      console.log("This is  why it working:", error);
+      console.log("This is why it's not working:", error);
     } else {
       console.log("Ready to Send");
     }
   });
 
-  const customer = name;
-
-  const mail = {
-    from: customer,
-    to: email,
-    subject: `Your booking has been canceled`,
-    html: `<h1>Hi ${customer}, your booking has been canceled. We hope to see you some other time! 💚</h1>`,
-  };
-  contactEmail.sendMail(mail, async (error) => {
+  contactEmail.sendMail(sendThisToMail, async (error) => {
     if (error) {
       res.json({ status: "ERROR" });
     } else {

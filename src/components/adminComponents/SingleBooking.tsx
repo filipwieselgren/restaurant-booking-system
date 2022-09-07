@@ -67,7 +67,7 @@ export const SingleBooking = () => {
   //HOOKS//
   //find single booking. Set in singleBooking-state
   useEffect(() => {
-    const f = async () => {
+    const getSingleBooking = async () => {
       let response = axios.get<IAdminBookedProps>(
         "http://localhost:8080/admin/bookings/" + id
       );
@@ -85,7 +85,7 @@ export const SingleBooking = () => {
       }
     };
 
-    f();
+    getSingleBooking();
   }, []);
 
   //checking avaliability when singlebooking-state is updated

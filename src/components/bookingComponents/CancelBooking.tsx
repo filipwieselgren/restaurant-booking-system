@@ -11,9 +11,7 @@ export const CancelBooking = () => {
 
   let params = useParams();
 
-  const test = async (id: any) => {
-    console.log("Test");
-
+  const cancelBooking = async (id: any) => {
     let response = await axios.delete(
       `http://localhost:8080/admin/cancel/${id}`
     );
@@ -38,7 +36,7 @@ export const CancelBooking = () => {
   }
 
   let btn = (
-    <button className="cancel-btn" onClick={() => test(params.id)}>
+    <button className="cancel-btn" onClick={() => cancelBooking(params.id)}>
       Yes I want to cancel my booking
     </button>
   );

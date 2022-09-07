@@ -6,6 +6,7 @@ const nodemailer = require("nodemailer");
 app.use(cors());
 
 const BookingsModel = require("../models/Bookings.js");
+const sendEmailConfirmation = require("../functions/sendEmail");
 
 router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
   try {
@@ -120,22 +121,7 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
 router.post("/persondata", async (req, res) => {
   const createBooking = new BookingsModel(req.body);
 
-  const contactEmail = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "filipwieselgren@gmail.com",
-      pass: "kztcpyrswulhulsn",
-    },
-  });
-
-  contactEmail.verify((error) => {
-    if (error) {
-      console.log("This is  why it's not working:", error);
-    } else {
-      console.log("Ready to Send");
-    }
-  });
-
+  // This is what will be sent with the email when you make a booking
   const name = req.body.name;
   const email = req.body.email;
   const date = req.body.date;
@@ -143,12 +129,12 @@ router.post("/persondata", async (req, res) => {
   const id = req.body.cancelid;
   const people = req.body.amountOfPeople;
   const cancel = `http://localhost:3000/booktable/cancel/${id}`;
-  const mail = {
-    from: name,
+  const sendThisWhenBooked = {
+    from: "filipwieselgren@gmail.com",
     to: req.body.email,
     subject: `Your table is booked`,
     html: `<h1>Hi ${name} and welcome to Leon! 💚</h1>
-          <p>Here is your booking details</p>
+          <p>Your booking details:</p>
           <p>Name: ${name}</p>
            <p>Email: ${email}</p>
            <p>Date: ${date}</p>
@@ -156,13 +142,8 @@ router.post("/persondata", async (req, res) => {
            <p>People: ${people}</p>
            <p>If you want to cancel your booking, please click <a href=${cancel}>here.</a></p>`,
   };
-  contactEmail.sendMail(mail, async (error) => {
-    if (error) {
-      res.json({ status: "ERROR" });
-    } else {
-      res.json({ status: "Message Sent" });
-    }
-  });
+  sendEmailConfirmation(sendThisWhenBooked, res);
+
   await createBooking.save();
   console.log("p1", req.body);
 });
