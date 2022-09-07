@@ -45,7 +45,8 @@ export const Bookings = () => {
   const [showFullyBookedText, setShowFullyBookedText] =
     useState<boolean>(false);
   const [startUseEffect, setStartUseEffect] = useState<boolean>(false);
-  const [test, setTest] = useState<boolean>(false);
+  const [textWhentimeNotAvailable, setTextWhentimeNotAvailable] =
+    useState<boolean>(false);
   const [dateAndTimeMissing, setDateAndTimeMissing] = useState<boolean>(false);
   const [chooseTime, setChooseTime] = useState<boolean>(false);
 
@@ -54,6 +55,7 @@ export const Bookings = () => {
     useState(false);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [nextPage, setNextPage] = useState<Boolean>(true);
+  const [cancelBtn, setCancelBtn] = useState(true);
 
   useEffect(() => {
     if (activeCancelButton) {
@@ -175,11 +177,11 @@ export const Bookings = () => {
         ? navigate("/booktable/persondata")
         : setChooseTime(true);
       booking.time === 0 ? setChooseTime(true) : setChooseTime(false);
-      setTest(false);
+      setTextWhentimeNotAvailable(false);
     }
 
     if (url.pathname === "/booktable/persondata") {
-      navigate("/booktable");
+      navigate("/");
     }
   };
   let chooseTimeAndDate = <></>;
@@ -252,9 +254,15 @@ export const Bookings = () => {
 
   let timeNotAvailable = <></>;
 
-  test ? (timeNotAvailable = <div>This time is not available 🥸</div>) : <></>;
+  textWhentimeNotAvailable ? (
+    (timeNotAvailable = <div>This time is not available 🥸</div>)
+  ) : (
+    <></>
+  );
 
-  console.log("booking", booking);
+  const removeCancelBtn = () => {
+    setCancelBtn(false);
+  };
 
   return (
     <section className="bookingPage">
@@ -302,7 +310,11 @@ export const Bookings = () => {
 
         {showPersondata && (
           <section className="formContainerPersonData">
-            <PersonData postBookingData={booking} getData={getPersonData} />
+            <PersonData
+              postBookingData={booking}
+              getData={getPersonData}
+              callRemoveCancelBtn={removeCancelBtn}
+            />
           </section>
         )}
 
@@ -310,16 +322,20 @@ export const Bookings = () => {
         {chooseTimeAndDate}
         {timeNotAvailable}
         {fullyBooked}
-        <div className="buttonContainer">
-          <button
-            className={`${activeCancelButton && "cancelButton"}`}
-            onClick={() =>
-              checkIfDateIsAvailable(booking.date, booking.amountOfPeople)
-            }
-          >
-            {buttonText}
-          </button>
-        </div>
+        {cancelBtn ? (
+          <div className="buttonContainer">
+            <button
+              className={`${activeCancelButton && "cancelButton"}`}
+              onClick={() =>
+                checkIfDateIsAvailable(booking.date, booking.amountOfPeople)
+              }
+            >
+              {buttonText}
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
       </article>
     </section>
   );

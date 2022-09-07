@@ -7,6 +7,7 @@ import { IPersonData } from "../../models/IPersondata";
 interface IPersonDataProps {
   postBookingData: IBooking;
   getData(d: IPersonData): void;
+  callRemoveCancelBtn(): void;
 }
 
 export const PersonData = (props: IPersonDataProps) => {
@@ -160,6 +161,7 @@ export const PersonData = (props: IPersonDataProps) => {
         }
       );
       setBookingDone(true);
+      props.callRemoveCancelBtn();
       console.log(rawResponse);
     })();
   };
