@@ -7,7 +7,6 @@ const sendEmailConfirmation = require("../functions/sendEmail");
 const BookingsModel = require("../models/Bookings.js");
 const AdminModel = require("../models/Admin.js");
 
-//admin login
 router.post("/login", async (req, res) => {
   const admin = await AdminModel.findOne({
     email: req.body.email,
@@ -16,14 +15,9 @@ router.post("/login", async (req, res) => {
 
   if (admin) {
     res.send("true");
-    console.log("användare finns");
   } else {
     res.send("false");
-
-    console.log("användare finns inte");
   }
-
-  console.log("find admin", admin);
 });
 
 router.get("/login", async (req, res) => {
@@ -39,6 +33,7 @@ router.get("/bookings/:id", async (req, res) => {
   const id = ObjectId(req.params.id);
   try {
     const singleBooking = await BookingsModel.findOne({ _id: id });
+    // console.log("find by id", singleBooking);
     res.status(200).send(singleBooking);
   } catch (error) {
     res.status(404).send(error.message);
@@ -46,7 +41,7 @@ router.get("/bookings/:id", async (req, res) => {
 });
 
 // ANVÄNDS DENNA?
-router.get("/:date", async (req, res) => {
+/* router.get("/:date", async (req, res) => {
   try {
     const date = req.params.date;
 
@@ -74,7 +69,7 @@ router.get("/:date", async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-});
+}); */
 
 //ändra single bokning
 router.post("/bookings/:id/edit", async (req, res) => {
@@ -136,6 +131,244 @@ router.get("/bookings/:searchInput/search", async (req, res) => {
 
   console.log(searchResults);
   res.status(200).send(searchResults);
+});
+
+router.get("/:id/:date/:tables/:time", async (req, res) => {
+  console.log("startar");
+  const date = req.params.date;
+  const id = req.params.id;
+  const tables = +req.params.tables;
+  const time = +req.params.time;
+
+  let booking = {};
+
+  const maxTables = 3;
+  const biggerBooking = 1;
+  let tablesForId = 0;
+
+  let tablesAtSix = 0;
+  let tablesAtNine = 0;
+
+  const bookings = await BookingsModel.find({ date });
+
+  for (let i = 0; i < bookings.length; i++) {
+    if (bookings[i]._id.toString() === id) {
+      // console.log("booking[i]", bookings[i]);
+      booking = bookings[i];
+      tablesForId = bookings[i].tables;
+    }
+  }
+
+  const sixaclockArr = bookings.filter((date) => {
+    return date.time === 18;
+  });
+
+  for (let i = 0; i < sixaclockArr.length; i++) {
+    if (sixaclockArr[i].tables === 2) {
+      tablesAtSix += 2;
+    } else {
+      tablesAtSix += 1;
+    }
+  }
+
+  const nineaclockArr = bookings.filter((date) => {
+    return date.time === 21;
+  });
+
+  for (let i = 0; i < nineaclockArr.length; i++) {
+    if (nineaclockArr[i].tables === 2) {
+      tablesAtNine += 2;
+    } else {
+      tablesAtNine += 1;
+    }
+  }
+
+  // console.log("tables:", tables);
+
+  let ifBookingIsAtSix = false;
+  let ifBookingIsAtNine = false;
+
+  if (time === 18) {
+    for (let i = 0; i < sixaclockArr.length; i++) {
+      if (sixaclockArr[i]._id.toString() === id) {
+        ifBookingIsAtSix = true;
+        console.log("bokning är kl 6666");
+      }
+    }
+  }
+
+  if (time === 21) {
+    for (let i = 0; i < nineaclockArr.length; i++) {
+      if (nineaclockArr[i]._id.toString() === id) {
+        ifBookingIsAtNine = true;
+        console.log("bokning är kl 9");
+      }
+    }
+  }
+
+  console.log("if at six", ifBookingIsAtSix);
+  console.log("if at nine", ifBookingIsAtNine);
+  console.log("nio arr", tablesAtNine);
+  console.log("sex arr", tablesAtSix);
+  /*   console.log("nio arr - tables", tablesAtNine - tables);
+  console.log("six arr - tables", tablesAtSix - tables); */
+  console.log("tables choosen in react:", tables);
+  console.log("tables already booked::", tablesForId);
+  console.log("time:", time);
+
+  if (ifBookingIsAtNine) {
+    console.log("1");
+    if (tablesAtNine - tablesForId + tables + tablesAtSix <= 6) {
+      console.log("2");
+
+      if (tables === 2) {
+        console.log("3");
+
+        if (
+          tablesAtNine - tablesForId + tables <= biggerBooking &&
+          tablesAtSix <= biggerBooking
+        ) {
+          console.log("4");
+
+          const bothTimesAvaTwo = { sixaclock: true, nineaclock: true };
+          res.status(200).send(bothTimesAvaTwo);
+        }
+
+        if (
+          tablesAtSix <= biggerBooking &&
+          tablesAtNine - tablesForId + tables >= biggerBooking
+        ) {
+          console.log("5");
+          const onlySixAvaTwo = { sixaclock: true, nineaclock: false };
+          res.status(200).send(onlySixAvaTwo);
+        }
+
+        if (
+          tablesAtSix >= biggerBooking &&
+          tablesAtNine - tablesForId + tables <= biggerBooking
+        ) {
+          console.log("6");
+          const onlyNineAvaTwo = { sixaclock: false, nineaclock: true };
+          res.status(200).send(onlyNineAvaTwo);
+        }
+      }
+
+      if (tables === 1) {
+        console.log("7");
+
+        if (
+          tablesAtSix < maxTables &&
+          tablesAtNine - tablesForId + tables < maxTables
+        ) {
+          console.log("8");
+          const bothTimesAvaOne = { sixaclock: true, nineaclock: true };
+          res.status(200).send(bothTimesAvaOne);
+        }
+
+        if (
+          tablesAtSix < maxTables &&
+          tablesAtNine - tablesForId + tables >= maxTables
+        ) {
+          console.log("9");
+          const onlySixAvaOne = { sixaclock: true, nineaclock: false };
+          res.status(200).send(onlySixAvaOne);
+        }
+
+        if (
+          tablesAtSix >= maxTables &&
+          tablesAtNine - tablesForId + tables < maxTables
+        ) {
+          console.log("10");
+          const onlyNineAvaOne = { sixaclock: false, nineaclock: true };
+          res.status(200).send(onlyNineAvaOne);
+        }
+      }
+    } else {
+      console.log("11");
+      const bothTimesFull = { sixaclock: false, nineaclock: false };
+      res.send(bothTimesFull);
+    }
+  }
+
+  if (ifBookingIsAtSix) {
+    console.log("12");
+
+    if (tablesAtSix - tablesForId + tables + tablesAtNine <= 6) {
+      console.log("13");
+
+      if (+tables === 2) {
+        console.log("14");
+
+        if (
+          tablesAtSix - tablesForId + tables <= biggerBooking &&
+          tablesAtNine <= biggerBooking
+        ) {
+          console.log("15");
+
+          const bothTimesAvaTwo = { sixaclock: true, nineaclock: true };
+          res.status(200).send(bothTimesAvaTwo);
+        }
+
+        if (
+          tablesAtSix - tablesForId + tables <= biggerBooking &&
+          tablesAtNine > biggerBooking
+        ) {
+          console.log("16");
+
+          const onlySixAvaTwo = { sixaclock: true, nineaclock: false };
+          res.status(200).send(onlySixAvaTwo);
+        }
+
+        if (
+          tablesAtSix - tablesForId + tables > biggerBooking &&
+          tablesAtNine <= biggerBooking
+        ) {
+          console.log("17");
+
+          const onlyNineAvaTwo = { sixaclock: false, nineaclock: true };
+          res.status(200).send(onlyNineAvaTwo);
+        }
+      }
+
+      if (tables === 1) {
+        console.log("18");
+
+        if (
+          tablesAtSix - tablesForId + tables < maxTables &&
+          tablesAtNine < maxTables
+        ) {
+          console.log("19");
+
+          const bothTimesAvaOne = { sixaclock: true, nineaclock: true };
+          res.status(200).send(bothTimesAvaOne);
+        }
+
+        if (
+          tablesAtSix - tablesForId + tables < maxTables &&
+          tablesAtNine >= maxTables
+        ) {
+          console.log("20");
+
+          const onlySixAvaOne = { sixaclock: true, nineaclock: false };
+          res.status(200).send(onlySixAvaOne);
+        }
+
+        if (
+          tablesAtSix - tablesForId + tables >= maxTables &&
+          tablesAtNine < maxTables
+        ) {
+          console.log("21");
+
+          const onlyNineAvaTwo = { sixaclock: false, nineaclock: true };
+          res.status(200).send(onlyNineAvaTwo);
+        }
+      }
+    } else {
+      console.log("22");
+      const bothTimesFull = { sixaclock: false, nineaclock: false };
+      res.send(bothTimesFull);
+    }
+  }
 });
 
 module.exports = router;

@@ -15,7 +15,9 @@ export const Admin = () => {
   useEffect(() => {
     fetch("http://localhost:8080/admin/login")
       .then((response) => response.json())
-      .then((data) => setBookings(data));
+      .then((data) => {
+        setBookings(data);
+      });
   }, []);
 
   //runs everytime search-input event changes

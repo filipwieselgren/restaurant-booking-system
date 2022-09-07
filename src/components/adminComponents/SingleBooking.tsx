@@ -46,14 +46,18 @@ export const SingleBooking = () => {
   });
 
   //state for disableing "save-btn" if date is fully booked
-  const [disabledBtn, setDisabledBtn] = useState(false);
+  //const [disabledBtn, setDisabledBtn] = useState(false);
 
   //state for adding more persons to booking via checkbox
   const [changeMax, setChangeMax] = useState("6");
   const [checkbox, setCheckbox] = useState(false);
 
   //state for avaliability ("ava" contains returned response after checking if date is availible. Returns Object with values true/false)
-  const [avalibleTime, setAvalibleTime] = useState({});
+  const [avalibleTime, setAvalibleTime] = useState({
+    sixaclock: false,
+    nineaclock: false,
+  });
+  const [ifFullyBooked, setIfFullyBooked] = useState(false);
 
   const [runNextFetch, setRunNextFetch] = useState(false);
 
@@ -116,12 +120,29 @@ export const SingleBooking = () => {
         setTablesAtNine({ nineaclock: false, isDisabled: true });
       }
     }
-  }, [avalibleTime]);
+    maxPeople();
+    notPossibleToBook();
+  }, [avalibleTime, singleBooking.amountOfPeople, ifFullyBooked]);
+
+  // Om vald tid är x sätt state till false/true baserat på svar från node
+  const notPossibleToBook = () => {
+    if (singleBooking.time === 18) {
+      setIfFullyBooked(!avalibleTime.sixaclock);
+    } else if (singleBooking.time === 21) {
+      setIfFullyBooked(!avalibleTime.nineaclock);
+    } else {
+      setIfFullyBooked(false);
+    }
+  };
+
+  console.log("booking", singleBooking);
+  console.log("ava times", avalibleTime);
+  console.log("fullyBooked", ifFullyBooked);
 
   //disable save-button if fully booked
-  useEffect(() => {
+  /*   useEffect(() => {
     disableButton();
-  }, [tablesAtSix, tablesAtNine]);
+  }, [tablesAtSix, tablesAtNine]); */
 
   //FUNCTIONS//
   //add more persons to booking
@@ -130,20 +151,31 @@ export const SingleBooking = () => {
     setCheckbox(target);
 
     if (target) {
+      // Om det går att göra en boknign på 2 bord sätt till 12 om bara 1 bokning sätt till 6
+      maxPeople();
+    } else {
+      setChangeMax("6");
+    }
+  };
+
+  const maxPeople = () => {
+    if (!ifFullyBooked) {
       setChangeMax("12");
     } else {
       setChangeMax("6");
     }
   };
 
+  console.log("max change", changeMax);
+
   //disable "save-button" if date is fully booked
-  const disableButton = () => {
+  /*  const disableButton = () => {
     if (tablesAtSix.sixaclock || tablesAtNine.nineaclock) {
       setDisabledBtn(false);
     } else {
       setDisabledBtn(true);
     }
-  };
+  }; */
 
   //update singleBooking-object every time DATE-INPUT is edited
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -152,16 +184,16 @@ export const SingleBooking = () => {
 
   //update singleBooking-object every time AMOUNT-INPUT is edited
   const handleAmount = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.type === "number") {
-      if (e.target.value <= "6") {
-        singleBooking.tables = 1;
-      } else {
-        singleBooking.tables = 2;
-      }
-      setSingleBooking({ ...singleBooking, [e.target.name]: +e.target.value });
+    //if (e.target.type === "number") {
+    if (+e.target.value <= 6) {
+      singleBooking.tables = 1;
     } else {
-      setSingleBooking({ ...singleBooking, [e.target.name]: e.target.value });
+      singleBooking.tables = 2;
     }
+    setSingleBooking({ ...singleBooking, [e.target.name]: +e.target.value });
+    /*  } else {
+      setSingleBooking({ ...singleBooking, [e.target.name]: e.target.value });
+    } */
   };
 
   //update singleBookings TIME when the time-dropwdown-select changes
@@ -173,8 +205,8 @@ export const SingleBooking = () => {
   };
 
   //creates a POST when admin saves the changes.
-  const saveChanges = () => {
-    fetch(
+  const saveChanges = async () => {
+    await fetch(
       "http://localhost:8080/admin/bookings/" + singleBooking._id + "/edit",
       {
         method: "POST",
@@ -186,7 +218,6 @@ export const SingleBooking = () => {
         body: JSON.stringify(singleBooking),
       }
     );
-
     navigate("/admin");
   };
 
@@ -318,8 +349,8 @@ export const SingleBooking = () => {
           <div className="inputDiv">
             <button
               className="save"
-              disabled={disabledBtn}
-              onClick={saveChanges}
+              /*               disabled={disabledBtn}
+               */ onClick={saveChanges}
             >
               Save changes
             </button>
