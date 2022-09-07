@@ -3,16 +3,14 @@ import { Link } from "react-router-dom";
 import "../../styles/components-style/adminStyles/_allBookings.scss";
 
 interface IAdminProps {
-  adminRender: IAdminBookedRender[];
+  adminSearch: IAdminBookedRender[];
 }
 
 export const AllBookings = (props: IAdminProps) => {
-  let renderHTML = <></>;
-
-  if (props.adminRender.length >= 1) {
-    renderHTML = (
+  return (
+    <>
       <div>
-        {props.adminRender.map((booking) => {
+        {props.adminSearch.map((booking) => {
           if (booking.date >= new Date().toLocaleDateString()) {
             return (
               <div key={booking._id}>
@@ -42,14 +40,6 @@ export const AllBookings = (props: IAdminProps) => {
           }
         })}
       </div>
-    );
-  } else {
-    renderHTML = (
-      <>
-        <h3>no bookings to manage!</h3>
-      </>
-    );
-  }
-
-  return <>{renderHTML}</>;
+    </>
+  );
 };

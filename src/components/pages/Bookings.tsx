@@ -12,6 +12,8 @@ import { ITablesAvalible } from "../../models/ITablesAvalibles";
 import { time } from "console";
 import { CancelBooking } from "../bookingComponents/CancelBooking";
 import { PromiseProvider } from "mongoose";
+import "../../styles/loader.scss";
+import { Loader } from "../loader";
 
 export const Bookings = () => {
   const [isActiveCalendar, setIsActiveCalendar] = useState(true);
@@ -50,6 +52,8 @@ export const Bookings = () => {
   const [navigateOnTimeForm, setNavigateOnTimeForm] = useState(false);
   const [navigateOnPersonDataForm, setNavigateOnPersonDataForm] =
     useState(false);
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [nextPage, setNextPage] = useState<Boolean>(true);
 
   useEffect(() => {
     if (activeCancelButton) {
@@ -215,11 +219,14 @@ export const Bookings = () => {
 
     if (booking.date && booking.amountOfPeople !== 0) {
       try {
+        setIsLoading(true);
         let response = await axios.get(api);
-
-        setTimes(response.data);
-
         setStartUseEffect(true);
+
+        setTimeout(() => {
+          setIsLoading(false);
+          setTimes(response.data);
+        }, 800);
       } catch (error) {
         console.log(error);
       }
@@ -231,6 +238,7 @@ export const Bookings = () => {
   useEffect(() => {
     if (startUseEffect)
       if (times.nineaclock || times.sixaclock) {
+        setNextPage(false);
         setShowFullyBookedText(false);
         navigateToForms(times);
       } else {
@@ -260,6 +268,7 @@ export const Bookings = () => {
           >
             <p>Antal och datum</p>
           </div>
+
           <div
             onClick={navigateToTimeFormByClick}
             className={`ifTimeForm ${isActiveTime && "active"} ${
@@ -273,12 +282,14 @@ export const Bookings = () => {
           </div>
         </div>
 
+        {isLoading && nextPage ? <Loader /> : <></>}
         {showCalendar && (
           <section className="formContainerCalendar">
             <AmountOfPeople getData={getQTY} />
             <div className="dateHeaderContainer">
               <p>Välj datum</p>
             </div>
+
             <CalendarComponent getData={getDate}></CalendarComponent>
           </section>
         )}
