@@ -1,6 +1,4 @@
-import { setMaxListeners } from "events";
 import { useEffect, useState } from "react";
-import { IBooking } from "../../models/IBooking";
 import { IBookingProps } from "../../models/IBookingProps";
 
 export const CalendarComponent = (props: IBookingProps<string>) => {
@@ -31,6 +29,16 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
     "December",
   ];
 
+  const daysArray = [
+    { day: "Mon", id: 0 },
+    { day: "Tue", id: 1 },
+    { day: "Wed", id: 2 },
+    { day: "Thu", id: 3 },
+    { day: "Fri", id: 4 },
+    { day: "Sat", id: 5 },
+    { day: "Sun", id: 7 },
+  ];
+
   const monthDaysArray = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   const [choosenDate, setChoosenDate] = useState(0);
 
@@ -53,12 +61,6 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
         setCurrentMonthName(monthsArray[i]);
       }
     }
-
-    /*  for (let i = 0; i < monthsArray.length; i++) {
-      if (getMonth === i + 1) {
-        setCurrentMonthName(monthsArray[i]);
-      }
-    } */
   };
 
   const getDays = () => {
@@ -93,7 +95,6 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
     }
   };
 
-  //
   const goToLastMonth = () => {
     setCurrentMonthNumber(currentMonthNumber - 1);
 
@@ -163,12 +164,10 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
           <div className="arrowContainer">
             <li className="arrowLeft">
               <i
-                onClick={
-                  () =>
-                    currentMonthNumber === 1 && changeYear === getYear
-                      ? stop()
-                      : goToLastMonth()
-                  // Lägg till så man inte kan gå längre tbx än månaden man är i
+                onClick={() =>
+                  currentMonthNumber === 1 && changeYear === getYear
+                    ? stop()
+                    : goToLastMonth()
                 }
                 className="bi bi-chevron-left"
               ></i>
@@ -187,13 +186,9 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
         </ul>
       </article>
       <article className="weekDaysContainer">
-        <p>Mon</p>
-        <p>Tue</p>
-        <p>Wed</p>
-        <p>Thu</p>
-        <p>Fri</p>
-        <p>Sat</p>
-        <p>Sun</p>
+        {daysArray.map((day) => {
+          return <p key={day.id}>{day.day}</p>;
+        })}
       </article>
       <article className="daysContainer">{daysHTML}</article>
     </section>

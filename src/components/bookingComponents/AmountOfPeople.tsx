@@ -1,4 +1,3 @@
-import { clickOptions } from "@testing-library/user-event/dist/click";
 import { ChangeEvent, useEffect, useState } from "react";
 import { IBookingProps } from "../../models/IBookingProps";
 

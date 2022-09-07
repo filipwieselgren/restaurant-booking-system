@@ -159,7 +159,6 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
 
   for (let i = 0; i < bookings.length; i++) {
     if (bookings[i]._id.toString() === id) {
-      // console.log("booking[i]", bookings[i]);
       booking = bookings[i];
       tablesForId = bookings[i].tables;
     }
@@ -189,8 +188,6 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
     }
   }
 
-  // console.log("tables:", tables);
-
   let ifBookingIsAtSix = false;
   let ifBookingIsAtNine = false;
 
@@ -216,8 +213,6 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
   console.log("if at nine", ifBookingIsAtNine);
   console.log("nio arr", tablesAtNine);
   console.log("sex arr", tablesAtSix);
-  /*   console.log("nio arr - tables", tablesAtNine - tables);
-  console.log("six arr - tables", tablesAtSix - tables); */
   console.log("tables choosen in react:", tables);
   console.log("tables already booked::", tablesForId);
   console.log("time:", time);

@@ -9,9 +9,6 @@ import { PersonData } from "../bookingComponents/Persondata";
 import { IPersonData } from "../../models/IPersondata";
 import axios from "axios";
 import { ITablesAvalible } from "../../models/ITablesAvalibles";
-import { time } from "console";
-import { CancelBooking } from "../bookingComponents/CancelBooking";
-import { PromiseProvider } from "mongoose";
 import "../../styles/loader.scss";
 import { Loader } from "../loader";
 
@@ -84,7 +81,6 @@ export const Bookings = () => {
   const getDate = (d: string) => {
     setDateAndTimeMissing(false);
     booking.date = d;
-    // console.log("i bookings funktion, date:", d);
   };
 
   // funktion som hämtar antal personer
@@ -102,7 +98,6 @@ export const Bookings = () => {
   // funktion som hämtar tid av bokning
   const getTime = (t: number) => {
     booking.time = t;
-    // console.log("i bookings funktion, tid:", t);
   };
 
   //funktion som hämtar personuppgifter

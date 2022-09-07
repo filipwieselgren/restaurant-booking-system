@@ -1,4 +1,3 @@
-import React, { ChangeEvent } from "react";
 import { AllBookings } from "../adminComponents/AllBookings";
 import "../../styles/admin.scss";
 import { useState, useEffect } from "react";
