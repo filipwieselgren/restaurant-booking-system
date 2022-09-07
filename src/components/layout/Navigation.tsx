@@ -21,7 +21,7 @@ export const Navigation = () => {
           </Link>
         </div>
         <div className="menuWrapper">
-          <Link to={"/meny"}>
+          <Link to={"/menu"}>
             <div className="menuBtn">Our menu</div>
           </Link>
           <Link to={"/contact"}>
