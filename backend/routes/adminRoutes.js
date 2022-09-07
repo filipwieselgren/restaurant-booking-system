@@ -234,9 +234,10 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           res.status(200).send(bothTimesAvaTwo);
         }
 
+        // tog bort =, om krånglar är det här
         if (
           tablesAtSix <= biggerBooking &&
-          tablesAtNine - tablesForId + tables >= biggerBooking
+          tablesAtNine - tablesForId + tables > biggerBooking
         ) {
           console.log("5");
           const onlySixAvaTwo = { sixaclock: true, nineaclock: false };
@@ -244,7 +245,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
         }
 
         if (
-          tablesAtSix >= biggerBooking &&
+          tablesAtSix > biggerBooking &&
           tablesAtNine - tablesForId + tables <= biggerBooking
         ) {
           console.log("6");
