@@ -179,11 +179,11 @@ export const PersonData = (props: IPersonDataProps) => {
     formInput = (
       <>
         <div className="confirmHeaderContainer">
-          <p>Bekräfta din bokning</p>
+          <p>Confirm your booking</p>
         </div>
 
         <div className="inputsContainer">
-          {!nameError && <p>Fyll i fältet</p>}
+          {!nameError && <p>Fill this field</p>}
 
           <input
             value={name}
@@ -191,10 +191,10 @@ export const PersonData = (props: IPersonDataProps) => {
             onChange={twoHandlersName}
             id="nameInput"
             type="text"
-            placeholder="Namn:"
+            placeholder="Name:"
             className={`${!nameError && "validationError"} `}
           />
-          {!emailError && <p>Fyll i en korrekt emailadress</p>}
+          {!emailError && <p>Fill a valid email</p>}
           <input
             value={email}
             onBlur={validateEmail}
@@ -204,7 +204,7 @@ export const PersonData = (props: IPersonDataProps) => {
             placeholder="Email:"
             className={`${!emailError && "validationError"} `}
           />
-          {!phoneError && <p>Fyll i ett korrekt telefonnummer</p>}
+          {!phoneError && <p>Fill a valid phone number</p>}
 
           <input
             value={phone}
@@ -212,19 +212,19 @@ export const PersonData = (props: IPersonDataProps) => {
             onChange={twoHandlersPhone}
             id="phoneInput"
             type="text"
-            placeholder="Telefonnummer:"
+            placeholder="Phone:"
             className={`${!phoneError && "validationError"} `}
           />
         </div>
 
         <div className="buttonContainer">
-          <button onClick={sendData}>Boka</button>
+          <button onClick={sendData}>Book</button>
         </div>
 
         <div className="GDPRLinkContainer">
-          <p>Genom att bekräfta bokning så godkänner du våra villkor.</p>
+          <p>By confirming your booking you approve of our GDPR terms.</p>
           <p className="GDPRLink" onClick={showGDPRModal}>
-            Läs om våra GDPR-villkor här
+            Read about our GDPR terms here
           </p>
         </div>
       </>

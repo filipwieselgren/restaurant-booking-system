@@ -90,17 +90,17 @@ export const Contact = () => {
 
   let messageInputs = (
     <>
-      <p>KONTAKT</p>
+      <p>CONTACT LEON</p>
       <form onSubmit={sendMessage} action="post">
-        <div>{isNameError && <p>Fyll i fältet</p>}</div>
+        <div>{isNameError && <p>Fill this field</p>}</div>
         <input
           className={`${isNameError && "errorValidate"}`}
           onChange={handleName}
           value={name}
           type="text"
-          placeholder="Namn:"
+          placeholder="Name:"
         />
-        <div>{isEmailError && <p>Ange en korrekt E-postadress</p>}</div>
+        <div>{isEmailError && <p>Fill a valid email</p>}</div>
 
         <input
           className={`${isEmailError && "errorValidate"}`}
@@ -109,7 +109,7 @@ export const Contact = () => {
           type="text"
           placeholder="Email:"
         />
-        <div>{isMessageError && <p>Skriv in ditt meddelande</p>}</div>
+        <div>{isMessageError && <p>Enter your message</p>}</div>
 
         <textarea
           className={`${isMessageError && "errorValidate"}`}
@@ -119,9 +119,9 @@ export const Contact = () => {
           id=""
           cols={30}
           rows={10}
-          placeholder="Meddelande:"
+          placeholder="Message:"
         ></textarea>
-        <button>Skicka</button>
+        <button>Send</button>
       </form>
     </>
   );

@@ -58,9 +58,9 @@ export const Bookings = () => {
 
   useEffect(() => {
     if (activeCancelButton) {
-      setButtonText("Avbryt");
+      setButtonText("Cancel");
     } else {
-      setButtonText("Gå vidare");
+      setButtonText("Next step");
     }
 
     switchForm();
@@ -271,7 +271,7 @@ export const Bookings = () => {
               navigateOnTimeForm && "navigate"
             } ${navigateOnPersonDataForm && "navigate"}`}
           >
-            <p>Antal och datum</p>
+            <p>Persons & Date</p>
           </div>
 
           <div
@@ -280,10 +280,10 @@ export const Bookings = () => {
               navigateOnPersonDataForm && "navigate"
             }`}
           >
-            <p>Val av tid</p>
+            <p>Time</p>
           </div>
           <div className={`ifConfirmation ${isActivePersonData && "active"}`}>
-            <p>Bekräftelse</p>
+            <p>Confirmation</p>
           </div>
         </div>
 
@@ -292,7 +292,7 @@ export const Bookings = () => {
           <section className="formContainerCalendar">
             <AmountOfPeople getData={getQTY} />
             <div className="dateHeaderContainer">
-              <p>Välj datum</p>
+              <p>Pick a date</p>
             </div>
 
             <CalendarComponent getData={getDate}></CalendarComponent>

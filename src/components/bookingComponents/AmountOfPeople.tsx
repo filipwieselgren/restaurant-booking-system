@@ -53,10 +53,10 @@ export const AmountOfPeople = (props: IBookingProps<number>) => {
   return (
     <section className="qtyContainer">
       <div className="qtyHeaderContainer">
-        <p>Välj antal personer</p>
+        <p>Choose total no of persons</p>
 
         <div className="checkboxContainer">
-          <p> Är ni fler än 6 ?</p>
+          <p> More than 6 persons?</p>
           <div className="check">
             <input
               onChange={changeQTY}
