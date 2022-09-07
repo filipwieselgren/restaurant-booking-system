@@ -1,0 +1,105 @@
+@import "../../styles/mixins/mixins";
+
+@include phone-up {
+  .menuWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 900px;
+    width: 100%;
+
+    .menuDiv {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 70%;
+      width: 70%;
+      background-color: whitesmoke;
+
+      .divWrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 30px;
+        .lunchDiv,
+        .dinnerDiv,
+        .drinksDiv {
+          h4 {
+            margin: 0px;
+            text-align: center;
+          }
+          ul {
+            padding: 0px;
+            text-align: center;
+            li {
+              list-style: none;
+              padding-top: 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include phone-to-tablet {
+  .menuWrapper {
+    .menuDiv {
+      width: 75%;
+      height: 75%;
+    }
+  }
+  @include tablet-up {
+    .menuWrapper {
+      .menuDiv {
+        width: 75%;
+        height: 75%;
+      }
+    }
+  }
+  @include desktop {
+    .menuWrapper {
+      .menuDiv {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 100px;
+        width: 75%;
+        height: 75%;
+        h1 {
+          padding: 0px;
+          margin: 0px;
+          font-size: 40pt;
+        }
+        .divWrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: row;
+          gap: 60px;
+          .lunchDiv,
+          .dinnerDiv,
+          .drinksDiv {
+            width: 300px;
+            h4 {
+              font-size: 24pt;
+              margin: 0px;
+              text-align: center;
+            }
+            ul {
+              padding: 0px;
+              text-align: center;
+              li {
+                list-style: none;
+                padding-top: 8px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
