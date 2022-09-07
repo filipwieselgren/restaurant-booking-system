@@ -7,6 +7,7 @@
     background-color: rgba(pink, 0.3);
     padding-left: 20px;
     padding-right: 20px;
+    overflow-y: scroll;
     @include phone-to-tablet {
       width: 70%;
     }
@@ -24,15 +25,14 @@
     }
     .textDiv {
       p {
-        padding: 0px;
-        margin: 0px;
-        font-size: 10pt;
+        font-size: 8pt;
       }
     }
     .closeDiv {
       display: flex;
       justify-content: right;
-      padding-top: 30px;
+      padding-top: 10px;
+      padding-bottom: 20px;
       div {
         color: gray;
         &:hover {
@@ -53,15 +53,14 @@
     }
     .textDiv {
       p {
-        padding: 0px;
-        margin: 0px;
         font-size: 10pt;
       }
     }
     .closeDiv {
       display: flex;
       justify-content: right;
-      padding-top: 60px;
+      padding-top: 20px;
+      padding-bottom: 20px;
       div {
         color: gray;
         &:hover {
