@@ -22,9 +22,11 @@ export const Admin = () => {
 
   //runs everytime search-input event changes
   useEffect(() => {
-    fetch("http://localhost:8080/admin/bookings/" + searched + "/search")
-      .then((response) => response.json())
-      .then((data) => setSearchResult(data));
+    if (searched.length >= 1) {
+      fetch("http://localhost:8080/admin/bookings/" + searched + "/search")
+        .then((response) => response.json())
+        .then((data) => setSearchResult(data));
+    }
   }, [searched]);
 
   //runs after above code to update bookings-list with the one we search for

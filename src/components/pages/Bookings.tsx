@@ -53,6 +53,8 @@ export const Bookings = () => {
   const [navigateOnTimeForm, setNavigateOnTimeForm] = useState(false);
   const [navigateOnPersonDataForm, setNavigateOnPersonDataForm] =
     useState(false);
+
+  //loader
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [nextPage, setNextPage] = useState<Boolean>(true);
   const [cancelBtn, setCancelBtn] = useState(true);

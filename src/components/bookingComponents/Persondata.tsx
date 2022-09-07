@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { IBooking } from "../../models/IBooking";
 import { IBookingProps } from "../../models/IBookingProps";
 import { IPersonData } from "../../models/IPersondata";
+import { GdprModal } from "./GDPRmodal";
 
 interface IPersonDataProps {
   postBookingData: IBooking;
@@ -26,6 +27,9 @@ export const PersonData = (props: IPersonDataProps) => {
   const [startOnChangeName, setStartOnChangeName] = useState(false);
   const [startOnChangeEmail, setStartOnChangeEmail] = useState(false);
   const [startOnChangePhone, setStartOnChangePhone] = useState(false);
+
+  //show GDPR-modal
+  const [GDPR, setGDPR] = useState<Boolean>(false);
 
   const twoHandlersName = (e: ChangeEvent<HTMLInputElement>) => {
     handleName(e);
@@ -99,6 +103,14 @@ export const PersonData = (props: IPersonDataProps) => {
 
   const handlePhone = (e: ChangeEvent<HTMLInputElement>) => {
     setPhone(e.target.value);
+  };
+
+  const showGDPRModal = () => {
+    setGDPR(true);
+  };
+
+  const closeGDPRModal = () => {
+    setGDPR(false);
   };
 
   const sendData = () => {
@@ -217,9 +229,9 @@ export const PersonData = (props: IPersonDataProps) => {
 
         <div className="GDPRLinkContainer">
           <p>Genom att bekräfta bokning så godkänner du våra villkor.</p>
-          <Link className="GDPRLink" to="/contact">
+          <p className="GDPRLink" onClick={showGDPRModal}>
             Läs om våra GDPR-villkor här
-          </Link>
+          </p>
         </div>
       </>
     );
@@ -239,9 +251,13 @@ export const PersonData = (props: IPersonDataProps) => {
 
   return (
     <section className="personDataContainer">
-      <form onSubmit={preventSubmit} className="personDataForm" action="post">
-        {formInput}
-      </form>
+      {GDPR ? (
+        <GdprModal closeModal={closeGDPRModal}></GdprModal>
+      ) : (
+        <form onSubmit={preventSubmit} className="personDataForm" action="post">
+          {formInput}
+        </form>
+      )}
     </section>
   );
 };
