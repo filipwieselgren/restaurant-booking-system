@@ -8,16 +8,6 @@ export const Menu = () => {
         <h1>MENU</h1>
 
         <div className="divWrapper">
-          <div className="lunchDiv">
-            <h4>Lunch</h4>
-            <ul>
-              <li>Broccoli soup</li>
-              <li>baked pumkin with roasted nuts</li>
-              <li>Grilled carrots</li>
-              <li>Roasted walnuts and ruccola</li>
-              <li>Cabbage sallad with salmon</li>
-            </ul>
-          </div>
           <div className="dinnerDiv">
             <h4>Dinner</h4>
             <ul>
