@@ -5,8 +5,8 @@ import { IBookingProps } from "../../models/IBookingProps";
 import { IPersonData } from "../../models/IPersondata";
 
 interface IPersonDataProps {
-  postBookingData: IBooking;
-  getData(d: IPersonData): void;
+  postBookingData?: IBooking;
+  getData?(d: IPersonData): void;
 }
 
 export const PersonData = (props: IPersonDataProps) => {
@@ -18,9 +18,9 @@ export const PersonData = (props: IPersonDataProps) => {
   const [bookingDone, setBookingDone] = useState(false);
 
   // false -  error, true - finns inte error
-  const [emailError, setEmailError] = useState(true);
-  const [phoneError, setPhoneError] = useState(true);
-  const [nameError, setNameError] = useState(true);
+  const [isEmailError, setisEmailError] = useState(false);
+  const [isPhoneError, setisPhoneError] = useState(false);
+  const [isNameError, setisNameError] = useState(false);
 
   const [startOnChangeName, setStartOnChangeName] = useState(false);
   const [startOnChangeEmail, setStartOnChangeEmail] = useState(false);
@@ -51,10 +51,10 @@ export const PersonData = (props: IPersonDataProps) => {
 
   const validateName = () => {
     if (name.length === 0) {
-      setNameError(false);
+      setisNameError(true);
       return false;
     } else {
-      setNameError(true);
+      setisNameError(false);
       return true;
     }
   };
@@ -63,23 +63,23 @@ export const PersonData = (props: IPersonDataProps) => {
     let regex = /\S+@\S+\.\S+/.test(email);
 
     if (email.length === 0) {
-      setEmailError(false);
+      setisEmailError(true);
     } else {
       if (regex) {
-        setEmailError(true);
+        setisEmailError(false);
         return true;
       } else {
-        setEmailError(false);
+        setisEmailError(true);
         return false;
       }
     }
   };
   const validatePhone = () => {
     if (phone.length === 10) {
-      setPhoneError(true);
+      setisPhoneError(false);
       return true;
     } else {
-      setPhoneError(false);
+      setisPhoneError(true);
       return false;
     }
   };
@@ -101,7 +101,9 @@ export const PersonData = (props: IPersonDataProps) => {
   };
 
   const sendData = () => {
-    props.getData({ name, email, phone });
+    if (props.getData) {
+      props.getData({ name, email, phone });
+    }
 
     // navigate("/booktable/post");
   };
@@ -114,21 +116,21 @@ export const PersonData = (props: IPersonDataProps) => {
     let phoneValidator = validatePhone();
 
     if (nameValidator) {
-      setNameError(true);
+      setisNameError(false);
     } else {
-      setNameError(false);
+      setisNameError(true);
     }
 
     if (emailValidator) {
-      setEmailError(true);
+      setisEmailError(false);
     } else {
-      setEmailError(false);
+      setisEmailError(true);
     }
 
     if (phoneValidator) {
-      setPhoneError(true);
+      setisPhoneError(false);
     } else {
-      setPhoneError(false);
+      setisPhoneError(true);
     }
 
     if (!nameValidator) {
@@ -174,19 +176,22 @@ export const PersonData = (props: IPersonDataProps) => {
         </div>
 
         <div className="inputsContainer">
-          {!nameError && <p>Fyll i fältet</p>}
-
+          <div className="errorMessage">
+            {isNameError && <p>Fyll i fältet</p>}
+          </div>
           <input
             value={name}
             onBlur={validateName}
             onChange={twoHandlersName}
-            // onChange={handleName}
             id="nameInput"
             type="text"
             placeholder="Namn:"
-            className={`${!nameError && "validationError"} `}
+            className={`${isNameError && "validationError"} `}
           />
-          {!emailError && <p>Fyll i en korrekt emailadress</p>}
+          <div className="errorMessage">
+            {isEmailError && <p>Fyll i en korrekt emailadress</p>}
+          </div>
+
           <input
             value={email}
             onBlur={validateEmail}
@@ -194,9 +199,11 @@ export const PersonData = (props: IPersonDataProps) => {
             id="emailInput"
             type="text"
             placeholder="Email:"
-            className={`${!emailError && "validationError"} `}
+            className={`${isEmailError && "validationError"} `}
           />
-          {!phoneError && <p>Fyll i ett korrekt telefonnummer</p>}
+          <div className="errorMessage">
+            {isPhoneError && <p>Fyll i ett korrekt telefonnummer</p>}
+          </div>
 
           <input
             value={phone}
@@ -205,7 +212,7 @@ export const PersonData = (props: IPersonDataProps) => {
             id="phoneInput"
             type="text"
             placeholder="Telefonnummer:"
-            className={`${!phoneError && "validationError"} `}
+            className={`${isPhoneError && "validationError"} `}
           />
         </div>
 

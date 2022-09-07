@@ -5,7 +5,7 @@ import { IBooking } from "../../models/IBooking";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { TimeForm } from "../bookingComponents/TimeForm";
-import { PersonData } from "../bookingComponents/Persondata";
+import { PersonData } from "../bookingComponents/PersonData";
 import { IPersonData } from "../../models/IPersondata";
 import axios from "axios";
 import { ITablesAvalible } from "../../models/ITablesAvalibles";
