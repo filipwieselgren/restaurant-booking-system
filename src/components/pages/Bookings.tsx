@@ -226,7 +226,7 @@ export const Bookings = () => {
         setTimeout(() => {
           setIsLoading(false);
           setTimes(response.data);
-        }, 1000);
+        }, 800);
       } catch (error) {
         console.log(error);
       }
