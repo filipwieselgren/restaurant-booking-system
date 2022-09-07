@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ISixDisable } from "../../models/ITablesAvalibles";
 import { INineDisable } from "../../models/ITablesAvalibles";
-import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "../../styles/admin.scss";
 import "../../styles/components-style/adminStyles/_singleBooking.scss";
@@ -15,7 +14,6 @@ import axios from "axios";
 
 export const SingleBooking = () => {
   //set variables
-  const params = useParams();
   const navigate = useNavigate();
   const preventSubmit = (e: FormEvent) => {
     e.preventDefault();

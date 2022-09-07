@@ -1,7 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IBooking } from "../../models/IBooking";
-import { IBookingProps } from "../../models/IBookingProps";
 import { IPersonData } from "../../models/IPersondata";
 
 interface IPersonDataProps {
@@ -11,8 +10,6 @@ interface IPersonDataProps {
 }
 
 export const PersonData = (props: IPersonDataProps) => {
-  const navigate = useNavigate();
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -103,8 +100,6 @@ export const PersonData = (props: IPersonDataProps) => {
 
   const sendData = () => {
     props.getData({ name, email, phone });
-
-    // navigate("/booktable/post");
   };
 
   const preventSubmit = async (e: FormEvent) => {
@@ -182,7 +177,6 @@ export const PersonData = (props: IPersonDataProps) => {
             value={name}
             onBlur={validateName}
             onChange={twoHandlersName}
-            // onChange={handleName}
             id="nameInput"
             type="text"
             placeholder="Namn:"

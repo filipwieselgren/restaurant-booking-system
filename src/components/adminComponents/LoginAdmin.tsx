@@ -26,8 +26,6 @@ export const LoginAdmin = () => {
   const preventSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    // setLoader(true);
-
     (async () => {
       const rawResponse = await fetch("http://localhost:8080/admin/login", {
         method: "POST",
