@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { IBooking } from "../../models/IBooking";
 import { IPersonData } from "../../models/IPersondata";
 import { GdprModal } from "./GDPRmodal";
+import { validateEmailCall, validateLength } from "../../ts/validate";
 
 interface IPersonDataProps {
   postBookingData: IBooking;
@@ -16,10 +17,9 @@ export const PersonData = (props: IPersonDataProps) => {
   const [phone, setPhone] = useState("");
   const [bookingDone, setBookingDone] = useState(false);
 
-  // false -  error, true - finns inte error
-  const [emailError, setEmailError] = useState(true);
-  const [phoneError, setPhoneError] = useState(true);
-  const [nameError, setNameError] = useState(true);
+  const [isEmailError, setisEmailError] = useState(false);
+  const [isPhoneError, setisPhoneError] = useState(false);
+  const [isNameError, setisNameError] = useState(false);
 
   const [startOnChangeName, setStartOnChangeName] = useState(false);
   const [startOnChangeEmail, setStartOnChangeEmail] = useState(false);
@@ -31,7 +31,14 @@ export const PersonData = (props: IPersonDataProps) => {
   const twoHandlersName = (e: ChangeEvent<HTMLInputElement>) => {
     handleName(e);
     if (startOnChangeName) {
-      validateName();
+      let nameValidator = validateName();
+
+      if (nameValidator) {
+        setisNameError(true);
+      } else {
+        setisNameError(false);
+        setStartOnChangeName(false);
+      }
     }
   };
 
@@ -39,7 +46,14 @@ export const PersonData = (props: IPersonDataProps) => {
     handleEmail(e);
 
     if (startOnChangeEmail) {
-      validateEmail();
+      let emailValidator = validateEmail();
+
+      if (emailValidator) {
+        setisEmailError(false);
+        setStartOnChangeEmail(false);
+      } else {
+        setisEmailError(true);
+      }
     }
   };
 
@@ -47,43 +61,32 @@ export const PersonData = (props: IPersonDataProps) => {
     handlePhone(e);
 
     if (startOnChangePhone) {
-      validatePhone();
+      let validatorPhone = validatePhone();
+
+      if (validatorPhone) {
+        setisPhoneError(false);
+        setStartOnChangePhone(false);
+      } else {
+        setisPhoneError(true);
+      }
     }
   };
 
   const validateName = () => {
-    if (name.length === 0) {
-      setNameError(false);
-      return false;
-    } else {
-      setNameError(true);
-      return true;
-    }
+    let vL = validateLength(name, 0);
+
+    return vL;
   };
 
   const validateEmail = () => {
-    let regex = /\S+@\S+\.\S+/.test(email);
+    let vE = validateEmailCall(email);
 
-    if (email.length === 0) {
-      setEmailError(false);
-    } else {
-      if (regex) {
-        setEmailError(true);
-        return true;
-      } else {
-        setEmailError(false);
-        return false;
-      }
-    }
+    return vE;
   };
   const validatePhone = () => {
-    if (phone.length === 10) {
-      setPhoneError(true);
-      return true;
-    } else {
-      setPhoneError(false);
-      return false;
-    }
+    let vL = validateLength(phone, 10);
+
+    return vL;
   };
 
   const handleName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -122,33 +125,27 @@ export const PersonData = (props: IPersonDataProps) => {
     let phoneValidator = validatePhone();
 
     if (nameValidator) {
-      setNameError(true);
+      setisNameError(true);
+      setStartOnChangeName(true);
     } else {
-      setNameError(false);
+      setisNameError(false);
     }
 
     if (emailValidator) {
-      setEmailError(true);
+      setisEmailError(false);
     } else {
-      setEmailError(false);
+      setisEmailError(true);
+      setStartOnChangeEmail(true);
     }
 
     if (phoneValidator) {
-      setPhoneError(true);
+      setisPhoneError(false);
     } else {
-      setPhoneError(false);
-    }
-
-    if (!nameValidator) {
-      setStartOnChangeName(true);
-    }
-    if (!emailValidator) {
-      setStartOnChangeEmail(true);
-    }
-    if (!phoneValidator) {
+      setisPhoneError(true);
       setStartOnChangePhone(true);
     }
-    if (nameValidator && emailValidator && phoneValidator) {
+
+    if (!nameValidator && emailValidator && phoneValidator) {
       sendFetch();
     }
   };
@@ -183,37 +180,43 @@ export const PersonData = (props: IPersonDataProps) => {
         </div>
 
         <div className="inputsContainer">
-          {!nameError && <p>Fill this field</p>}
-
+          <div className="errorMessage">
+            {isNameError && <p>Fill this field</p>}
+          </div>
           <input
             value={name}
-            onBlur={validateName}
+            onBlur={twoHandlersName}
             onChange={twoHandlersName}
             id="nameInput"
             type="text"
-            placeholder="Name:"
-            className={`${!nameError && "validationError"} `}
+            placeholder="Namn:"
+            className={`${isNameError && "validationError"} `}
           />
-          {!emailError && <p>Fill a valid email</p>}
+          <div className="errorMessage">
+            {isEmailError && <p>Fill a valid email</p>}
+          </div>
+
           <input
             value={email}
-            onBlur={validateEmail}
+            onBlur={twoHandlersEmail}
             onChange={twoHandlersEmail}
             id="emailInput"
             type="text"
             placeholder="Email:"
-            className={`${!emailError && "validationError"} `}
+            className={`${isEmailError && "validationError"} `}
           />
-          {!phoneError && <p>Fill a valid phone number</p>}
+          <div className="errorMessage">
+            {isPhoneError && <p>Fill a valid phone number</p>}
+          </div>
 
           <input
             value={phone}
-            onBlur={validatePhone}
+            onBlur={twoHandlersPhone}
             onChange={twoHandlersPhone}
             id="phoneInput"
             type="text"
-            placeholder="Phone:"
-            className={`${!phoneError && "validationError"} `}
+            placeholder="Telefonnummer:"
+            className={`${isPhoneError && "validationError"} `}
           />
         </div>
 

@@ -191,7 +191,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
   let ifBookingIsAtSix = false;
   let ifBookingIsAtNine = false;
 
-  if (time === 18) {
+  if (booking.time === 18) {
     for (let i = 0; i < sixaclockArr.length; i++) {
       if (sixaclockArr[i]._id.toString() === id) {
         ifBookingIsAtSix = true;
@@ -200,7 +200,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
     }
   }
 
-  if (time === 21) {
+  if (booking.time === 21) {
     for (let i = 0; i < nineaclockArr.length; i++) {
       if (nineaclockArr[i]._id.toString() === id) {
         ifBookingIsAtNine = true;
@@ -219,12 +219,16 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
 
   if (ifBookingIsAtNine) {
     console.log("1");
-    if (tablesAtNine - tablesForId + tables + tablesAtSix <= 6) {
+    //tog bort =
+    // tablesAtNine - tablesForId + tables + tablesAtSix < 6
+    if (tablesAtNine - tablesForId + tables + tablesAtSix < 6) {
       console.log("2");
 
       if (tables === 2) {
         console.log("3");
 
+        /*  tablesAtNine - tablesForId + tables <= biggerBooking &&
+          tablesAtSix <= biggerBooking */
         if (
           tablesAtNine - tablesForId + tables <= biggerBooking &&
           tablesAtSix <= biggerBooking
@@ -236,6 +240,8 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
         }
 
         // tog bort =, om krånglar är det här
+        /*  tablesAtSix <= biggerBooking &&
+          tablesAtNine - tablesForId + tables > biggerBooking */
         if (
           tablesAtSix <= biggerBooking &&
           tablesAtNine - tablesForId + tables > biggerBooking
@@ -245,6 +251,8 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           res.status(200).send(onlySixAvaTwo);
         }
 
+        /* tablesAtSix > biggerBooking &&
+          tablesAtNine - tablesForId + tables <= biggerBooking */
         if (
           tablesAtSix > biggerBooking &&
           tablesAtNine - tablesForId + tables <= biggerBooking
@@ -258,6 +266,8 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
       if (tables === 1) {
         console.log("7");
 
+        // tablesAtSix < maxTables &&
+        //tablesAtNine - tablesForId + tables < maxTables
         if (
           tablesAtSix < maxTables &&
           tablesAtNine - tablesForId + tables < maxTables
@@ -266,7 +276,8 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           const bothTimesAvaOne = { sixaclock: true, nineaclock: true };
           res.status(200).send(bothTimesAvaOne);
         }
-
+        // tablesAtSix < maxTables &&
+        //tablesAtNine - tablesForId + tables >= maxTables
         if (
           tablesAtSix < maxTables &&
           tablesAtNine - tablesForId + tables >= maxTables
@@ -275,7 +286,8 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           const onlySixAvaOne = { sixaclock: true, nineaclock: false };
           res.status(200).send(onlySixAvaOne);
         }
-
+        // tablesAtSix >= maxTables &&
+        //tablesAtNine - tablesForId + tables < maxTables
         if (
           tablesAtSix >= maxTables &&
           tablesAtNine - tablesForId + tables < maxTables
@@ -292,15 +304,19 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
     }
   }
 
+  const bookSmallTabel = 2;
+
   if (ifBookingIsAtSix) {
     console.log("12");
-
-    if (tablesAtSix - tablesForId + tables + tablesAtNine <= 6) {
+    // tog bort =
+    if (tablesAtSix - tablesForId + tables + tablesAtNine < 6) {
       console.log("13");
 
-      if (+tables === 2) {
+      if (tables === 2) {
         console.log("14");
 
+        /*  tablesAtSix - tablesForId + tables <= biggerBooking &&
+          tablesAtNine <= biggerBooking */
         if (
           tablesAtSix - tablesForId + tables <= biggerBooking &&
           tablesAtNine <= biggerBooking
@@ -310,7 +326,8 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           const bothTimesAvaTwo = { sixaclock: true, nineaclock: true };
           res.status(200).send(bothTimesAvaTwo);
         }
-
+        /*  tablesAtSix - tablesForId + tables <= biggerBooking &&
+          tablesAtNine > biggerBooking */
         if (
           tablesAtSix - tablesForId + tables <= biggerBooking &&
           tablesAtNine > biggerBooking
@@ -320,7 +337,8 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           const onlySixAvaTwo = { sixaclock: true, nineaclock: false };
           res.status(200).send(onlySixAvaTwo);
         }
-
+        /*  tablesAtSix - tablesForId + tables > biggerBooking &&
+          tablesAtNine <= biggerBooking */
         if (
           tablesAtSix - tablesForId + tables > biggerBooking &&
           tablesAtNine <= biggerBooking
@@ -334,9 +352,10 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
 
       if (tables === 1) {
         console.log("18");
-
+        //tablesAtSix - tablesForId + tables < maxTables &&
+        //tablesAtNine < maxTables
         if (
-          tablesAtSix - tablesForId + tables < maxTables &&
+          tablesAtSix - tablesForId + tables <= maxTables &&
           tablesAtNine < maxTables
         ) {
           console.log("19");
@@ -344,9 +363,10 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           const bothTimesAvaOne = { sixaclock: true, nineaclock: true };
           res.status(200).send(bothTimesAvaOne);
         }
-
+        //  tablesAtSix - tablesForId + tables < maxTables &&
+        // tablesAtNine >= maxTables
         if (
-          tablesAtSix - tablesForId + tables < maxTables &&
+          tablesAtSix - tablesForId < maxTables &&
           tablesAtNine >= maxTables
         ) {
           console.log("20");
@@ -354,15 +374,16 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           const onlySixAvaOne = { sixaclock: true, nineaclock: false };
           res.status(200).send(onlySixAvaOne);
         }
-
+        // tablesAtSix - tablesForId + tables >= maxTables &&
+        // tablesAtNine < maxTables
         if (
           tablesAtSix - tablesForId + tables >= maxTables &&
           tablesAtNine < maxTables
         ) {
           console.log("21");
 
-          const onlyNineAvaTwo = { sixaclock: false, nineaclock: true };
-          res.status(200).send(onlyNineAvaTwo);
+          const onlyNineAvaOne = { sixaclock: false, nineaclock: true };
+          res.status(200).send(onlyNineAvaOne);
         }
       }
     } else {

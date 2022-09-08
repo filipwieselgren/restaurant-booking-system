@@ -60,6 +60,10 @@
         width: 150px;
         @include inputs;
       }
+
+      .validateError {
+        border: 1px solid red;
+      }
     }
 
     .inputDiv {
