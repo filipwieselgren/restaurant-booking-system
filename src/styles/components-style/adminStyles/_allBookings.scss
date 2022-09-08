@@ -2,7 +2,7 @@
 
 .listWrapper {
   background-color: white;
-  width: 70%;
+  width: 80%;
   height: auto;
   overflow-y: scroll;
   padding-top: 20px;
@@ -10,65 +10,69 @@
   padding-left: 30px;
   margin-bottom: 30px;
   @include phone-up {
-    width: 90%;
-    table {
-      width: 350px;
-      tr {
-        width: 350px;
-        display: flex;
-        .dateTh,
-        .emailTh,
-        .amtTh {
-          margin: 0px;
-          padding: 0px;
-          min-width: 70px;
-          max-width: 70px;
-          text-align: left;
-        }
-        .emptyTh {
-          width: 50px;
-        }
-        .timeTh {
-          width: 20px;
-        }
-      }
+    width: 85%;
+  }
 
-      .listRow {
-        width: 350px;
-        display: flex;
+  table {
+    width: 100%;
+    @include phone-up {
+      width: 90%;
+    }
+    tr {
+      width: 100%;
+      display: flex;
+      .dateTh,
+      .emailTh,
+      .amtTh {
         margin: 0px;
         padding: 0px;
-        .dateTd,
-        .emailTd,
-        .amountTd {
-          height: 20px;
-          min-width: 70px;
-          max-width: 70px;
-          font-size: 9pt;
-          padding-top: 15px;
-        }
-        .emptyTd {
-          height: 20px;
-          width: 50px;
-          font-size: 9pt;
-          padding-top: 15px;
-        }
-        .timeTd {
-          height: 20px;
-          width: 20px;
-          font-size: 9pt;
-          padding-top: 15px;
-        }
-        .btnTd {
-          width: 60px;
-          display: flex;
-          justify-content: right;
-        }
+        min-width: 70px;
+        max-width: 70px;
+        text-align: left;
+      }
+      .emptyTh {
+        width: 50px;
+      }
+      .timeTh {
+        width: 20px;
+      }
+    }
 
-        p {
-          @include button(#5db85d, 25px, 25px, 6pt);
-          text-align: right;
-        }
+    .listRow {
+      width: 100;
+      display: flex;
+      margin: 0px;
+      padding: 0px;
+      .dateTd,
+      .emailTd,
+      .amountTd {
+        height: 20px;
+        min-width: 70px;
+        max-width: 70px;
+        font-size: 9pt;
+        padding-top: 15px;
+      }
+      .emptyTd {
+        height: 20px;
+        width: 50px;
+        font-size: 9pt;
+        padding-top: 15px;
+      }
+      .timeTd {
+        height: 20px;
+        width: 20px;
+        font-size: 9pt;
+        padding-top: 15px;
+      }
+      .btnTd {
+        width: 60px;
+        display: flex;
+        justify-content: right;
+      }
+
+      p {
+        @include button(#5db85d, 25px, 25px, 6pt);
+        text-align: right;
       }
     }
   }
