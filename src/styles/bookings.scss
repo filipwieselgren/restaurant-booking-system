@@ -7,8 +7,6 @@
 @import "./mixins/mixins";
 
 .bookingPage {
-  height: 100vh;
-  //background-color: rgb(222, 220, 220);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,10 +17,10 @@
     margin-bottom: 70px;
     background-color: $modalColor;
     width: 80%;
-    height: 95vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 80vh;
 
     @include tablet-up {
       width: 60%;
@@ -57,6 +55,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
+        p {
+          font-size: 0.8rem;
+        }
       }
 
       .active {
@@ -73,17 +75,15 @@
       margin-top: 10px;
 
       button {
-        @include button(#5db85d, 75px, 25px, 9pt);
-        /*  background-color: rgb(127, 208, 127);
-        border: 0;
-        height: 30px;
-        width: 80px;
-        border-radius: 9px;
-        cursor: pointer; */
+        @include button(#5db85d, 10em, 20px, 0.8rem);
+        padding: 1em;
+        border: none;
       }
 
       .cancelButton {
-        background-color: red;
+        @include button(red, 10em, 20px, 0.8rem);
+        padding: 1em;
+        border: none;
       }
     }
   }

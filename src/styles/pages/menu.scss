@@ -43,6 +43,20 @@
   }
 }
 
+.closeMenu {
+  width: 100%;
+  text-align: right;
+
+  div {
+    margin: 2em;
+
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}
+
 @include phone-to-tablet {
   .menuWrapper {
     .menuDiv {

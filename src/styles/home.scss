@@ -1,31 +1,21 @@
 @import "./mixins/mixins";
 
-@include phone-up {
-  .homeWrapper {
-    width: 100%;
-    height: 100%;
-    padding-top: 150px;
-    padding-bottom: 350px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+.homeWrapper {
+  width: 100%;
+  height: 100%;
+  padding-top: 150px;
+  padding-bottom: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
-    .bookButton {
-      @include button(#5db85d, 300px, 80px, 30pt);
+  .bookButton {
+    @include button(#5db85d, 15rem, none, 1rem);
 
-      p {
-        color: white;
-        font-family: "Open Sans", sans-serif;
-      }
-    }
-  }
-}
-
-@include tablet-up {
-  .homeWrapper {
-    .bookButton {
-      @include button(#5db85d, 350px, 100px, 40pt);
+    p {
+      color: white;
+      font-family: "Open Sans", sans-serif;
     }
   }
 }
