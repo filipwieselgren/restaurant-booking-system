@@ -105,6 +105,10 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
     }
   };
 
+  // Global variable to get the current year
+
+  let yearNow = new Date().getFullYear();
+
   // funktion som ska skicka valt datum
   const selectedDate = (d: number) => {
     let day = d.toString();
@@ -129,10 +133,6 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
 
     let monthNow = new Date().getMonth() + 1;
     let dayNow = new Date().getDate();
-
-    let yearNow = new Date().getFullYear();
-    console.log("yearNow:", yearNow);
-    console.log("year:", year);
 
     if (
       (currentMonthNumber === monthNow && d < dayNow) ||
@@ -169,7 +169,8 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
             <li className="arrowLeft">
               <i
                 onClick={() =>
-                  currentMonthNumber === 1 && changeYear === getYear
+                  currentMonthNumber === new Date().getMonth() + 1 &&
+                  changeYear === getYear
                     ? stop()
                     : goToLastMonth()
                 }
