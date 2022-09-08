@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { IBookingProps } from "../../models/IBookingProps";
 
-export const CalendarComponent = (props: IBookingProps<string>) => {
+interface IRemoveText {
+  removeFullyBoookedText(): void;
+}
+
+export const CalendarComponent = (
+  props: IBookingProps<string> & IRemoveText
+) => {
   const [getMonth, setGetMonth] = useState(new Date().getMonth() + 1);
   const getYear = new Date().getFullYear();
   const [currentMonthName, setCurrentMonthName] = useState("");
@@ -116,6 +122,7 @@ export const CalendarComponent = (props: IBookingProps<string>) => {
     let month = currentMonthNumber.toString();
     let editedMonth = "";
     let editedDay = "";
+    props.removeFullyBoookedText();
 
     if (month.length === 1) {
       editedMonth = "0" + month;

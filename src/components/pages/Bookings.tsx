@@ -261,6 +261,10 @@ export const Bookings = () => {
     setCancelBtn(false);
   };
 
+  const removeFullyBoookedText = () => {
+    setShowFullyBookedText(false);
+  };
+
   return (
     <section className="bookingPage">
       <article className="bookingFormsContainer">
@@ -286,8 +290,8 @@ export const Bookings = () => {
             <p>Confirmation</p>
           </div>
         </div>
-
-        {isLoading && nextPage ? <Loader /> : <></>}
+        {/* 
+        {isLoading && nextPage ? <Loader /> : <></>} */}
         {showCalendar && (
           <section className="formContainerCalendar">
             <AmountOfPeople getData={getQTY} />
@@ -295,7 +299,10 @@ export const Bookings = () => {
               <p>Pick a date</p>
             </div>
 
-            <CalendarComponent getData={getDate}></CalendarComponent>
+            <CalendarComponent
+              getData={getDate}
+              removeFullyBoookedText={removeFullyBoookedText}
+            ></CalendarComponent>
           </section>
         )}
 
@@ -319,6 +326,7 @@ export const Bookings = () => {
         {chooseTimeAndDate}
         {timeNotAvailable}
         {fullyBooked}
+        {isLoading && nextPage ? <Loader /> : <></>}
         {cancelBtn ? (
           <div className="buttonContainer">
             <button

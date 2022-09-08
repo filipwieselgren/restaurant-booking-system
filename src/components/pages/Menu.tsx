@@ -1,10 +1,14 @@
-import React from "react";
 import "../../styles/pages/menu.scss";
+import { useNavigate } from "react-router-dom";
 
 export const Menu = () => {
+  const navigate = useNavigate();
   return (
     <div className="foodMenuWrapper">
       <div className="menuDiv">
+        <div className="closeMenu" onClick={() => navigate(-1)}>
+          <div>Close</div>
+        </div>
         <h1>MENU</h1>
 
         <div className="divWrapper">
