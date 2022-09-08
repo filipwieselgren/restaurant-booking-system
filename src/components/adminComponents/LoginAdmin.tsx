@@ -1,6 +1,8 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { IValidateEmail, IValidateLength } from "../../models/IValidate";
 import "../../styles/components-style/adminStyles/login.scss";
+import { validateEmailCall, validateLength } from "../../ts/validate";
 
 interface IAdmin {
   email: string;
@@ -12,6 +14,8 @@ export const LoginAdmin = () => {
   const [password, setPassword] = useState("");
   const [ifNotAdmin, setIfNotAdmin] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [isEmailError, setIsEmailError] = useState(false);
+  const [isPasswordError, setIsPasswordError] = useState(false);
   let admin: IAdmin = { email, password };
 
   const navigate = useNavigate();
@@ -23,10 +27,35 @@ export const LoginAdmin = () => {
     setPassword(e.target.value);
   };
 
+  let vE = () => {
+    let validaterE = validateEmailCall(email);
+
+    return validaterE;
+  };
+
+  let vL = () => {
+    let validaterL = validateLength(password, 0);
+    return validaterL;
+  };
+
   const preventSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     // setLoader(true);
+    let validaterL = vL();
+    let validatesEmail = vE();
+
+    if (validatesEmail) {
+      setIsEmailError(false);
+    } else {
+      setIsEmailError(true);
+    }
+
+    if (validaterL) {
+      setIsPasswordError(true);
+    } else {
+      setIsPasswordError(false);
+    }
 
     (async () => {
       const rawResponse = await fetch("http://localhost:8080/admin/login", {
@@ -59,6 +88,13 @@ export const LoginAdmin = () => {
         {loader && <span className="loader"></span>}
 
         <form onSubmit={preventSubmit} action="post">
+          <div className="validateError">
+            {ifNotAdmin && (
+              <p className="wrongData">Fel användarnamn eller lösenord</p>
+            )}
+            {isEmailError && <p>Skriv in en giltig emailadress</p>}
+          </div>
+
           <input
             id="email"
             onChange={handleEmail}
@@ -78,9 +114,6 @@ export const LoginAdmin = () => {
             <button type="submit">Logga in</button>
           </div>
         </form>
-        {ifNotAdmin && (
-          <p className="wrongData">Fel användarnamn eller lösenord</p>
-        )}
       </article>
     </section>
   );

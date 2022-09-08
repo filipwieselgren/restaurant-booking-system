@@ -12,6 +12,7 @@ import "../../styles/admin.scss";
 import "../../styles/components-style/adminStyles/_singleBooking.scss";
 import "../../styles/components-style/bookingStyles/_amountOfPeople.scss";
 import axios from "axios";
+import { validateEmailCall, validateLength } from "../../ts/validate";
 
 export const SingleBooking = () => {
   //set variables
@@ -60,6 +61,14 @@ export const SingleBooking = () => {
   const [ifFullyBooked, setIfFullyBooked] = useState(false);
 
   const [runNextFetch, setRunNextFetch] = useState(false);
+
+  const [isEmailError, setisEmailError] = useState(false);
+  const [isPhoneError, setisPhoneError] = useState(false);
+  const [isNameError, setisNameError] = useState(false);
+
+  const [startOnChangeName, setStartOnChangeName] = useState(false);
+  const [startOnChangeEmail, setStartOnChangeEmail] = useState(false);
+  const [startOnChangePhone, setStartOnChangePhone] = useState(false);
 
   //params id
   const { id } = useParams();
@@ -174,6 +183,69 @@ export const SingleBooking = () => {
     }
   }; */
 
+  const twoHandlersName = (e: ChangeEvent<HTMLInputElement>) => {
+    handleChange(e);
+    if (startOnChangeName) {
+      let nameValidator = validateName();
+
+      if (nameValidator) {
+        setisNameError(true);
+      } else {
+        setisNameError(false);
+        setStartOnChangeName(false);
+      }
+    }
+  };
+  const validateName = () => {
+    let vL = validateLength(singleBooking.name, 0);
+
+    return vL;
+  };
+
+  const twoHandlersEmail = (e: ChangeEvent<HTMLInputElement>) => {
+    handleChange(e);
+
+    if (startOnChangeEmail) {
+      let emailValidator = validateEmail();
+
+      if (emailValidator) {
+        setisEmailError(false);
+        setStartOnChangeEmail(false);
+      } else {
+        setisEmailError(true);
+      }
+    }
+  };
+
+  const validateEmail = () => {
+    let vE = validateEmailCall(singleBooking.email);
+
+    return vE;
+  };
+
+  const twoHandlersPhone = (e: ChangeEvent<HTMLInputElement>) => {
+    handleChange(e);
+
+    if (startOnChangePhone) {
+      let validatorPhone = validatePhone();
+
+      if (validatorPhone) {
+        setisPhoneError(false);
+        setStartOnChangePhone(false);
+      } else {
+        setisPhoneError(true);
+      }
+    }
+  };
+
+  const validatePhone = () => {
+    let stringifyPhone = singleBooking.phone.toString();
+
+    let vL = validateLength(stringifyPhone, 10);
+
+    return vL;
+  };
+
   //update singleBooking-object every time DATE-INPUT is edited
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSingleBooking({ ...singleBooking, [e.target.name]: e.target.value });
@@ -203,19 +275,46 @@ export const SingleBooking = () => {
 
   //creates a POST when admin saves the changes.
   const saveChanges = async () => {
-    await fetch(
-      "http://localhost:8080/admin/bookings/" + singleBooking._id + "/edit",
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          mode: "no-cors",
-        },
-        body: JSON.stringify(singleBooking),
-      }
-    );
-    navigate("/admin");
+    let nameValidator = validateName();
+    let emailValidator = validateEmail();
+    let phoneValidator = validatePhone();
+
+    if (nameValidator) {
+      setisNameError(true);
+      setStartOnChangeName(true);
+    } else {
+      setisNameError(false);
+    }
+
+    if (emailValidator) {
+      setisEmailError(false);
+    } else {
+      setisEmailError(true);
+      setStartOnChangeEmail(true);
+    }
+
+    if (phoneValidator) {
+      setisPhoneError(false);
+    } else {
+      setisPhoneError(true);
+      setStartOnChangePhone(true);
+    }
+
+    if (!nameValidator && emailValidator && phoneValidator) {
+      await fetch(
+        "http://localhost:8080/admin/bookings/" + singleBooking._id + "/edit",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            mode: "no-cors",
+          },
+          body: JSON.stringify(singleBooking),
+        }
+      );
+      navigate("/admin");
+    }
   };
 
   //delete single booking
@@ -315,31 +414,36 @@ export const SingleBooking = () => {
           <h3>Personal details</h3>
           <div className="detailsDiv">
             <h3>Name</h3>
+
             <input
-              className="inputs"
+              className={`"inputs" ${isNameError && "validateError"}`}
               type="text"
               name="name"
               value={singleBooking.name}
+              onBlur={twoHandlersName}
               onChange={handleChange}
             />
           </div>
+
           <div className="detailsDiv">
             <h3>Email</h3>
             <input
-              className="inputs"
+              className={`"inputs" ${isNameError && "validateError"}`}
               type="text"
               name="email"
               value={singleBooking.email}
+              onBlur={twoHandlersEmail}
               onChange={handleChange}
             />
           </div>
           <div className="detailsDiv">
             <h3>Mobile</h3>
             <input
-              className="inputs"
+              className={`"inputs" ${isPhoneError && "validateError"}`}
               type="text"
               name="phone"
               value={singleBooking.phone}
+              onBlur={twoHandlersPhone}
               onChange={handleChange}
             />
           </div>

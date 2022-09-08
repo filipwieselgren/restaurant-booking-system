@@ -10,42 +10,34 @@ import { LoginAdmin } from "./components/adminComponents/LoginAdmin";
 import { CancelBooking } from "./components/bookingComponents/CancelBooking";
 import { NotFound } from "./components/notfound";
 import { Contact } from "./components/pages/Contact";
-import { Provider } from "react-redux";
-
-import Store from "./redux/Store";
 
 function App() {
   return (
-    <Provider store={Store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="/" element={<Home />}></Route>
-            <Route
-              path="/booktable/searchtables"
-              element={<Bookings />}
-            ></Route>
-            <Route path="/booktable/choose-time" element={<Bookings />}></Route>
-            <Route path="/booktable/persondata" element={<Bookings />}></Route>
-            <Route path="/booktable/post" element={<Confirmation />}></Route>
-            <Route
-              path="/booktable/cancel/:id"
-              element={<CancelBooking />}
-            ></Route>
-            {/* <Route path="/booktable/cancel/:id" element={<Bookings />}></Route> */}
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/booktable/searchtables" element={<Bookings />}></Route>
+          <Route path="/booktable/choose-time" element={<Bookings />}></Route>
+          <Route path="/booktable/persondata" element={<Bookings />}></Route>
+          <Route path="/booktable/post" element={<Confirmation />}></Route>
+          <Route
+            path="/booktable/cancel/:id"
+            element={<CancelBooking />}
+          ></Route>
+          {/* <Route path="/booktable/cancel/:id" element={<Bookings />}></Route> */}
 
-            <Route path="/admin/login" element={<LoginAdmin />}></Route>
-            <Route path="/admin" element={<Admin />}></Route>
-            <Route path="/admin/:id" element={<SingleBooking />}></Route>
+          <Route path="/admin/login" element={<LoginAdmin />}></Route>
+          <Route path="/admin" element={<Admin />}></Route>
+          <Route path="/admin/:id" element={<SingleBooking />}></Route>
 
-            <Route path="/contact" element={<Contact></Contact>}></Route>
-          </Route>
+          <Route path="/contact" element={<Contact></Contact>}></Route>
+        </Route>
 
-          <Route path="/*" element={<NotFound />}></Route>
-          <Route path="/admin/*" element={<NotFound />}></Route>
-        </Routes>
-      </BrowserRouter>
-    </Provider>
+        <Route path="/*" element={<NotFound />}></Route>
+        <Route path="/admin/*" element={<NotFound />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

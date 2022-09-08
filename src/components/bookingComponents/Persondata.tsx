@@ -3,10 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { IBooking } from "../../models/IBooking";
 import { IBookingProps } from "../../models/IBookingProps";
 import { IPersonData } from "../../models/IPersondata";
+import { validateEmailCall, validateLength } from "../../ts/validate";
 
 interface IPersonDataProps {
-  postBookingData?: IBooking;
-  getData?(d: IPersonData): void;
+  postBookingData: IBooking;
+  getData(d: IPersonData): void;
 }
 
 export const PersonData = (props: IPersonDataProps) => {
@@ -17,7 +18,6 @@ export const PersonData = (props: IPersonDataProps) => {
   const [phone, setPhone] = useState("");
   const [bookingDone, setBookingDone] = useState(false);
 
-  // false -  error, true - finns inte error
   const [isEmailError, setisEmailError] = useState(false);
   const [isPhoneError, setisPhoneError] = useState(false);
   const [isNameError, setisNameError] = useState(false);
@@ -29,7 +29,14 @@ export const PersonData = (props: IPersonDataProps) => {
   const twoHandlersName = (e: ChangeEvent<HTMLInputElement>) => {
     handleName(e);
     if (startOnChangeName) {
-      validateName();
+      let nameValidator = validateName();
+
+      if (nameValidator) {
+        setisNameError(true);
+      } else {
+        setisNameError(false);
+        setStartOnChangeName(false);
+      }
     }
   };
 
@@ -37,7 +44,14 @@ export const PersonData = (props: IPersonDataProps) => {
     handleEmail(e);
 
     if (startOnChangeEmail) {
-      validateEmail();
+      let emailValidator = validateEmail();
+
+      if (emailValidator) {
+        setisEmailError(false);
+        setStartOnChangeEmail(false);
+      } else {
+        setisEmailError(true);
+      }
     }
   };
 
@@ -45,43 +59,32 @@ export const PersonData = (props: IPersonDataProps) => {
     handlePhone(e);
 
     if (startOnChangePhone) {
-      validatePhone();
+      let validatorPhone = validatePhone();
+
+      if (validatorPhone) {
+        setisPhoneError(false);
+        setStartOnChangePhone(false);
+      } else {
+        setisPhoneError(true);
+      }
     }
   };
 
   const validateName = () => {
-    if (name.length === 0) {
-      setisNameError(true);
-      return false;
-    } else {
-      setisNameError(false);
-      return true;
-    }
+    let vL = validateLength(name, 0);
+
+    return vL;
   };
 
   const validateEmail = () => {
-    let regex = /\S+@\S+\.\S+/.test(email);
+    let vE = validateEmailCall(email);
 
-    if (email.length === 0) {
-      setisEmailError(true);
-    } else {
-      if (regex) {
-        setisEmailError(false);
-        return true;
-      } else {
-        setisEmailError(true);
-        return false;
-      }
-    }
+    return vE;
   };
   const validatePhone = () => {
-    if (phone.length === 10) {
-      setisPhoneError(false);
-      return true;
-    } else {
-      setisPhoneError(true);
-      return false;
-    }
+    let vL = validateLength(phone, 10);
+
+    return vL;
   };
 
   const handleName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -104,8 +107,6 @@ export const PersonData = (props: IPersonDataProps) => {
     if (props.getData) {
       props.getData({ name, email, phone });
     }
-
-    // navigate("/booktable/post");
   };
 
   const preventSubmit = async (e: FormEvent) => {
@@ -116,33 +117,27 @@ export const PersonData = (props: IPersonDataProps) => {
     let phoneValidator = validatePhone();
 
     if (nameValidator) {
-      setisNameError(false);
-    } else {
       setisNameError(true);
+      setStartOnChangeName(true);
+    } else {
+      setisNameError(false);
     }
 
     if (emailValidator) {
       setisEmailError(false);
     } else {
       setisEmailError(true);
+      setStartOnChangeEmail(true);
     }
 
     if (phoneValidator) {
       setisPhoneError(false);
     } else {
       setisPhoneError(true);
-    }
-
-    if (!nameValidator) {
-      setStartOnChangeName(true);
-    }
-    if (!emailValidator) {
-      setStartOnChangeEmail(true);
-    }
-    if (!phoneValidator) {
       setStartOnChangePhone(true);
     }
-    if (nameValidator && emailValidator && phoneValidator) {
+
+    if (!nameValidator && emailValidator && phoneValidator) {
       sendFetch();
     }
   };
@@ -181,7 +176,7 @@ export const PersonData = (props: IPersonDataProps) => {
           </div>
           <input
             value={name}
-            onBlur={validateName}
+            onBlur={twoHandlersName}
             onChange={twoHandlersName}
             id="nameInput"
             type="text"
@@ -194,7 +189,7 @@ export const PersonData = (props: IPersonDataProps) => {
 
           <input
             value={email}
-            onBlur={validateEmail}
+            onBlur={twoHandlersEmail}
             onChange={twoHandlersEmail}
             id="emailInput"
             type="text"
@@ -207,7 +202,7 @@ export const PersonData = (props: IPersonDataProps) => {
 
           <input
             value={phone}
-            onBlur={validatePhone}
+            onBlur={twoHandlersPhone}
             onChange={twoHandlersPhone}
             id="phoneInput"
             type="text"
