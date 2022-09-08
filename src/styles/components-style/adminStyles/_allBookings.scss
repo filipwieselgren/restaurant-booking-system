@@ -3,7 +3,7 @@
 @include phone-up {
   .listWrapper {
     background-color: white;
-    width: 90%;
+    width: 400px;
     height: auto;
     overflow-y: scroll;
     padding-top: 20px;
@@ -72,4 +72,71 @@
   }
 }
 @include tablet-up {
+  .listWrapper {
+    width: 600px;
+    table {
+      width: 550px;
+      tr {
+        width: 550px;
+        display: flex;
+        .dateTh,
+        .emailTh,
+        .amtTh {
+          margin: 0px;
+          padding: 0px;
+          min-width: 120px;
+          max-width: 120px;
+          text-align: left;
+        }
+        .emptyTh {
+          min-width: 80px;
+          max-width: 80px;
+        }
+        .timeTh {
+          min-width: 30px;
+          max-width: 30px;
+        }
+      }
+
+      .listRow {
+        width: 550px;
+        display: flex;
+        margin: 0px;
+        padding: 0px;
+        .dateTd,
+        .emailTd,
+        .amountTd {
+          height: 20px;
+          min-width: 120px;
+          max-width: 120px;
+          font-size: 12pt;
+          padding-top: 15px;
+        }
+        .emptyTd {
+          height: 20px;
+          min-width: 80px;
+          max-width: 80px;
+          font-size: 12pt;
+          padding-top: 15px;
+        }
+        .timeTd {
+          height: 20px;
+          min-width: 30px;
+          max-width: 30px;
+          font-size: 12pt;
+          padding-top: 15px;
+        }
+        .btnTd {
+          width: 100px;
+          display: flex;
+          justify-content: right;
+        }
+
+        p {
+          @include button(#5db85d, 50px, 30px, 10pt);
+          text-align: right;
+        }
+      }
+    }
+  }
 }
