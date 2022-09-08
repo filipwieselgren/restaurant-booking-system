@@ -60,18 +60,9 @@ export const Admin = () => {
               />
             </div>
           </div>
+        </div>
 
-          <div className="headlinesDiv">
-            <h3>Date</h3>
-            <h3>Name</h3>
-            <h3>Amount</h3>
-            <h3>Time</h3>
-            <h3>Mobile</h3>
-          </div>
-        </div>
-        <div className="listWrapper">
-          <AllBookings adminSearch={searchResult} />
-        </div>
+        <AllBookings adminSearch={searchResult} />
       </div>
     </div>
   );

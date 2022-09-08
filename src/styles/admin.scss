@@ -12,19 +12,20 @@
 
     .adminWrapper {
       background-color: $modalColor;
-      width: 80%;
+      width: 90%;
       height: 95vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       .menuWrapper {
-        width: 80%;
+        width: 95%;
         display: flex;
         flex-direction: column;
         div {
           width: 100%;
           display: flex;
           justify-content: center;
+          align-items: center;
           margin-top: 20px;
           .add {
             @include button(#5db85d, 100px, 30px, 8pt);
@@ -42,52 +43,6 @@
             @include inputs;
           }
         }
-
-        .headlinesDiv {
-          width: 100%;
-          gap: 20px;
-          display: flex;
-          align-items: center;
-          justify-content: start;
-          margin-bottom: 20px;
-
-          h3 {
-            font-size: 8pt;
-            padding: 0px;
-            margin: 0px;
-            width: 15px;
-          }
-        }
-      }
-    }
-    .listWrapper {
-      height: 370px;
-      width: 85%;
-      background-color: white;
-      overflow-y: scroll;
-    }
-  }
-}
-
-@include tablet-up {
-  .wrapper {
-    .adminWrapper {
-      .menuWrapper {
-        .buttonDiv {
-        }
-        .inputDiv {
-          input {
-          }
-        }
-        .headlinesDiv {
-          width: 87%;
-          h3 {
-            font-size: 14pt;
-            width: 100px;
-          }
-        }
-      }
-      .listWrapper {
       }
     }
   }
