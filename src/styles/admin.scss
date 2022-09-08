@@ -6,7 +6,7 @@
   height: auto;
   padding-bottom: 20px;
   padding-top: 20px;
-  background-color: rgb(151, 147, 147);
+  background-color: $opacityBackgroundColor;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +15,9 @@
   .adminWrapper {
     background-color: $modalColor;
     width: 90%;
-    height: 95vh;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
