@@ -1,43 +1,41 @@
 @import "../../styles/mixins/mixins";
 @import "../../styles//mixins/variables";
 
-@include phone-up {
-  .foodMenuWrapper {
+.foodMenuWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 900px;
+  width: 100%;
+
+  .menuDiv {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 900px;
-    width: 100%;
+    flex-direction: column;
+    height: 70%;
+    width: 70%;
+    background-color: $opacityBackgroundColor;
 
-    .menuDiv {
+    .divWrapper {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      height: 70%;
-      width: 70%;
-      background-color: $opacityBackgroundColor;
-
-      .divWrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        gap: 30px;
-        .lunchDiv,
-        .dinnerDiv,
-        .drinksDiv {
-          h4 {
-            margin: 0px;
-            text-align: center;
-          }
-          ul {
-            padding: 0px;
-            text-align: center;
-            li {
-              list-style: none;
-              padding-top: 8px;
-            }
+      gap: 30px;
+      .lunchDiv,
+      .dinnerDiv,
+      .drinksDiv {
+        h4 {
+          margin: 0px;
+          text-align: center;
+        }
+        ul {
+          padding: 0px;
+          text-align: center;
+          li {
+            list-style: none;
+            padding-top: 8px;
           }
         }
       }
