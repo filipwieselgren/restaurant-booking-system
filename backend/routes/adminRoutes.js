@@ -28,7 +28,6 @@ router.get("/login", async (req, res) => {
   res.send(getBookings);
 });
 
-//hämta single booking
 router.get("/bookings/:id", async (req, res) => {
   const id = ObjectId(req.params.id);
   try {
@@ -39,7 +38,6 @@ router.get("/bookings/:id", async (req, res) => {
   }
 });
 
-//ändra single bokning
 router.post("/bookings/:id/edit", async (req, res) => {
   const id = ObjectId(req.params.id);
   const editBooking = {
@@ -58,7 +56,6 @@ router.post("/bookings/:id/edit", async (req, res) => {
   res.status(201).send(editBooking);
 });
 
-//ta bort single bokning
 router.delete("/bookings/:id/delete", async (req, res) => {
   const id = ObjectId(req.params.id);
   try {
@@ -76,7 +73,6 @@ router.delete("/cancel/:id", async (req, res) => {
     const deletedBooking = await BookingsModel.findOneAndDelete({
       cancelid: cancelid,
     });
-    // This is what will be sent with the email when you cancel a booking
     const sendThisWhenCancelled = {
       from: "filipwieselgren@gmail.com",
       to: deletedBooking.email,
@@ -85,10 +81,11 @@ router.delete("/cancel/:id", async (req, res) => {
     };
 
     sendEmailConfirmation(sendThisWhenCancelled, res);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-// Sök efter bokning via mail
 router.get("/bookings/:searchInput/search", async (req, res) => {
   const searchInput = req.params.searchInput;
 
@@ -152,7 +149,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
   let ifBookingIsAtSix = false;
   let ifBookingIsAtNine = false;
 
-  if (booking.time === 18) {
+  if (time === 18) {
     for (let i = 0; i < sixaclockArr.length; i++) {
       if (sixaclockArr[i]._id.toString() === id) {
         ifBookingIsAtSix = true;
@@ -160,7 +157,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
     }
   }
 
-  if (booking.time === 21) {
+  if (time === 21) {
     for (let i = 0; i < nineaclockArr.length; i++) {
       if (nineaclockArr[i]._id.toString() === id) {
         ifBookingIsAtNine = true;
@@ -169,12 +166,8 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
   }
 
   if (ifBookingIsAtNine) {
-    //tog bort =
-    // tablesAtNine - tablesForId + tables + tablesAtSix < 6
-    if (tablesAtNine - tablesForId + tables + tablesAtSix < 6) {
+    if (tablesAtNine - tablesForId + tables + tablesAtSix <= 6) {
       if (tables === 2) {
-        /*  tablesAtNine - tablesForId + tables <= biggerBooking &&
-          tablesAtSix <= biggerBooking */
         if (
           tablesAtNine - tablesForId + tables <= biggerBooking &&
           tablesAtSix <= biggerBooking
@@ -183,9 +176,6 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           res.status(200).send(bothTimesAvaTwo);
         }
 
-        // tog bort =, om krånglar är det här
-        /*  tablesAtSix <= biggerBooking &&
-          tablesAtNine - tablesForId + tables > biggerBooking */
         if (
           tablesAtSix <= biggerBooking &&
           tablesAtNine - tablesForId + tables > biggerBooking
@@ -194,8 +184,6 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           res.status(200).send(onlySixAvaTwo);
         }
 
-        /* tablesAtSix > biggerBooking &&
-          tablesAtNine - tablesForId + tables <= biggerBooking */
         if (
           tablesAtSix > biggerBooking &&
           tablesAtNine - tablesForId + tables <= biggerBooking
@@ -206,8 +194,6 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
       }
 
       if (tables === 1) {
-        // tablesAtSix < maxTables &&
-        //tablesAtNine - tablesForId + tables < maxTables
         if (
           tablesAtSix < maxTables &&
           tablesAtNine - tablesForId + tables < maxTables
@@ -215,8 +201,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           const bothTimesAvaOne = { sixaclock: true, nineaclock: true };
           res.status(200).send(bothTimesAvaOne);
         }
-        // tablesAtSix < maxTables &&
-        //tablesAtNine - tablesForId + tables >= maxTables
+
         if (
           tablesAtSix < maxTables &&
           tablesAtNine - tablesForId + tables >= maxTables
@@ -224,8 +209,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           const onlySixAvaOne = { sixaclock: true, nineaclock: false };
           res.status(200).send(onlySixAvaOne);
         }
-        // tablesAtSix >= maxTables &&
-        //tablesAtNine - tablesForId + tables < maxTables
+
         if (
           tablesAtSix >= maxTables &&
           tablesAtNine - tablesForId + tables < maxTables
@@ -240,14 +224,9 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
     }
   }
 
-  const bookSmallTabel = 2;
-
   if (ifBookingIsAtSix) {
-    // tog bort =
-    if (tablesAtSix - tablesForId + tables + tablesAtNine < 6) {
+    if (tablesAtSix - tablesForId + tables + tablesAtNine <= 6) {
       if (tables === 2) {
-        /*  tablesAtSix - tablesForId + tables <= biggerBooking &&
-          tablesAtNine <= biggerBooking */
         if (
           tablesAtSix - tablesForId + tables <= biggerBooking &&
           tablesAtNine <= biggerBooking
@@ -255,8 +234,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           const bothTimesAvaTwo = { sixaclock: true, nineaclock: true };
           res.status(200).send(bothTimesAvaTwo);
         }
-        /*  tablesAtSix - tablesForId + tables <= biggerBooking &&
-          tablesAtNine > biggerBooking */
+
         if (
           tablesAtSix - tablesForId + tables <= biggerBooking &&
           tablesAtNine > biggerBooking
@@ -264,8 +242,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
           const onlySixAvaTwo = { sixaclock: true, nineaclock: false };
           res.status(200).send(onlySixAvaTwo);
         }
-        /*  tablesAtSix - tablesForId + tables > biggerBooking &&
-          tablesAtNine <= biggerBooking */
+
         if (
           tablesAtSix - tablesForId + tables > biggerBooking &&
           tablesAtNine <= biggerBooking
@@ -276,26 +253,22 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
       }
 
       if (tables === 1) {
-        //tablesAtSix - tablesForId + tables < maxTables &&
-        //tablesAtNine < maxTables
         if (
-          tablesAtSix - tablesForId + tables <= maxTables &&
+          tablesAtSix - tablesForId + tables < maxTables &&
           tablesAtNine < maxTables
         ) {
           const bothTimesAvaOne = { sixaclock: true, nineaclock: true };
           res.status(200).send(bothTimesAvaOne);
         }
-        //  tablesAtSix - tablesForId + tables < maxTables &&
-        // tablesAtNine >= maxTables
+
         if (
-          tablesAtSix - tablesForId < maxTables &&
+          tablesAtSix - tablesForId + tables < maxTables &&
           tablesAtNine >= maxTables
         ) {
           const onlySixAvaOne = { sixaclock: true, nineaclock: false };
           res.status(200).send(onlySixAvaOne);
         }
-        // tablesAtSix - tablesForId + tables >= maxTables &&
-        // tablesAtNine < maxTables
+
         if (
           tablesAtSix - tablesForId + tables >= maxTables &&
           tablesAtNine < maxTables
