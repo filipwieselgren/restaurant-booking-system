@@ -1,95 +1,75 @@
 @import "../mixins/mixins";
 
-@include phone-up {
-  .navWrapper {
-    height: 150px;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.715);
-    padding-top: 40px;
-    padding-bottom: 40px;
+.navWrapper {
+  height: 150px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.715);
+  padding-top: 40px;
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  .loginWrapper {
+    width: 95%;
+    display: flex;
+    justify-content: end;
+    .loginBtn {
+      font-size: 12pt;
+      font-style: italic;
+      &:hover {
+        cursor: pointer;
+        border-bottom: 1px solid black;
+      }
+    }
+  }
+
+  .logonmenu {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    .loginWrapper {
-      width: 95%;
+    .logoWrapper {
+      width: 270px;
       display: flex;
-      justify-content: end;
-      .loginBtn {
-        font-size: 12pt;
-        font-style: italic;
-        font-family: "Times New Roman", Times, serif;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+
+      a {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+      .logo {
+        width: 60%;
+        &:hover {
+          cursor: pointer;
+        }
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .menuWrapper {
+      width: 270px;
+      height: 50px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      .menuBtn {
+        font-size: 1rem;
+        font-weight: bold;
         &:hover {
           cursor: pointer;
           border-bottom: 1px solid black;
         }
       }
-    }
-
-    .logonmenu {
-      display: flex;
-      flex-direction: column;
-      .logoWrapper {
-        width: 270px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: row;
-        .logo {
-          width: 270px;
-          &:hover {
-            cursor: pointer;
-          }
-          img {
-            width: 100%;
-          }
-        }
-      }
-      .menuWrapper {
-        width: 270px;
-        height: 50px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        .menuBtn {
-          font-size: 18pt;
-          &:hover {
-            cursor: pointer;
-            border-bottom: 1px solid black;
-          }
-        }
-        .contactBtn {
-          font-size: 18pt;
-          &:hover {
-            cursor: pointer;
-            border-bottom: 1px solid black;
-          }
-        }
-      }
-    }
-  }
-}
-
-@include tablet-up {
-  .navWrapper {
-    height: 100px;
-    width: 100%;
-    flex-direction: column;
-    .logonmenu {
-      width: 95%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      .logoWrapper {
-        width: auto;
-        .logo {
-        }
-      }
-      .menuWrapper {
-        .menuBtn {
-        }
-        .contactBtn {
+      .contactBtn {
+        font-size: 1rem;
+        font-weight: bold;
+        &:hover {
+          cursor: pointer;
+          border-bottom: 1px solid black;
         }
       }
     }

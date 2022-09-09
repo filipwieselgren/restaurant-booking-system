@@ -2,7 +2,7 @@
 @import "../mixins/mixins";
 .contactWrapper {
   width: 100%;
-  height: 80vh;
+  margin-bottom: 5rem;
   display: flex;
 
   justify-content: center;
@@ -73,7 +73,9 @@
 
       button {
         margin-top: 20px;
-        @include button(#5db85d, 75px, 20px, 9pt);
+        @include button(#5db85d, 8em, 20px, 0.8rem);
+        padding: 1em;
+        border: none;
       }
     }
 
