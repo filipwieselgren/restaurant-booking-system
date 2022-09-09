@@ -83,8 +83,6 @@ export const Contact = () => {
         },
         body: JSON.stringify({ name, email, message }),
       });
-
-      console.log(rawResponse);
     })();
   };
 

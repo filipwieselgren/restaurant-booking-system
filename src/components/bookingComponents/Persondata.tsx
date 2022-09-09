@@ -166,7 +166,6 @@ export const PersonData = (props: IPersonDataProps) => {
       );
       setBookingDone(true);
       props.callRemoveCancelBtn();
-      console.log(rawResponse);
     })();
   };
 

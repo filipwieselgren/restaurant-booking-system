@@ -26,13 +26,10 @@ export const TimeForm = (props: IBookingProps<number> & ITimes) => {
     if (notFullyBooked !== "block-time") {
       props.getData(t);
       props.checkTime(notFullyBooked);
-      console.log("du valde tid:", t);
     } else {
       props.checkTime(notFullyBooked);
     }
   };
-
-  console.log(props.times);
 
   let timeHTML = arrayOfTimes.map((t, i) => {
     return (

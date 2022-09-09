@@ -226,9 +226,7 @@ export const Bookings = () => {
           setIsLoading(false);
           setTimes(response.data);
         }, 800);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     } else {
       setDateAndTimeMissing(true);
     }

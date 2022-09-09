@@ -56,8 +56,6 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
     const ifTwoTablesAtNine =
       qty + totalBookedTablesAtNine <= maxAmountOfTables;
 
-    console.log(totalBookedTablesAtSix + totalBookedTablesAtNine);
-
     // Det ska vara <= här kom jag på ! annars kan man inte göra sista bokningen !
     if (totalBookedTablesAtSix + totalBookedTablesAtNine + qty <= 6) {
       if (
@@ -67,7 +65,7 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
         ifTwoTablesAtNine
       ) {
         const bothTimes = { sixaclock: true, nineaclock: true };
-        console.log(bothTimes);
+
         res.status(200).send(bothTimes);
       }
 
@@ -109,11 +107,8 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
     } else {
       const bothTimesFull = { sixaclock: false, nineaclock: false };
       res.send(bothTimesFull);
-      console.log(bothTimesFull);
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 });
 
 router.post("/persondata", async (req, res) => {
@@ -143,7 +138,6 @@ router.post("/persondata", async (req, res) => {
   sendEmailConfirmation(sendThisWhenBooked, res);
 
   await createBooking.save();
-  console.log("p1", req.body);
 });
 
 module.exports = router;
