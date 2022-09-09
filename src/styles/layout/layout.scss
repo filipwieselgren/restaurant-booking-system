@@ -1,0 +1,24 @@
+@import "../mixins/mixins";
+@import "../layout/footer";
+@import "../layout/navigation.scss";
+
+html {
+  font-family: "Roboto", sans-serif;
+}
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+#root {
+  background-image: url("../../assets/background.jpg");
+}

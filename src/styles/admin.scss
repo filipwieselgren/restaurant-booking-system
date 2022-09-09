@@ -1,0 +1,52 @@
+@import "../styles/mixins/mixins";
+@import "./mixins/variables";
+
+.wrapper {
+  width: 100%;
+  height: auto;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  background-color: $opacityBackgroundColor;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .adminWrapper {
+    background-color: $modalColor;
+    width: 90%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .menuWrapper {
+      width: 95%;
+      display: flex;
+      flex-direction: column;
+      div {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        .add {
+          @include button(#5db85d, 100px, 30px, 8pt);
+        }
+      }
+
+      .inputDiv {
+        width: 100%;
+        margin-top: 20pt;
+        height: 50px;
+        display: flex;
+        margin-bottom: 20px;
+        justify-content: center;
+        input {
+          @include inputs;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,89 @@
+@import "../../mixins/mixins";
+.loginPage {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+
+  .loginContainer {
+    border-radius: 5px;
+    margin-top: 70px;
+    width: 50%;
+    height: 300px;
+    background-color: rgba(255, 255, 255, 0.96);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 5px 5px 5px rgba(black, 0.4);
+    position: relative;
+
+    @include tablet-up {
+      width: 40%;
+    }
+
+    .loginHeader {
+      margin: 0;
+      margin-top: 17px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+
+      @include tablet {
+        gap: 20px;
+      }
+
+      @include tablet-up {
+        margin: 0;
+        padding: 40px;
+      }
+
+      .validateError {
+        height: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3px;
+
+        p {
+          margin: 0;
+          font-size: 9pt;
+          color: red;
+        }
+        .wrongData {
+          font-size: 10pt;
+
+          color: black;
+        }
+      }
+      input {
+        width: 150px;
+        @include tablet {
+          width: 170px;
+        }
+
+        @include tablet-up {
+          width: 180px;
+        }
+      }
+
+      .buttonContainer {
+        margin-top: 25px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        @include tablet {
+          margin-top: 15px;
+        }
+
+        button {
+          @include button(#5db85d, 70px, 20px, 9pt);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+@import "../../mixins/mixins";
+@import "../../mixins//variables";
+
+.modalWrapper {
+  width: 300px;
+  height: 300px;
+  background-color: $opacityBackgroundColor;
+  padding-left: 20px;
+  padding-right: 20px;
+  overflow-y: scroll;
+  @include phone-up {
+    width: 100%;
+    @include phone-to-tablet {
+      width: 70%;
+    }
+    @include tablet-up {
+      width: 60%;
+    }
+    @include desktop {
+      width: 40%;
+    }
+    .headDiv {
+      h5 {
+        text-align: center;
+        font-size: 15pt;
+      }
+    }
+    .textDiv {
+      p {
+        font-size: 8pt;
+      }
+    }
+    .closeDiv {
+      display: flex;
+      justify-content: right;
+      padding-top: 10px;
+      padding-bottom: 20px;
+      div {
+        color: gray;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+@include tablet-up {
+  .modalWrapper {
+    width: 400px;
+    height: 300px;
+    padding-left: 20px;
+    padding-right: 20px;
+    .headDiv {
+    }
+    .textDiv {
+      p {
+        font-size: 10pt;
+      }
+    }
+    .closeDiv {
+      padding-top: 20px;
+      div {
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

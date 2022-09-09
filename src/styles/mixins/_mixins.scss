@@ -1,0 +1,188 @@
+////////////////////// mixins break points ////////////////////////
+
+@mixin phone-up {
+  @media (min-width: 500px) {
+    @content;
+  }
+}
+
+@mixin phone-to-tablet {
+  @media (min-width: 600px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 700px) {
+    @content;
+  }
+}
+
+@mixin tablet-step1 {
+  @media (min-width: 744px) {
+    @content;
+  }
+}
+@mixin tablet-step2 {
+  @media (min-width: 800px) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @media (min-width: 900px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1100px) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media (min-width: 1400px) {
+    @content;
+  }
+}
+
+////////////// mixins design ////////////////
+@mixin button($bgcolor, $width, $height, $fontsize) {
+  background-color: $bgcolor;
+  width: $width;
+  height: $height;
+  font-size: $fontsize;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+}
+
+@mixin inputs {
+  border-style: none;
+  border-radius: 8px;
+  height: 30px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 5px;
+  padding-left: 10px;
+}
+
+@mixin checkbox {
+  .checkboxContainer {
+    display: flex;
+
+    .check {
+      position: relative;
+      background: linear-gradient(90deg, #eadaea, #f099b5);
+      line-height: 0;
+      width: 45px;
+      height: 14.7px;
+      perspective: 400px;
+      top: 18px;
+      left: 7px;
+    }
+
+    .check input[type="checkbox"],
+    .check label,
+    .check label::before,
+    .check label::after,
+    .check {
+      appearance: none;
+      display: inline-block;
+      border-radius: 1rem;
+      border: 0;
+      transition: 0.35s ease-in-out;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+
+    //grå del
+    .check label {
+      width: 45px /* 2.2rem */;
+      height: 14.7px;
+      background: #d7d7d7;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    //huvud av
+    .check input[type="checkbox"] {
+      position: absolute;
+      z-index: 1;
+      width: 0.9rem;
+      height: 0.9rem;
+      top: -0.2rem;
+      left: -0.2rem;
+      background: linear-gradient(45deg, #dedede, #ffffff);
+      box-shadow: 0 6px 7px rgba(0, 0, 0, 0.3);
+      outline: none;
+    }
+    //vinkel på hubud, huvud på
+    .check input[type="checkbox"]:checked {
+      left: 1.7rem;
+    }
+
+    .check input[type="checkbox"]:checked + label {
+      background: transparent;
+    }
+    // mun o ögon
+    .check label::before,
+    .check label::after {
+      content: "· ·";
+      position: absolute;
+      overflow: hidden;
+      left: 0.15rem;
+      top: 0.5rem;
+      height: 1rem;
+      letter-spacing: -0.04rem;
+      color: #9b9b9b;
+      font-family: "Times New Roman", serif;
+      z-index: 2;
+      font-size: 0.6rem;
+      border-radius: 0;
+      transform-origin: 0 0 -0.5rem;
+      backface-visibility: hidden;
+    }
+
+    .check label::after {
+      content: "●";
+      top: 0.65rem;
+      left: 0.3rem;
+      height: 0.1rem;
+      width: 0.35rem;
+      font-size: 0.2rem;
+      transform-origin: 0 0 -0.4rem;
+    }
+
+    //ögon
+    .check input[type="checkbox"]:checked + label::before,
+    .check input[type="checkbox"]:checked + label::after {
+      left: 2.1rem;
+      top: 0.4rem;
+      line-height: 0.1rem;
+      transform: rotateY(360deg);
+    }
+    //mun
+    .check input[type="checkbox"]:checked + label::after {
+      height: 0.16rem;
+      top: 0.55rem;
+      left: 2.15rem;
+      font-size: 0.6rem;
+      line-height: 0;
+    }
+
+    input[type="checkbox"]:checked {
+      accent-color: rgba(pink, 0.3);
+    }
+  }
+}

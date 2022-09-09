@@ -1,0 +1,150 @@
+@import "../../mixins/mixins";
+
+.listWrapper {
+  background-color: white;
+  width: 80%;
+  height: 400px;
+  overflow-y: scroll;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  margin-bottom: 30px;
+  @include phone-up {
+    width: 85%;
+  }
+
+  table {
+    width: 100%;
+    @include phone-up {
+      width: 90%;
+    }
+    tr {
+      width: 100%;
+      display: flex;
+      .dateTh,
+      .emailTh,
+      .amtTh {
+        margin: 0px;
+        padding: 0px;
+        min-width: 70px;
+        max-width: 70px;
+        text-align: left;
+      }
+      .emptyTh {
+        width: 50px;
+      }
+      .timeTh {
+        width: 20px;
+      }
+    }
+
+    .listRow {
+      width: 100;
+      display: flex;
+      margin: 0px;
+      padding: 0px;
+      .dateTd,
+      .emailTd,
+      .amountTd {
+        height: 20px;
+        min-width: 70px;
+        max-width: 70px;
+        font-size: 9pt;
+        padding-top: 15px;
+      }
+      .emptyTd {
+        height: 20px;
+        width: 50px;
+        font-size: 9pt;
+        padding-top: 15px;
+      }
+      .timeTd {
+        height: 20px;
+        width: 20px;
+        font-size: 9pt;
+        padding-top: 15px;
+      }
+      .btnTd {
+        background-color: transparent;
+        border-style: none;
+        width: 60px;
+        display: flex;
+        justify-content: right;
+      }
+
+      p {
+        @include button(#5db85d, 25px, 25px, 6pt);
+        text-align: right;
+      }
+    }
+  }
+}
+@include tablet-up {
+  .listWrapper {
+    width: 600px;
+    table {
+      width: 550px;
+      tr {
+        width: 550px;
+        display: flex;
+        .dateTh,
+        .emailTh,
+        .amtTh {
+          margin: 0px;
+          padding: 0px;
+          min-width: 120px;
+          max-width: 120px;
+          text-align: left;
+        }
+        .emptyTh {
+          min-width: 80px;
+          max-width: 80px;
+        }
+        .timeTh {
+          min-width: 30px;
+          max-width: 30px;
+        }
+      }
+
+      .listRow {
+        width: 550px;
+        display: flex;
+        margin: 0px;
+        padding: 0px;
+        .dateTd,
+        .emailTd,
+        .amountTd {
+          height: 20px;
+          min-width: 120px;
+          max-width: 120px;
+          font-size: 12pt;
+          padding-top: 15px;
+        }
+        .emptyTd {
+          height: 20px;
+          min-width: 80px;
+          max-width: 80px;
+          font-size: 12pt;
+          padding-top: 15px;
+        }
+        .timeTd {
+          height: 20px;
+          min-width: 30px;
+          max-width: 30px;
+          font-size: 12pt;
+          padding-top: 15px;
+        }
+        .btnTd {
+          width: 100px;
+          display: flex;
+          justify-content: right;
+        }
+
+        p {
+          @include button(#5db85d, 50px, 30px, 10pt);
+          text-align: right;
+        }
+      }
+    }
+  }
+}

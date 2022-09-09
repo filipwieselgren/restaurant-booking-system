@@ -1,0 +1,39 @@
+@import "../../mixins/variables";
+.formContainerTime {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  /*  flex-direction: column;
+  align-items: center;
+  justify-content: center; */
+}
+.timeFormContainer {
+  width: 80%;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+
+  .time {
+    width: 170px;
+    height: 50px;
+    background-color: rgba(pink, 0.4);
+
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .block-time {
+    width: 170px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.141);
+    text-align: center;
+    color: white;
+  }
+
+  .clicked {
+    background-color: pink;
+  }
+}

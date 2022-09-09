@@ -1,0 +1,21 @@
+@import "./mixins/mixins";
+
+.homeWrapper {
+  width: 100%;
+  height: 100%;
+  padding-top: 150px;
+  padding-bottom: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .bookButton {
+    @include button(#5db85d, 15rem, none, 1rem);
+
+    p {
+      color: white;
+      font-family: "Open Sans", sans-serif;
+    }
+  }
+}

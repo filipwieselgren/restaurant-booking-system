@@ -1,0 +1,82 @@
+.formContainerPersonData {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  //  flex-direction: column;
+
+  .personDataContainer {
+    width: 80%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3em;
+
+    .personDataForm {
+      padding: 20px;
+      width: 200px;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 3em;
+
+      .confirmHeaderContainer {
+        width: 100%;
+        text-align: center;
+
+        p {
+          font-size: 15pt;
+        }
+      }
+
+      .inputsContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .errorMessage {
+          height: 17px;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          p {
+            margin: 0;
+            font-size: 8pt;
+            color: red;
+          }
+        }
+
+        input {
+          margin: 0;
+
+          border: 1px solid rgba(grey, 0.5);
+          border-radius: 3px;
+          height: 25px;
+        }
+        .validationError {
+          border: 1px solid red;
+        }
+      }
+
+      .GDPRLinkContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        p {
+          font-size: 7pt;
+        }
+        .GDPRLink {
+          color: black;
+          font-size: 7pt;
+          &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
