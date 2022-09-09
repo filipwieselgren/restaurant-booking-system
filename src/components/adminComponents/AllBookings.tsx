@@ -28,11 +28,11 @@ export const AllBookings = (props: IAdminProps) => {
                   <td className="amountTd">{booking.amountOfPeople}</td>
                   <td className="timeTd">{booking.time}</td>
 
-                  <td className="btnTd">
+                  <button className="btnTd">
                     <Link to={"/admin/" + booking._id}>
                       <p>Edit</p>
                     </Link>
-                  </td>
+                  </button>
                 </tr>
               );
             }

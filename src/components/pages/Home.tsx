@@ -5,9 +5,9 @@ export const Home = () => {
   return (
     <div className="homeWrapper">
       <Link to={"/booktable/searchtables"}>
-        <div className="bookButton">
+        <button className="bookButton">
           <p>Book table</p>
-        </div>
+        </button>
       </Link>
     </div>
   );

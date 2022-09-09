@@ -45,10 +45,10 @@ export const Admin = () => {
       <div className="adminWrapper">
         <div className="menuWrapper">
           <div>
-            <div className="add">
+            <button className="add">
               {" "}
               <Link to="/booktable/searchtables">Create new</Link>{" "}
-            </div>
+            </button>
           </div>
           <div className="inputDiv">
             <div>

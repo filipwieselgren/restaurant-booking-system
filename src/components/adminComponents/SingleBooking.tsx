@@ -453,15 +453,15 @@ export const SingleBooking = () => {
             >
               Save changes
             </button>
-            <div className="delete" onClick={deleteBooking}>
+            <button className="delete" onClick={deleteBooking}>
               Delete booking
-            </div>
+            </button>
           </div>
         </form>
 
-        <div className="cancel">
+        <button className="cancel">
           <Link to="/admin">Cancel</Link>
-        </div>
+        </button>
       </div>
     </div>
   );
