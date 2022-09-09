@@ -1,6 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IValidateEmail, IValidateLength } from "../../models/IValidate";
 import "../../styles/components-style/adminStyles/login.scss";
 import { validateEmailCall, validateLength } from "../../ts/validate";
 
