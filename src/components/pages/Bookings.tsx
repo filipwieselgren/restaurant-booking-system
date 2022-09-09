@@ -77,13 +77,11 @@ export const Bookings = () => {
     }
   }, [url, activeCancelButton]);
 
-  // funktion som hämtar datum, år, dag, månad
   const getDate = (d: string) => {
     setDateAndTimeMissing(false);
     booking.date = d;
   };
 
-  // funktion som hämtar antal personer
   const getQTY = (q: number) => {
     setDateAndTimeMissing(false);
     booking.amountOfPeople = q;
@@ -95,32 +93,26 @@ export const Bookings = () => {
     }
   };
 
-  // funktion som hämtar tid av bokning
   const getTime = (t: number) => {
     booking.time = t;
   };
 
-  //funktion som hämtar personuppgifter
   const getPersonData = (p: IPersonData) => {
     booking.email = p.email;
     booking.name = p.name;
     booking.phone = +p.phone;
   };
 
-  //funktion som ändrar innehåll i modal beroende på url
   const switchForm = () => {
     if (url.pathname === "/booktable/searchtables") {
-      //styr vad för innehåll som visas
       setShowCalendar(true);
       setShowTime(false);
       setShowPersondata(false);
 
-      // styr classerna
       setIsActiveCalendar(true);
       setIsActiveTime(false);
       setIsActivePersonData(false);
 
-      //ändrar knapp till avboka
       setActiveCancelButton(false);
     }
     if (url.pathname === "/booktable/choose-time") {
@@ -162,7 +154,6 @@ export const Bookings = () => {
     }
   };
 
-  //funktioner som navigerar till rätt form via url
   const navigateToForms = (times: ITablesAvalible) => {
     if (url.pathname === "/booktable/searchtables") {
       navigate("/booktable/choose-time", {
@@ -288,8 +279,7 @@ export const Bookings = () => {
             <p>Confirmation</p>
           </div>
         </div>
-        {/* 
-        {isLoading && nextPage ? <Loader /> : <></>} */}
+
         {showCalendar && (
           <section className="formContainerCalendar">
             <AmountOfPeople getData={getQTY} />

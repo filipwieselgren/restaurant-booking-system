@@ -115,7 +115,6 @@ export const CalendarComponent = (
 
   let yearNow = new Date().getFullYear();
 
-  // funktion som ska skicka valt datum
   const selectedDate = (d: number) => {
     let day = d.toString();
     let year = changeYear;

@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Confirmation } from "./components/bookingComponents/Confirmation";
 import { Layout } from "./components/layout/Layout";
 import { Bookings } from "./components/pages/Bookings";
 import { Home } from "./components/pages/Home";
@@ -21,16 +20,14 @@ function App() {
           <Route path="/booktable/searchtables" element={<Bookings />}></Route>
           <Route path="/booktable/choose-time" element={<Bookings />}></Route>
           <Route path="/booktable/persondata" element={<Bookings />}></Route>
-          <Route path="/booktable/post" element={<Confirmation />}></Route>
+
           <Route
             path="/booktable/cancel/:id"
             element={<CancelBooking />}
           ></Route>
-
           <Route path="/admin/login" element={<LoginAdmin />}></Route>
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/admin/:id" element={<SingleBooking />}></Route>
-
           <Route path="/contact" element={<Contact></Contact>}></Route>
           <Route path="/menu" element={<Menu></Menu>}></Route>
         </Route>

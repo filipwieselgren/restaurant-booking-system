@@ -40,7 +40,6 @@ export const LoginAdmin = () => {
   const preventSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    // setLoader(true);
     let validaterL = vL();
     let validatesEmail = vE();
 

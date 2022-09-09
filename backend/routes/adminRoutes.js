@@ -106,8 +106,8 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
 
   let booking = {};
 
-  const maxTables = 3;
-  const biggerBooking = 1;
+  const maxTables = 15;
+  const biggerBooking = 13;
   let tablesForId = 0;
 
   let tablesAtSix = 0;
@@ -166,7 +166,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
   }
 
   if (ifBookingIsAtNine) {
-    if (tablesAtNine - tablesForId + tables + tablesAtSix <= 6) {
+    if (tablesAtNine - tablesForId + tables + tablesAtSix <= 30) {
       if (tables === 2) {
         if (
           tablesAtNine - tablesForId + tables <= biggerBooking &&
@@ -225,7 +225,7 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
   }
 
   if (ifBookingIsAtSix) {
-    if (tablesAtSix - tablesForId + tables + tablesAtNine <= 6) {
+    if (tablesAtSix - tablesForId + tables + tablesAtNine <= 30) {
       if (tables === 2) {
         if (
           tablesAtSix - tablesForId + tables <= biggerBooking &&

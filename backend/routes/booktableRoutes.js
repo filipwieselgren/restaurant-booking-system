@@ -15,8 +15,8 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
 
     let totalBookedTablesAtSix = 0;
     let totalBookedTablesAtNine = 0;
-    const maxAmountOfTables = 3;
-    const biggerBookingMaxTables = 1;
+    const maxAmountOfTables = 15;
+    const biggerBookingMaxTables = 13;
 
     let qty = 0;
 
@@ -56,8 +56,7 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
     const ifTwoTablesAtNine =
       qty + totalBookedTablesAtNine <= maxAmountOfTables;
 
-    // Det ska vara <= här kom jag på ! annars kan man inte göra sista bokningen !
-    if (totalBookedTablesAtSix + totalBookedTablesAtNine + qty <= 6) {
+    if (totalBookedTablesAtSix + totalBookedTablesAtNine + qty <= 30) {
       if (
         totalBookedTablesAtSix < maxAmountOfTables &&
         totalBookedTablesAtNine < maxAmountOfTables &&
@@ -108,7 +107,9 @@ router.get("/searchtables/:date/:amountOfPeople", async (req, res) => {
       const bothTimesFull = { sixaclock: false, nineaclock: false };
       res.send(bothTimesFull);
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 router.post("/persondata", async (req, res) => {
