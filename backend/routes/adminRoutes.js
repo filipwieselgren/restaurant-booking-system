@@ -28,50 +28,16 @@ router.get("/login", async (req, res) => {
   res.send(getBookings);
 });
 
-//hämta single booking
 router.get("/bookings/:id", async (req, res) => {
   const id = ObjectId(req.params.id);
   try {
     const singleBooking = await BookingsModel.findOne({ _id: id });
-    // console.log("find by id", singleBooking);
     res.status(200).send(singleBooking);
   } catch (error) {
     res.status(404).send(error.message);
   }
 });
 
-// ANVÄNDS DENNA?
-/* router.get("/:date", async (req, res) => {
-  try {
-    const date = req.params.date;
-
-    const bookings = await BookingsModel.find({ date });
-
-    const sixaclockArr = bookings.filter((date) => {
-      return date.time === 18;
-    });
-    const nineaclockArr = bookings.filter((date) => {
-      return date.time === 21;
-    });
-    const maxAmountOfTables = 2;
-    if (sixaclockArr.length < 1 && nineaclockArr.length < maxAmountOfTables) {
-      const bothTimes = { sixaclock: true, nineaclock: true };
-      res.status(200).send(bothTimes);
-    } else if (sixaclockArr.length < maxAmountOfTables) {
-      const sixOnlyAvalible = { sixaclock: true, nineaclock: false };
-
-      res.status(200).send(sixOnlyAvalible);
-    } else if (nineaclockArr.length < maxAmountOfTables) {
-      const nineOnlyAvalible = { sixaclock: false, nineaclock: true };
-
-      res.status(200).send(nineOnlyAvalible);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}); */
-
-//ändra single bokning
 router.post("/bookings/:id/edit", async (req, res) => {
   const id = ObjectId(req.params.id);
   const editBooking = {
@@ -91,7 +57,6 @@ router.post("/bookings/:id/edit", async (req, res) => {
   res.status(201).send(editBooking);
 });
 
-//ta bort single bokning
 router.delete("/bookings/:id/delete", async (req, res) => {
   const id = ObjectId(req.params.id);
   try {
@@ -111,7 +76,6 @@ router.delete("/cancel/:id", async (req, res) => {
     const deletedBooking = await BookingsModel.findOneAndDelete({
       cancelid: cancelid,
     });
-    // This is what will be sent with the email when you cancel a booking
     const sendThisWhenCancelled = {
       from: "filipwieselgren@gmail.com",
       to: deletedBooking.email,
@@ -125,7 +89,6 @@ router.delete("/cancel/:id", async (req, res) => {
   }
 });
 
-// Sök efter bokning via mail
 router.get("/bookings/:searchInput/search", async (req, res) => {
   const searchInput = req.params.searchInput;
 
@@ -191,203 +154,135 @@ router.get("/:id/:date/:tables/:time", async (req, res) => {
   let ifBookingIsAtSix = false;
   let ifBookingIsAtNine = false;
 
-  if (booking.time === 18) {
+  if (time === 18) {
     for (let i = 0; i < sixaclockArr.length; i++) {
       if (sixaclockArr[i]._id.toString() === id) {
         ifBookingIsAtSix = true;
-        console.log("bokning är kl 6666");
       }
     }
   }
 
-  if (booking.time === 21) {
+  if (time === 21) {
     for (let i = 0; i < nineaclockArr.length; i++) {
       if (nineaclockArr[i]._id.toString() === id) {
         ifBookingIsAtNine = true;
-        console.log("bokning är kl 9");
       }
     }
   }
 
-  console.log("if at six", ifBookingIsAtSix);
-  console.log("if at nine", ifBookingIsAtNine);
-  console.log("nio arr", tablesAtNine);
-  console.log("sex arr", tablesAtSix);
-  console.log("tables choosen in react:", tables);
-  console.log("tables already booked::", tablesForId);
-  console.log("time:", time);
-
   if (ifBookingIsAtNine) {
-    console.log("1");
-    //tog bort =
-    // tablesAtNine - tablesForId + tables + tablesAtSix < 6
-    if (tablesAtNine - tablesForId + tables + tablesAtSix < 6) {
-      console.log("2");
-
+    if (tablesAtNine - tablesForId + tables + tablesAtSix <= 6) {
       if (tables === 2) {
-        console.log("3");
-
-        /*  tablesAtNine - tablesForId + tables <= biggerBooking &&
-          tablesAtSix <= biggerBooking */
         if (
           tablesAtNine - tablesForId + tables <= biggerBooking &&
           tablesAtSix <= biggerBooking
         ) {
-          console.log("4");
-
           const bothTimesAvaTwo = { sixaclock: true, nineaclock: true };
           res.status(200).send(bothTimesAvaTwo);
         }
 
-        // tog bort =, om krånglar är det här
-        /*  tablesAtSix <= biggerBooking &&
-          tablesAtNine - tablesForId + tables > biggerBooking */
         if (
           tablesAtSix <= biggerBooking &&
           tablesAtNine - tablesForId + tables > biggerBooking
         ) {
-          console.log("5");
           const onlySixAvaTwo = { sixaclock: true, nineaclock: false };
           res.status(200).send(onlySixAvaTwo);
         }
 
-        /* tablesAtSix > biggerBooking &&
-          tablesAtNine - tablesForId + tables <= biggerBooking */
         if (
           tablesAtSix > biggerBooking &&
           tablesAtNine - tablesForId + tables <= biggerBooking
         ) {
-          console.log("6");
           const onlyNineAvaTwo = { sixaclock: false, nineaclock: true };
           res.status(200).send(onlyNineAvaTwo);
         }
       }
 
       if (tables === 1) {
-        console.log("7");
-
-        // tablesAtSix < maxTables &&
-        //tablesAtNine - tablesForId + tables < maxTables
         if (
           tablesAtSix < maxTables &&
           tablesAtNine - tablesForId + tables < maxTables
         ) {
-          console.log("8");
           const bothTimesAvaOne = { sixaclock: true, nineaclock: true };
           res.status(200).send(bothTimesAvaOne);
         }
-        // tablesAtSix < maxTables &&
-        //tablesAtNine - tablesForId + tables >= maxTables
+
         if (
           tablesAtSix < maxTables &&
           tablesAtNine - tablesForId + tables >= maxTables
         ) {
-          console.log("9");
           const onlySixAvaOne = { sixaclock: true, nineaclock: false };
           res.status(200).send(onlySixAvaOne);
         }
-        // tablesAtSix >= maxTables &&
-        //tablesAtNine - tablesForId + tables < maxTables
+
         if (
           tablesAtSix >= maxTables &&
           tablesAtNine - tablesForId + tables < maxTables
         ) {
-          console.log("10");
           const onlyNineAvaOne = { sixaclock: false, nineaclock: true };
           res.status(200).send(onlyNineAvaOne);
         }
       }
     } else {
-      console.log("11");
       const bothTimesFull = { sixaclock: false, nineaclock: false };
       res.send(bothTimesFull);
     }
   }
 
-  const bookSmallTabel = 2;
-
   if (ifBookingIsAtSix) {
-    console.log("12");
-    // tog bort =
-    if (tablesAtSix - tablesForId + tables + tablesAtNine < 6) {
-      console.log("13");
-
+    if (tablesAtSix - tablesForId + tables + tablesAtNine <= 6) {
       if (tables === 2) {
-        console.log("14");
-
-        /*  tablesAtSix - tablesForId + tables <= biggerBooking &&
-          tablesAtNine <= biggerBooking */
         if (
           tablesAtSix - tablesForId + tables <= biggerBooking &&
           tablesAtNine <= biggerBooking
         ) {
-          console.log("15");
-
           const bothTimesAvaTwo = { sixaclock: true, nineaclock: true };
           res.status(200).send(bothTimesAvaTwo);
         }
-        /*  tablesAtSix - tablesForId + tables <= biggerBooking &&
-          tablesAtNine > biggerBooking */
+
         if (
           tablesAtSix - tablesForId + tables <= biggerBooking &&
           tablesAtNine > biggerBooking
         ) {
-          console.log("16");
-
           const onlySixAvaTwo = { sixaclock: true, nineaclock: false };
           res.status(200).send(onlySixAvaTwo);
         }
-        /*  tablesAtSix - tablesForId + tables > biggerBooking &&
-          tablesAtNine <= biggerBooking */
+
         if (
           tablesAtSix - tablesForId + tables > biggerBooking &&
           tablesAtNine <= biggerBooking
         ) {
-          console.log("17");
-
           const onlyNineAvaTwo = { sixaclock: false, nineaclock: true };
           res.status(200).send(onlyNineAvaTwo);
         }
       }
 
       if (tables === 1) {
-        console.log("18");
-        //tablesAtSix - tablesForId + tables < maxTables &&
-        //tablesAtNine < maxTables
         if (
-          tablesAtSix - tablesForId + tables <= maxTables &&
+          tablesAtSix - tablesForId + tables < maxTables &&
           tablesAtNine < maxTables
         ) {
-          console.log("19");
-
           const bothTimesAvaOne = { sixaclock: true, nineaclock: true };
           res.status(200).send(bothTimesAvaOne);
         }
-        //  tablesAtSix - tablesForId + tables < maxTables &&
-        // tablesAtNine >= maxTables
+
         if (
-          tablesAtSix - tablesForId < maxTables &&
+          tablesAtSix - tablesForId + tables < maxTables &&
           tablesAtNine >= maxTables
         ) {
-          console.log("20");
-
           const onlySixAvaOne = { sixaclock: true, nineaclock: false };
           res.status(200).send(onlySixAvaOne);
         }
-        // tablesAtSix - tablesForId + tables >= maxTables &&
-        // tablesAtNine < maxTables
+
         if (
           tablesAtSix - tablesForId + tables >= maxTables &&
           tablesAtNine < maxTables
         ) {
-          console.log("21");
-
           const onlyNineAvaOne = { sixaclock: false, nineaclock: true };
           res.status(200).send(onlyNineAvaOne);
         }
       }
     } else {
-      console.log("22");
       const bothTimesFull = { sixaclock: false, nineaclock: false };
       res.send(bothTimesFull);
     }

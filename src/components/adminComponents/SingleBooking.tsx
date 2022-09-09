@@ -14,14 +14,11 @@ import axios from "axios";
 import { validateEmailCall, validateLength } from "../../ts/validate";
 
 export const SingleBooking = () => {
-  //set variables
   const navigate = useNavigate();
   const preventSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
 
-  //STATES//
-  //state for a single Booking
   const [singleBooking, setSingleBooking] = useState<IAdminBookedProps>({
     name: "",
     email: "",
@@ -44,14 +41,9 @@ export const SingleBooking = () => {
     isDisabled: false,
   });
 
-  //state for disableing "save-btn" if date is fully booked
-  //const [disabledBtn, setDisabledBtn] = useState(false);
-
-  //state for adding more persons to booking via checkbox
   const [changeMax, setChangeMax] = useState("6");
   const [checkbox, setCheckbox] = useState(false);
 
-  //state for avaliability ("ava" contains returned response after checking if date is availible. Returns Object with values true/false)
   const [avalibleTime, setAvalibleTime] = useState({
     sixaclock: false,
     nineaclock: false,
@@ -68,11 +60,8 @@ export const SingleBooking = () => {
   const [startOnChangeEmail, setStartOnChangeEmail] = useState(false);
   const [startOnChangePhone, setStartOnChangePhone] = useState(false);
 
-  //params id
   const { id } = useParams();
 
-  //HOOKS//
-  //find single booking. Set in singleBooking-state
   useEffect(() => {
     const getSingleBooking = async () => {
       let response = axios.get<IAdminBookedProps>(
@@ -128,7 +117,6 @@ export const SingleBooking = () => {
     notPossibleToBook();
   }, [avalibleTime, singleBooking.amountOfPeople, ifFullyBooked]);
 
-  // Om vald tid är x sätt state till false/true baserat på svar från node
   const notPossibleToBook = () => {
     if (singleBooking.time === 18) {
       setIfFullyBooked(!avalibleTime.sixaclock);
@@ -143,11 +131,6 @@ export const SingleBooking = () => {
   console.log("ava times", avalibleTime);
   console.log("fullyBooked", ifFullyBooked);
 
-  //disable save-button if fully booked
-  /*   useEffect(() => {
-    disableButton();
-  }, [tablesAtSix, tablesAtNine]); */
-
   //FUNCTIONS//
   //add more persons to booking
   const addMorePersons = (e: ChangeEvent<HTMLInputElement>) => {
@@ -155,7 +138,6 @@ export const SingleBooking = () => {
     setCheckbox(target);
 
     if (target) {
-      // Om det går att göra en boknign på 2 bord sätt till 12 om bara 1 bokning sätt till 6
       maxPeople();
     } else {
       setChangeMax("6");
@@ -169,17 +151,6 @@ export const SingleBooking = () => {
       setChangeMax("6");
     }
   };
-
-  console.log("max change", changeMax);
-
-  //disable "save-button" if date is fully booked
-  /*  const disableButton = () => {
-    if (tablesAtSix.sixaclock || tablesAtNine.nineaclock) {
-      setDisabledBtn(false);
-    } else {
-      setDisabledBtn(true);
-    }
-  }; */
 
   const twoHandlersName = (e: ChangeEvent<HTMLInputElement>) => {
     handleChange(e);
@@ -251,16 +222,12 @@ export const SingleBooking = () => {
 
   //update singleBooking-object every time AMOUNT-INPUT is edited
   const handleAmount = (e: ChangeEvent<HTMLInputElement>) => {
-    //if (e.target.type === "number") {
     if (+e.target.value <= 6) {
       singleBooking.tables = 1;
     } else {
       singleBooking.tables = 2;
     }
     setSingleBooking({ ...singleBooking, [e.target.name]: +e.target.value });
-    /*  } else {
-      setSingleBooking({ ...singleBooking, [e.target.name]: e.target.value });
-    } */
   };
 
   //update singleBookings TIME when the time-dropwdown-select changes
@@ -403,12 +370,6 @@ export const SingleBooking = () => {
             </div>
           </div>
 
-          {/* <div className="avaBtnWrapper">
-            <div className="avaBtn" onClick={checkAva}>
-              See avalible times
-            </div>
-          </div> */}
-
           <h3>Personal details</h3>
           <div className="detailsDiv">
             <h3>Name</h3>
@@ -446,11 +407,7 @@ export const SingleBooking = () => {
             />
           </div>
           <div className="inputDiv">
-            <button
-              className="save"
-              /*               disabled={disabledBtn}
-               */ onClick={saveChanges}
-            >
+            <button className="save" onClick={saveChanges}>
               Save changes
             </button>
             <div className="delete" onClick={deleteBooking}>
